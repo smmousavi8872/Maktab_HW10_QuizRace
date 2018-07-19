@@ -9,7 +9,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.database.QuizSchema.*;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.User;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
@@ -59,10 +61,40 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         String username = cursor.getString(cursor.getColumnIndex(UserTable.COLUMN_USER));
         String password = cursor.getString(cursor.getColumnIndex(UserTable.COLUMN_PASS));
 
-        User user=new User(username,password);
+        User user = new User(username, password);
         user.setId(UUID.fromString(uuid));
 
         cursor.close();
         return user;
+    }
+
+    public List<User> getUserList() {
+        List<User> users = new ArrayList<>();
+
+        String selectQuery = "SELECT  * FROM " + UserTable.NAME;
+        SQLiteDatabase db = this.getWritableDatabase();
+        Cursor cursor = db.rawQuery(selectQuery, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                User user = new User(cursor.getString(cursor.getColumnIndex(UserTable.COLUMN_USER)),
+                        cursor.getString(cursor.getColumnIndex(UserTable.COLUMN_PASS)));
+
+                user.setId(UUID.fromString(cursor.getString(cursor.getColumnIndex(UserTable.COLUMN_UUID))));
+
+                users.add(user);
+            } while (cursor.moveToNext());
+        }
+        db.close();
+        return users;
+    }
+
+    public int getUsersCount() {
+        String countQuery = "SELECT  * FROM " + UserTable.NAME;
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(countQuery, null);
+        int count = cursor.getCount();
+        cursor.close();
+        return count;
     }
 }
