@@ -9,17 +9,17 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-public class QuestionList {
+public class Repository {
 
     private List<Question> questions;
-    private static QuestionList instance;
+    private static Repository instance;
     DatabaseHelper db;
 
-    private QuestionList(Context context) {
+    private Repository(Context context) {
         generateQuestionList();
         db = new DatabaseHelper(context);
         db.getWritableDatabase();
-    } // end of QuestionList()
+    } // end of Repository()
 
 
     private void generateQuestionList() {
@@ -39,9 +39,9 @@ public class QuestionList {
     } // end of generateQuestionList()
 
 
-    public static QuestionList getInstance(Context context) {
+    public static Repository getInstance(Context context) {
         if (instance == null)
-            instance = new QuestionList(context);
+            instance = new Repository(context);
 
         return instance;
     }// end of getInstance()

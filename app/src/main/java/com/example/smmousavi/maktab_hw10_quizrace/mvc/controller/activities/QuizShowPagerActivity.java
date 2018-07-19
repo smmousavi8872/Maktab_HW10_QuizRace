@@ -9,9 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.example.smmousavi.maktab_hw10_quizrace.R;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.controller.fragments.QuizShowFragment;
-import com.example.smmousavi.maktab_hw10_quizrace.mvc.database.DatabaseHelper;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.Question;
-import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.QuestionList;
+import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.Repository;
 
 import java.util.List;
 
@@ -26,7 +25,7 @@ public class QuizShowPagerActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_quiz_pager_show);
     viewPager = findViewById(R.id.quiz_show_view_pager);
-    questionList = QuestionList.getInstance(QuizShowPagerActivity.this).getQuestions();
+    questionList = Repository.getInstance(QuizShowPagerActivity.this).getQuestions();
 
     adapter = new FragmentStatePagerAdapter(getSupportFragmentManager()) {
       @Override

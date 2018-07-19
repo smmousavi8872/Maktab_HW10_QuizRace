@@ -13,7 +13,7 @@ import android.widget.TextView;
 import com.example.smmousavi.maktab_hw10_quizrace.R;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.Answer;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.Question;
-import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.QuestionList;
+import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.Repository;
 
 import java.util.UUID;
 
@@ -58,7 +58,7 @@ public class QuizShowFragment extends Fragment {
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     mCurrentQuestionId = (UUID) getArguments().getSerializable(ARGS_QUESTION_ID);
-    mCurrentQuestion = QuestionList.getInstance(getActivity()).getQuestion(mCurrentQuestionId);
+    mCurrentQuestion = Repository.getInstance(getActivity()).getQuestion(mCurrentQuestionId);
     answers = mCurrentQuestion.getAnswers();
 
   }
