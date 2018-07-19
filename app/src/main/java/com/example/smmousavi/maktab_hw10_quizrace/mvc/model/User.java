@@ -40,12 +40,11 @@ public class User {
     this.totalPoint = totalPoint;
   }
 
-
   private String mPassword;
   private long totalPoint;
 
 
-  private User(String name, String password) {
+  public User(String name, String password) {
     mName = name;
     mPassword = password;
 

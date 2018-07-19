@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 
 import com.example.smmousavi.maktab_hw10_quizrace.R;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.controller.fragments.QuizShowFragment;
+import com.example.smmousavi.maktab_hw10_quizrace.mvc.database.DatabaseHelper;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.Question;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.QuestionList;
 
@@ -19,7 +20,6 @@ public class QuizShowPagerActivity extends AppCompatActivity {
   private ViewPager viewPager;
   private FragmentStatePagerAdapter adapter;
   private List<Question> questionList;
-
 
   @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
