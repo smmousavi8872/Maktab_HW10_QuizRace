@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:padding="10dp"
+  tools:context=".mvc.controller.fragments.QuizShowFragment">
+
+  <TextView
+    android:id="@+id/txt_question"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_above="@+id/answer_layer_two"
+    android:layout_marginBottom="24dp"
+    android:text="question number one is being shown in this text viiew"
+    android:textSize="18dp"/>
+
+
+  <LinearLayout
+    android:id="@+id/answer_layer_one"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_alignParentBottom="true"
+    android:orientation="horizontal">
+
+    <Button
+      android:id="@+id/answer_one"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight=".5"
+      tools:ignore="ButtonStyle"/>
+
+    <Button
+      android:id="@+id/answer_two"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight=".5"
+      tools:ignore="ButtonStyle"/>
+
+  </LinearLayout>
+
+  <LinearLayout
+    android:id="@+id/answer_layer_two"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_above="@id/answer_layer_one"
+    android:orientation="horizontal">
+
+    <Button
+      android:id="@+id/answer_three"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+
+      android:layout_weight=".5"
+      tools:ignore="ButtonStyle"/>
+
+    <Button
+      android:id="@+id/answer_four"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_weight=".5"
+      tools:ignore="ButtonStyle"/>
+
+  </LinearLayout>
+
+</RelativeLayout>
