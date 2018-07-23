@@ -8,12 +8,22 @@
 
 
   <TextView
+    android:id="@+id/txt_sign_up_welcome"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="30dp"
+    android:text="@string/sign_up_welcome_text"
+    android:textColor="#f36b00"
+    android:textSize="16dp"/>
+
+  <TextView
     android:id="@+id/txt_sign_up_username"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_below="@+id/login_logo"
+    android:layout_below="@+id/txt_sign_up_welcome"
     android:layout_centerHorizontal="true"
-    android:layout_marginTop="30dp"
+    android:layout_marginTop="20dp"
     android:text="USERNAME"
     android:textColor="#f36b00  "
     android:textSize="18dp"/>
@@ -103,6 +113,7 @@
     android:layout_marginTop="25dp"
     android:buttonTint="#f36b00"
     android:text="I Agree to The Terms of Policy"
+    android:layout_marginBottom="10dp"
     android:textColor="#f36b00"/>
 
 

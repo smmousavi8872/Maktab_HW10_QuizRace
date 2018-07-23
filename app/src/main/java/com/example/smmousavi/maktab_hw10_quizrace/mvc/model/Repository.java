@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.example.smmousavi.maktab_hw10_quizrace.mvc.database.CategoryCursorWrapper;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.database.DatabaseHelper;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.database.UserCursorWrapper;
 
@@ -19,12 +20,12 @@ public class Repository {
 
   private List<Question> questions;
   private static Repository instance;
-  DatabaseHelper db;
+  private SQLiteDatabase database;
 
   private Repository(Context context) {
     //generateQuestionList();
-    db = new DatabaseHelper(context);
-    db.getWritableDatabase();
+    DatabaseHelper db = new DatabaseHelper(context);
+    database = db.getWritableDatabase();
   } // end of Repository()
 
 
@@ -52,44 +53,31 @@ public class Repository {
   } // end of getQuestion
 
 
-  public long addUser(String uuid, String username, String password) {
-    SQLiteDatabase sqLiteDatabase = db.getWritableDatabase();
-    ContentValues values = new ContentValues();
-    values.put(UserTable.COLUMN_UUID, uuid);
-    values.put(UserTable.COLUMN_USER, username);
-    values.put(UserTable.COLUMN_PASS, password);
-
-    long id = sqLiteDatabase.insert(UserTable.NAME, null, values);
-
-    sqLiteDatabase.close();
-    return id;
+  public void addUser(User user) {
+    ContentValues values = getUserContentValue(user);
+    database.insert(UserTable.NAME, null, values);
+    database.close();
   }// end of addUser
 
 
-  public User getUser(String uuid) {
-    SQLiteDatabase sqLiteDatabase = db.getReadableDatabase();
-    Cursor cursor = sqLiteDatabase.query(UserTable.NAME,
-      new String[]{UserTable.COLUMN_ID, UserTable.COLUMN_USER, UserTable.COLUMN_PASS, UserTable.COLUMN_UUID},
-      UserTable.COLUMN_UUID + " = ? ", new String[]{uuid}, null, null, null);
+  public User getUser(UUID uuid) {
+    String whereClause = UserTable.Cols.UUID + " = ? ";
+    String[] whereArgs = {uuid.toString()};
+    UserCursorWrapper cursor = getUserQuery(UserTable.NAME, whereClause, whereArgs);
 
-    String username = cursor.getString(cursor.getColumnIndex(UserTable.COLUMN_USER));
-    String password = cursor.getString(cursor.getColumnIndex(UserTable.COLUMN_PASS));
+    return cursor.getUser();
 
-    User user = new User(username, password);
-
-    cursor.close();
-    return user;
   }// end of getUser
 
 
   public List<User> getUserList() {
     List<User> userList = new ArrayList<>();
-    UserCursorWrapper cursor = getQuery(UserTable.NAME, null, null);
+    UserCursorWrapper cursor = getUserQuery(UserTable.NAME, null, null);
     if (cursor.getCount() > 0) {
       try {
         cursor.moveToFirst();
         while (!cursor.isAfterLast()) {
-          userList.add(cursor.getAllUsers());
+          userList.add(cursor.getUser());
           cursor.moveToNext();
 
         }
@@ -103,64 +91,87 @@ public class Repository {
 
   public int getUsersCount() {
     String countQuery = "SELECT  * FROM " + UserTable.NAME;
-    SQLiteDatabase sqliteDatabase = db.getReadableDatabase();
-    Cursor cursor = sqliteDatabase.rawQuery(countQuery, null);
+    Cursor cursor = database.rawQuery(countQuery, null);
     int count = cursor.getCount();
     cursor.close();
     return count;
-  }
+  }// end of getUsersCount()
 
 
   public int updateUser(User user) {
-    SQLiteDatabase sqliteDatabase = db.getWritableDatabase();
-
-    ContentValues values = new ContentValues();
-    values.put(UserTable.COLUMN_UUID, user.getmId().toString());
-    values.put(UserTable.COLUMN_USER, user.getName());
-    values.put(UserTable.COLUMN_PASS, user.getPassword());
-    return sqliteDatabase.update(UserTable.NAME, values, UserTable.COLUMN_UUID + " = ? ",
-      new String[]{user.getmId().toString()});
-  }
+    ContentValues values = getUserContentValue(user);
+    String whereClause = UserTable.Cols.UUID + " = ? ";
+    String[] whereArgs = {user.getId().toString()};
+    return database.update(UserTable.NAME, values, whereClause, whereArgs);
+  }// end of updateUser()
 
 
   public void deleteUser(User user) {
-    SQLiteDatabase sqliteDatabase = db.getWritableDatabase();
-    String whereClause = UserTable.COLUMN_ID + " = ?";
-    String[] whereAgrs = {user.getmId().toString()};
-    sqliteDatabase.delete(UserTable.NAME, whereClause, whereAgrs);
-    sqliteDatabase.close();
+    String whereClause = UserTable.Cols.UUID + " = ? ";
+    String[] whereAgrs = {user.getId().toString()};
+    database.delete(UserTable.NAME, whereClause, whereAgrs);
+    database.close();
   }
 
 
-  public long addCategory(String uuid, String name) {
-    SQLiteDatabase sqLiteDatabase = db.getWritableDatabase();
-    ContentValues values = new ContentValues();
-    values.put(CategoryTable.COLUMN_UUID, uuid);
-    values.put(CategoryTable.COLUMN_NAME, name);
-
-    long id = sqLiteDatabase.insert(CategoryTable.NAME, null, values);
-
-    sqLiteDatabase.close();
-    return id;
+  public void addCategory(Category category) {
+    ContentValues values = getCategoryContentValue(category);
+    database.insert(CategoryTable.NAME, null, values);
+    database.close();
   }
 
 
-  public Category getCategory(String uuid) {
-    SQLiteDatabase sqLiteDatabase = db.getReadableDatabase();
-    Cursor cursor = sqLiteDatabase.query(UserTable.NAME,
-      new String[]{CategoryTable.COLUMN_ID, CategoryTable.COLUMN_NAME, CategoryTable.COLUMN_UUID},
-      CategoryTable.COLUMN_UUID + "=?", new String[]{uuid}, null, null, null);
-    String name = cursor.getString(cursor.getColumnIndex(CategoryTable.COLUMN_NAME));
-    Category category = new Category(UUID.fromString(uuid));
-    category.setName(name);
-
+  public Category getCategory(UUID uuid) {
+    String whereClause = CategoryTable.Cols.UUID + " = ?";
+    String[] whereArgs = {uuid.toString()};
+    CategoryCursorWrapper cursor = getCategoryQuery(UserTable.NAME, whereClause, whereArgs);
+    Category category = cursor.getCategory();
     cursor.close();
     return category;
   }
 
 
-  public UserCursorWrapper getQuery(String tableName, String whereClause, String[] whereArgs) {
-    // ??? must be completed ??? //
-    return null;
+  public ContentValues getUserContentValue(User user) {
+    ContentValues values = new ContentValues();
+    values.put(UserTable.Cols.UUID, user.getId().toString());
+    values.put(UserTable.Cols.USER_NAME, user.getName());
+    values.put(UserTable.Cols.PASSWORD, user.getPassword());
+
+    return values;
+  }
+
+
+  public ContentValues getCategoryContentValue(Category category) {
+    ContentValues values = new ContentValues();
+    values.put(CategoryTable.Cols.UUID, category.getId().toString());
+    values.put(CategoryTable.Cols.CATEGORY_NAME, category.getName());
+    return values;
+  }
+
+
+  public UserCursorWrapper getUserQuery(String tableName, String whereClause, String[] whereArgs) {
+    Cursor cursor = database.query(
+      tableName,
+      null,
+      whereClause,
+      whereArgs,
+      null,
+      null,
+      null);
+
+    return new UserCursorWrapper(cursor);
+  }
+
+  public CategoryCursorWrapper getCategoryQuery(String tableName, String whereClause, String[] whereArgs) {
+    Cursor cursor = database.query(
+      tableName,
+      null,
+      whereClause,
+      whereArgs,
+      null,
+      null,
+      null);
+
+    return new CategoryCursorWrapper(cursor);
   }
 }
