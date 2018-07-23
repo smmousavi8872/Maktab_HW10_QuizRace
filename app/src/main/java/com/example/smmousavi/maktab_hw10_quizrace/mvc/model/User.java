@@ -19,6 +19,8 @@ public class User {
     return mId;
   }
 
+  public void setId(UUID id){this.mId=id;}
+
   public String getName() {
     return mName;
   }
