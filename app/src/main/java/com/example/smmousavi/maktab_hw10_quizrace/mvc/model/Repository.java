@@ -4,17 +4,17 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.strictmode.SqliteObjectLeakedViolation;
-import android.util.Log;
 
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.database.DatabaseHelper;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.database.QuizSchema;
+import com.example.smmousavi.maktab_hw10_quizrace.mvc.database.UserCursorWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static com.example.smmousavi.maktab_hw10_quizrace.mvc.database.QuizSchema.*;
+import static com.example.smmousavi.maktab_hw10_quizrace.mvc.database.QuizSchema.CategoryTable;
+import static com.example.smmousavi.maktab_hw10_quizrace.mvc.database.QuizSchema.UserTable;
 
 public class Repository {
 
@@ -23,49 +23,28 @@ public class Repository {
     DatabaseHelper db;
 
     private Repository(Context context) {
-        generateQuestionList();
+        //generateQuestionList();
         db = new DatabaseHelper(context);
         db.getWritableDatabase();
     } // end of Repository()
-
-
-    private void generateQuestionList() {
-        questions = new ArrayList<>();
-        Answer[] answers = new Answer[4];
-
-        for (int j = 0; j < 3; j++)
-            answers[j] = new Answer("Answer" + "_" + (j + 1), false);
-
-        answers[3] = new Answer("Answer " + "_4", true);
-
-        for (int i = 0; i < 10; i++) {
-            Question question = new Question("Question number " + (i + 1));
-            question.setAnswers(answers);
-
-            questions.add(question);
-        }
-    } // end of generateQuestionList()
 
 
     public static Repository getInstance(Context context) {
         if (instance == null)
             instance = new Repository(context);
 
-        return instance;
-    }// end of getInstance()
+    return instance;
+  }// end of getInstance()
 
 
-    public List<Question> getQuestions() {
-        return questions;
+  public List<Question> getQuestions() {
+    return questions;
 
-    }// end of getQuestions()
+  }// end of getQuestions()
 
 
     public Question getQuestion(UUID questionId) {
-        Log.i("TAG", "received question id is: " + questionId);
-
         for (Question question : questions) {
-            Log.i("TAG", "question id is: " + question.getId());
 
             if (question.getId().equals(questionId))
                 return question;
@@ -74,7 +53,7 @@ public class Repository {
     } // end of getQuestion
 
 
-    public long insertUser(String uuid, String username, String password) {
+    public long addUser(String uuid, String username, String password) {
         SQLiteDatabase sqLiteDatabase = db.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(UserTable.COLUMN_UUID, uuid);
@@ -85,13 +64,14 @@ public class Repository {
 
         sqLiteDatabase.close();
         return id;
-    }
+    }// end of addUser
+
 
     public User getUser(String uuid) {
         SQLiteDatabase sqLiteDatabase = db.getReadableDatabase();
         Cursor cursor = sqLiteDatabase.query(UserTable.NAME,
                 new String[]{UserTable.COLUMN_ID, UserTable.COLUMN_USER, UserTable.COLUMN_PASS, UserTable.COLUMN_UUID},
-                UserTable.COLUMN_UUID + "=?", new String[]{uuid}, null, null, null);
+                UserTable.COLUMN_UUID + " = ? ", new String[]{uuid}, null, null, null);
 
         String username = cursor.getString(cursor.getColumnIndex(UserTable.COLUMN_USER));
         String password = cursor.getString(cursor.getColumnIndex(UserTable.COLUMN_PASS));
@@ -101,30 +81,27 @@ public class Repository {
 
         cursor.close();
         return user;
-    }
+    }// end of getUser
+
 
     public List<User> getUserList() {
-        List<User> users = new ArrayList<>();
+        List<User> userList = new ArrayList<>();
+        UserCursorWrapper cursor = getQuery(UserTable.NAME, null, null);
+        if (cursor.getCount() > 0) {
+            try {
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+                    userList.add(cursor.getAllUsers());
+                    cursor.moveToNext();
 
-        String selectQuery = "SELECT  * FROM " + UserTable.NAME;
-        SQLiteDatabase sqliteDatabase = db.getWritableDatabase();
-        Cursor cursor = sqliteDatabase.rawQuery(selectQuery, null);
-
-        if (cursor.moveToFirst()) {
-            do {
-                User user = new User(cursor.getString(cursor.getColumnIndex(UserTable.COLUMN_USER)),
-                        cursor.getString(cursor.getColumnIndex(UserTable.COLUMN_PASS)));
-
-                user.setId(UUID.fromString(cursor.getString(cursor.getColumnIndex(UserTable.COLUMN_UUID))));
-
-                users.add(user);
-            } while (cursor.moveToNext());
+                }
+            } finally {
+                cursor.close();
+            }
         }
+        return userList;
+    }// end of getUserList()
 
-        sqliteDatabase.close();
-        cursor.close();
-        return users;
-    }
 
     public int getUsersCount() {
         String countQuery = "SELECT  * FROM " + UserTable.NAME;
@@ -135,6 +112,7 @@ public class Repository {
         return count;
     }
 
+
     public int updateUser(User user) {
         SQLiteDatabase sqliteDatabase = db.getWritableDatabase();
 
@@ -142,18 +120,21 @@ public class Repository {
         values.put(UserTable.COLUMN_UUID, user.getmId().toString());
         values.put(UserTable.COLUMN_USER, user.getName());
         values.put(UserTable.COLUMN_PASS, user.getPassword());
-        return sqliteDatabase.update(UserTable.NAME, values, UserTable.COLUMN_UUID + " = ?",
+        return sqliteDatabase.update(UserTable.NAME, values, UserTable.COLUMN_UUID + " = ? ",
                 new String[]{user.getmId().toString()});
     }
+
 
     public void deleteUser(User user) {
         SQLiteDatabase sqliteDatabase = db.getWritableDatabase();
-        sqliteDatabase.delete(UserTable.NAME, UserTable.COLUMN_UUID + " = ?",
-                new String[]{user.getmId().toString()});
+        String whereClause = UserTable.COLUMN_ID + " = ?";
+        String[] whereAgrs = {user.getmId().toString()};
+        sqliteDatabase.delete(UserTable.NAME, whereClause, whereAgrs);
         sqliteDatabase.close();
     }
 
-    public long insertCategory(String uuid, String name) {
+
+    public long addCategory(String uuid, String name) {
         SQLiteDatabase sqLiteDatabase = db.getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(CategoryTable.COLUMN_UUID, uuid);
@@ -164,6 +145,7 @@ public class Repository {
         sqLiteDatabase.close();
         return id;
     }
+
 
     public Category getCategory(String uuid) {
         SQLiteDatabase sqLiteDatabase = db.getReadableDatabase();
@@ -177,6 +159,7 @@ public class Repository {
         cursor.close();
         return category;
     }
+
 
     public List<Category> getCategoryList() {
         List<Category> categories = new ArrayList<>();
@@ -227,12 +210,12 @@ public class Repository {
     public long insertQuestion(String uuid, String text, int catId, int level) {
         SQLiteDatabase sqLiteDatabase = db.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(QuestionTable.COLUMN_UUID, uuid);
-        values.put(QuestionTable.COLUMN_QUESTION_TEXT, text);
-        values.put(QuestionTable.COLUMN_CAT_ID, catId);
-        values.put(QuestionTable.COLUMN_LEVEL, level);
+        values.put(QuizSchema.QuestionTable.COLUMN_UUID, uuid);
+        values.put(QuizSchema.QuestionTable.COLUMN_QUESTION_TEXT, text);
+        values.put(QuizSchema.QuestionTable.COLUMN_CAT_ID, catId);
+        values.put(QuizSchema.QuestionTable.COLUMN_LEVEL, level);
 
-        long id = sqLiteDatabase.insert(QuestionTable.NAME, null, values);
+        long id = sqLiteDatabase.insert(QuizSchema.QuestionTable.NAME, null, values);
 
         sqLiteDatabase.close();
         return id;
@@ -240,15 +223,15 @@ public class Repository {
 
     public Question getQuestion(String uuid) {
         SQLiteDatabase sqLiteDatabase = db.getReadableDatabase();
-        Cursor cursor = sqLiteDatabase.query(QuestionTable.NAME,
-                new String[]{QuestionTable.COLUMN_ID, QuestionTable.COLUMN_UUID, QuestionTable.COLUMN_QUESTION_TEXT, QuestionTable.COLUMN_CAT_ID, QuestionTable.COLUMN_LEVEL},
-                QuestionTable.COLUMN_UUID + "=?", new String[]{uuid}, null, null, null);
+        Cursor cursor = sqLiteDatabase.query(QuizSchema.QuestionTable.NAME,
+                new String[]{QuizSchema.QuestionTable.COLUMN_ID, QuizSchema.QuestionTable.COLUMN_UUID, QuizSchema.QuestionTable.COLUMN_QUESTION_TEXT, QuizSchema.QuestionTable.COLUMN_CAT_ID, QuizSchema.QuestionTable.COLUMN_LEVEL},
+                QuizSchema.QuestionTable.COLUMN_UUID + "=?", new String[]{uuid}, null, null, null);
 
-        Question question = new Question(cursor.getString(cursor.getColumnIndex(QuestionTable.COLUMN_QUESTION_TEXT)));
+        Question question = new Question(cursor.getString(cursor.getColumnIndex(QuizSchema.QuestionTable.COLUMN_QUESTION_TEXT)));
         question.setId(UUID.fromString(uuid));
-        question.setText(cursor.getString(cursor.getColumnIndex(QuestionTable.COLUMN_QUESTION_TEXT)));
-        question.setCategoryId(cursor.getInt(cursor.getColumnIndex(QuestionTable.COLUMN_CAT_ID)));
-        question.setLevel(cursor.getInt(cursor.getColumnIndex(QuestionTable.COLUMN_LEVEL)));
+        question.setText(cursor.getString(cursor.getColumnIndex(QuizSchema.QuestionTable.COLUMN_QUESTION_TEXT)));
+        question.setCategoryId(cursor.getInt(cursor.getColumnIndex(QuizSchema.QuestionTable.COLUMN_CAT_ID)));
+        question.setLevel(cursor.getInt(cursor.getColumnIndex(QuizSchema.QuestionTable.COLUMN_LEVEL)));
 
         cursor.close();
         return question;
@@ -256,18 +239,18 @@ public class Repository {
 
     public List<Question> getQuestionList() {
         List<Question> questions = new ArrayList<>();
-        String query = "SELECT * FROM " + QuestionTable.NAME;
+        String query = "SELECT * FROM " + QuizSchema.QuestionTable.NAME;
 
         SQLiteDatabase sqLiteDatabase = db.getWritableDatabase();
         Cursor cursor = sqLiteDatabase.rawQuery(query, null);
 
         if (cursor.moveToFirst()) {
             do {
-                Question question = new Question(cursor.getString(cursor.getColumnIndex(QuestionTable.COLUMN_QUESTION_TEXT)));
-                question.setId(UUID.fromString(cursor.getString(cursor.getColumnIndex(QuestionTable.COLUMN_UUID))));
-                question.setText(cursor.getString(cursor.getColumnIndex(QuestionTable.COLUMN_QUESTION_TEXT)));
-                question.setCategoryId(cursor.getInt(cursor.getColumnIndex(QuestionTable.COLUMN_CAT_ID)));
-                question.setLevel(cursor.getInt(cursor.getColumnIndex(QuestionTable.COLUMN_LEVEL)));
+                Question question = new Question(cursor.getString(cursor.getColumnIndex(QuizSchema.QuestionTable.COLUMN_QUESTION_TEXT)));
+                question.setId(UUID.fromString(cursor.getString(cursor.getColumnIndex(QuizSchema.QuestionTable.COLUMN_UUID))));
+                question.setText(cursor.getString(cursor.getColumnIndex(QuizSchema.QuestionTable.COLUMN_QUESTION_TEXT)));
+                question.setCategoryId(cursor.getInt(cursor.getColumnIndex(QuizSchema.QuestionTable.COLUMN_CAT_ID)));
+                question.setLevel(cursor.getInt(cursor.getColumnIndex(QuizSchema.QuestionTable.COLUMN_LEVEL)));
 
                 questions.add(question);
             } while (cursor.moveToNext());
@@ -281,7 +264,7 @@ public class Repository {
 
     public int getQuestionsCount() {
 
-        String countQuery = "SELECT * FROM " + QuestionTable.NAME;
+        String countQuery = "SELECT * FROM " + QuizSchema.QuestionTable.NAME;
         SQLiteDatabase sqLiteDatabase = db.getReadableDatabase();
         Cursor cursor = sqLiteDatabase.rawQuery(countQuery, null);
         int count = cursor.getCount();
@@ -294,18 +277,18 @@ public class Repository {
         SQLiteDatabase sqLiteDatabase = db.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(QuestionTable.COLUMN_UUID, question.getId().toString());
-        values.put(QuestionTable.COLUMN_QUESTION_TEXT, question.getText());
-        values.put(QuestionTable.COLUMN_LEVEL, question.getLevel());
-        values.put(QuestionTable.COLUMN_CAT_ID, question.getCategoryId());
+        values.put(QuizSchema.QuestionTable.COLUMN_UUID, question.getId().toString());
+        values.put(QuizSchema.QuestionTable.COLUMN_QUESTION_TEXT, question.getText());
+        values.put(QuizSchema.QuestionTable.COLUMN_LEVEL, question.getLevel());
+        values.put(QuizSchema.QuestionTable.COLUMN_CAT_ID, question.getCategoryId());
 
-        return sqLiteDatabase.update(QuestionTable.NAME, values, QuestionTable.COLUMN_UUID + " =?",
+        return sqLiteDatabase.update(QuizSchema.QuestionTable.NAME, values, QuizSchema.QuestionTable.COLUMN_UUID + " =?",
                 new String[]{question.getId().toString()});
     }
 
     public void deleteQuestion(Question question) {
         SQLiteDatabase sqLiteDatabase = db.getWritableDatabase();
-        sqLiteDatabase.delete(QuestionTable.NAME, QuestionTable.COLUMN_UUID + " =?",
+        sqLiteDatabase.delete(QuizSchema.QuestionTable.NAME, QuizSchema.QuestionTable.COLUMN_UUID + " =?",
                 new String[]{question.getId().toString()});
         sqLiteDatabase.close();
     }
@@ -313,33 +296,33 @@ public class Repository {
     public long insertAnswer(String uuid, String text, boolean isTrue, int questionId) {
         SQLiteDatabase sqLiteDatabase = db.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(AnswerTable.COLUMN_UUID, uuid);
-        values.put(AnswerTable.COLUMN_ANSWER_TEXT, text);
-        values.put(AnswerTable.COLUMN_QUESTION_ID, questionId);
+        values.put(QuizSchema.AnswerTable.COLUMN_UUID, uuid);
+        values.put(QuizSchema.AnswerTable.COLUMN_ANSWER_TEXT, text);
+        values.put(QuizSchema.AnswerTable.COLUMN_QUESTION_ID, questionId);
         if (isTrue) {
-            values.put(AnswerTable.COLUMN_IS_TRUE, 1);
+            values.put(QuizSchema.AnswerTable.COLUMN_IS_TRUE, 1);
         } else
-            values.put(AnswerTable.COLUMN_IS_TRUE, 0);
+            values.put(QuizSchema.AnswerTable.COLUMN_IS_TRUE, 0);
 
-        long id = sqLiteDatabase.insert(AnswerTable.NAME, null, values);
+        long id = sqLiteDatabase.insert(QuizSchema.AnswerTable.NAME, null, values);
         sqLiteDatabase.close();
         return id;
     }
 
     public Answer getAnswer(String uuid) {
         SQLiteDatabase sqLiteDatabase = db.getReadableDatabase();
-        Cursor cursor = sqLiteDatabase.query(AnswerTable.NAME,
-                new String[]{AnswerTable.COLUMN_ID, AnswerTable.COLUMN_UUID, AnswerTable.COLUMN_ANSWER_TEXT, AnswerTable.COLUMN_IS_TRUE, AnswerTable.COLUMN_QUESTION_ID},
-                AnswerTable.COLUMN_UUID + " =?", new String[]{uuid}, null, null, null);
+        Cursor cursor = sqLiteDatabase.query(QuizSchema.AnswerTable.NAME,
+                new String[]{QuizSchema.AnswerTable.COLUMN_ID, QuizSchema.AnswerTable.COLUMN_UUID, QuizSchema.AnswerTable.COLUMN_ANSWER_TEXT, QuizSchema.AnswerTable.COLUMN_IS_TRUE, QuizSchema.AnswerTable.COLUMN_QUESTION_ID},
+                QuizSchema.AnswerTable.COLUMN_UUID + " =?", new String[]{uuid}, null, null, null);
 
         boolean is_true;
-        if (cursor.getInt(cursor.getColumnIndex(AnswerTable.COLUMN_IS_TRUE)) == 1) {
+        if (cursor.getInt(cursor.getColumnIndex(QuizSchema.AnswerTable.COLUMN_IS_TRUE)) == 1) {
             is_true = true;
         } else
             is_true = false;
-        Answer answer = new Answer(cursor.getString(cursor.getColumnIndex(AnswerTable.COLUMN_ANSWER_TEXT)), is_true);
-        answer.setRelatedQuestionId(UUID.fromString(cursor.getString(cursor.getColumnIndex(AnswerTable.COLUMN_QUESTION_ID))));
-        answer.setId(UUID.fromString(cursor.getString(cursor.getColumnIndex(AnswerTable.COLUMN_UUID))));
+        Answer answer = new Answer(cursor.getString(cursor.getColumnIndex(QuizSchema.AnswerTable.COLUMN_ANSWER_TEXT)), is_true);
+        answer.setRelatedQuestionId(UUID.fromString(cursor.getString(cursor.getColumnIndex(QuizSchema.AnswerTable.COLUMN_QUESTION_ID))));
+        answer.setId(UUID.fromString(cursor.getString(cursor.getColumnIndex(QuizSchema.AnswerTable.COLUMN_UUID))));
 
         cursor.close();
         return answer;
@@ -347,21 +330,21 @@ public class Repository {
 
     public List<Answer> getAnswerList() {
         List<Answer> answers = new ArrayList<>();
-        String selectQuery = "SELECT * FROM " + AnswerTable.NAME;
+        String selectQuery = "SELECT * FROM " + QuizSchema.AnswerTable.NAME;
         SQLiteDatabase sqLiteDatabase = db.getWritableDatabase();
         Cursor cursor = sqLiteDatabase.rawQuery(selectQuery, null);
 
         if (cursor.moveToFirst()) {
             do {
                 boolean is_true;
-                if (cursor.getInt(cursor.getColumnIndex(AnswerTable.COLUMN_IS_TRUE)) == 1)
+                if (cursor.getInt(cursor.getColumnIndex(QuizSchema.AnswerTable.COLUMN_IS_TRUE)) == 1)
                     is_true = true;
                 else
                     is_true = false;
-                Answer answer = new Answer(cursor.getString(cursor.getColumnIndex(AnswerTable.COLUMN_ANSWER_TEXT)),
+                Answer answer = new Answer(cursor.getString(cursor.getColumnIndex(QuizSchema.AnswerTable.COLUMN_ANSWER_TEXT)),
                         is_true);
-                answer.setId(UUID.fromString(cursor.getString(cursor.getColumnIndex(AnswerTable.COLUMN_UUID))));
-                answer.setRelatedQuestionId(UUID.fromString(cursor.getString(cursor.getColumnIndex(AnswerTable.COLUMN_QUESTION_ID))));
+                answer.setId(UUID.fromString(cursor.getString(cursor.getColumnIndex(QuizSchema.AnswerTable.COLUMN_UUID))));
+                answer.setRelatedQuestionId(UUID.fromString(cursor.getString(cursor.getColumnIndex(QuizSchema.AnswerTable.COLUMN_QUESTION_ID))));
 
                 answers.add(answer);
             } while (cursor.moveToNext());
@@ -372,7 +355,7 @@ public class Repository {
     }
 
     public int getAnswerCount() {
-        String countQuery = "SELECT * FROM " + QuestionTable.NAME;
+        String countQuery = "SELECT * FROM " + QuizSchema.QuestionTable.NAME;
         SQLiteDatabase sqLiteDatabase = db.getReadableDatabase();
         Cursor cursor = sqLiteDatabase.rawQuery(countQuery, null);
         int count = cursor.getCount();
@@ -384,33 +367,33 @@ public class Repository {
         SQLiteDatabase sqLiteDatabase = db.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(AnswerTable.COLUMN_UUID, answer.getId().toString());
-        values.put(AnswerTable.COLUMN_ANSWER_TEXT, answer.getText());
-        values.put(AnswerTable.COLUMN_QUESTION_ID, answer.getRelatedQuestionId().toString());
+        values.put(QuizSchema.AnswerTable.COLUMN_UUID, answer.getId().toString());
+        values.put(QuizSchema.AnswerTable.COLUMN_ANSWER_TEXT, answer.getText());
+        values.put(QuizSchema.AnswerTable.COLUMN_QUESTION_ID, answer.getRelatedQuestionId().toString());
         if (answer.getTrue())
-            values.put(AnswerTable.COLUMN_IS_TRUE, 1);
+            values.put(QuizSchema.AnswerTable.COLUMN_IS_TRUE, 1);
         else
-            values.put(AnswerTable.COLUMN_IS_TRUE, 0);
+            values.put(QuizSchema.AnswerTable.COLUMN_IS_TRUE, 0);
 
-        return sqLiteDatabase.update(AnswerTable.NAME, values, AnswerTable.COLUMN_UUID + " =?", new String[]{answer.getId().toString()});
+        return sqLiteDatabase.update(QuizSchema.AnswerTable.NAME, values, QuizSchema.AnswerTable.COLUMN_UUID + " =?", new String[]{answer.getId().toString()});
     }
 
     public void deleteAnswer(Answer answer) {
         SQLiteDatabase sqLiteDatabase = db.getWritableDatabase();
 
-        sqLiteDatabase.delete(AnswerTable.NAME, AnswerTable.COLUMN_UUID + " =?", new String[]{answer.getId().toString()});
+        sqLiteDatabase.delete(QuizSchema.AnswerTable.NAME, QuizSchema.AnswerTable.COLUMN_UUID + " =?", new String[]{answer.getId().toString()});
         sqLiteDatabase.close();
     }
 
     public long insertUserAnswer(String uuid, String userId, String questionId, String answerId) {
         SQLiteDatabase sqLiteDatabase = db.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(UserAnswerTable.COLUMN_UUID, uuid);
-        values.put(UserAnswerTable.COLUMN_USER_ID, userId);
-        values.put(UserAnswerTable.COLUMN_QUESTION_ID, questionId);
-        values.put(UserAnswerTable.COLUMN_ANSWER_ID, answerId);
+        values.put(QuizSchema.UserAnswerTable.COLUMN_UUID, uuid);
+        values.put(QuizSchema.UserAnswerTable.COLUMN_USER_ID, userId);
+        values.put(QuizSchema.UserAnswerTable.COLUMN_QUESTION_ID, questionId);
+        values.put(QuizSchema.UserAnswerTable.COLUMN_ANSWER_ID, answerId);
 
-        long id = sqLiteDatabase.insert(UserAnswerTable.NAME, null, values);
+        long id = sqLiteDatabase.insert(QuizSchema.UserAnswerTable.NAME, null, values);
 
         sqLiteDatabase.close();
         return id;
@@ -418,15 +401,15 @@ public class Repository {
 
     public UserAnswer getUserAnswer(String uuid) {
         SQLiteDatabase sqLiteDatabase = db.getReadableDatabase();
-        Cursor cursor = sqLiteDatabase.query(UserAnswerTable.NAME,
-                new String[]{UserAnswerTable.COLUMN_ID, UserAnswerTable.COLUMN_UUID, UserAnswerTable.COLUMN_USER_ID, UserAnswerTable.COLUMN_QUESTION_ID, UserAnswerTable.COLUMN_ANSWER_ID},
-                UserAnswerTable.COLUMN_UUID + " =?", new String[]{uuid}, null, null, null);
+        Cursor cursor = sqLiteDatabase.query(QuizSchema.UserAnswerTable.NAME,
+                new String[]{QuizSchema.UserAnswerTable.COLUMN_ID, QuizSchema.UserAnswerTable.COLUMN_UUID, QuizSchema.UserAnswerTable.COLUMN_USER_ID, QuizSchema.UserAnswerTable.COLUMN_QUESTION_ID, QuizSchema.UserAnswerTable.COLUMN_ANSWER_ID},
+                QuizSchema.UserAnswerTable.COLUMN_UUID + " =?", new String[]{uuid}, null, null, null);
 
         UserAnswer userAnswer = new UserAnswer();
-        userAnswer.setId(UUID.fromString(cursor.getString(cursor.getColumnIndex(UserAnswerTable.COLUMN_UUID))));
-        userAnswer.setQuestionId(UUID.fromString(cursor.getString(cursor.getColumnIndex(UserAnswerTable.COLUMN_QUESTION_ID))));
-        userAnswer.setUserId(UUID.fromString(cursor.getString(cursor.getColumnIndex(UserAnswerTable.COLUMN_USER_ID))));
-        userAnswer.setAnswerId(UUID.fromString(cursor.getString(cursor.getColumnIndex(UserAnswerTable.COLUMN_ANSWER_ID))));
+        userAnswer.setId(UUID.fromString(cursor.getString(cursor.getColumnIndex(QuizSchema.UserAnswerTable.COLUMN_UUID))));
+        userAnswer.setQuestionId(UUID.fromString(cursor.getString(cursor.getColumnIndex(QuizSchema.UserAnswerTable.COLUMN_QUESTION_ID))));
+        userAnswer.setUserId(UUID.fromString(cursor.getString(cursor.getColumnIndex(QuizSchema.UserAnswerTable.COLUMN_USER_ID))));
+        userAnswer.setAnswerId(UUID.fromString(cursor.getString(cursor.getColumnIndex(QuizSchema.UserAnswerTable.COLUMN_ANSWER_ID))));
 
         cursor.close();
         return userAnswer;
@@ -435,17 +418,17 @@ public class Repository {
     public List<UserAnswer> getUserAnswerList() {
         List<UserAnswer> userAnswers = new ArrayList<>();
 
-        String selectQuery = "SELECT * FROM " + UserAnswerTable.NAME;
+        String selectQuery = "SELECT * FROM " + QuizSchema.UserAnswerTable.NAME;
         SQLiteDatabase sqLiteDatabase = db.getWritableDatabase();
         Cursor cursor = sqLiteDatabase.rawQuery(selectQuery, null);
 
         if (cursor.moveToFirst()) {
             do {
                 UserAnswer userAnswer = new UserAnswer();
-                userAnswer.setId(UUID.fromString(cursor.getString(cursor.getColumnIndex(UserAnswerTable.COLUMN_UUID))));
-                userAnswer.setUserId(UUID.fromString(cursor.getString(cursor.getColumnIndex(UserAnswerTable.COLUMN_USER_ID))));
-                userAnswer.setQuestionId(UUID.fromString(cursor.getString(cursor.getColumnIndex(UserAnswerTable.COLUMN_QUESTION_ID))));
-                userAnswer.setAnswerId(UUID.fromString(cursor.getString(cursor.getColumnIndex(UserAnswerTable.COLUMN_ANSWER_ID))));
+                userAnswer.setId(UUID.fromString(cursor.getString(cursor.getColumnIndex(QuizSchema.UserAnswerTable.COLUMN_UUID))));
+                userAnswer.setUserId(UUID.fromString(cursor.getString(cursor.getColumnIndex(QuizSchema.UserAnswerTable.COLUMN_USER_ID))));
+                userAnswer.setQuestionId(UUID.fromString(cursor.getString(cursor.getColumnIndex(QuizSchema.UserAnswerTable.COLUMN_QUESTION_ID))));
+                userAnswer.setAnswerId(UUID.fromString(cursor.getString(cursor.getColumnIndex(QuizSchema.UserAnswerTable.COLUMN_ANSWER_ID))));
 
                 userAnswers.add(userAnswer);
             } while (cursor.moveToNext());
@@ -457,7 +440,7 @@ public class Repository {
     }
 
     public int getUserAnswerCount() {
-        String countQuery = "SELECT * FROM " + UserAnswerTable.NAME;
+        String countQuery = "SELECT * FROM " + QuizSchema.UserAnswerTable.NAME;
         SQLiteDatabase sqLiteDatabase = db.getReadableDatabase();
         Cursor cursor = sqLiteDatabase.rawQuery(countQuery, null);
         int count = cursor.getCount();
@@ -469,20 +452,23 @@ public class Repository {
         SQLiteDatabase sqLiteDatabase = db.getWritableDatabase();
 
         ContentValues values = new ContentValues();
-        values.put(UserAnswerTable.COLUMN_UUID, userAnswer.getId().toString());
-        values.put(UserAnswerTable.COLUMN_USER_ID, userAnswer.getUserId().toString());
-        values.put(UserAnswerTable.COLUMN_QUESTION_ID, userAnswer.getQuestionId().toString());
-        values.put(UserAnswerTable.COLUMN_ANSWER_ID, userAnswer.getAnswerId().toString());
-        return sqLiteDatabase.update(UserAnswerTable.NAME, values, UserAnswerTable.COLUMN_UUID + " =?",
+        values.put(QuizSchema.UserAnswerTable.COLUMN_UUID, userAnswer.getId().toString());
+        values.put(QuizSchema.UserAnswerTable.COLUMN_USER_ID, userAnswer.getUserId().toString());
+        values.put(QuizSchema.UserAnswerTable.COLUMN_QUESTION_ID, userAnswer.getQuestionId().toString());
+        values.put(QuizSchema.UserAnswerTable.COLUMN_ANSWER_ID, userAnswer.getAnswerId().toString());
+        return sqLiteDatabase.update(QuizSchema.UserAnswerTable.NAME, values, QuizSchema.UserAnswerTable.COLUMN_UUID + " =?",
                 new String[]{userAnswer.getId().toString()});
     }
 
     public void deleteUserAnswer(UserAnswer userAnswer) {
         SQLiteDatabase sqLiteDatabase = db.getWritableDatabase();
-        sqLiteDatabase.delete(UserAnswerTable.NAME, UserAnswerTable.COLUMN_UUID + " =?",
+        sqLiteDatabase.delete(QuizSchema.UserAnswerTable.NAME, QuizSchema.UserAnswerTable.COLUMN_UUID + " =?",
                 new String[]{userAnswer.getId().toString()});
         sqLiteDatabase.close();
     }
 
-
+    public UserCursorWrapper getQuery(String tableName, String whereClause, String[] whereArgs) {
+        // ??? must be completed ??? //
+        return null;
+    }
 }

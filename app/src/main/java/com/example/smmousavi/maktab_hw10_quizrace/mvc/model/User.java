@@ -6,14 +6,17 @@ public class User {
 
   private UUID mId;
   private String mName;
+  private String mPassword;
+  private long totalScore;
 
+  public User(String name, String password) {
+    mId = UUID.randomUUID();
+    mName = name;
+    mPassword = password;
+  }
 
   public UUID getmId() {
     return mId;
-  }
-
-  public void setId(UUID mId) {
-    this.mId = mId;
   }
 
   public String getName() {
@@ -32,22 +35,12 @@ public class User {
     this.mPassword = mPassword;
   }
 
-  public long getTotalPoint() {
-    return totalPoint;
+  public long getTotalScore() {
+    return totalScore;
   }
 
-  public void setTotalPoint(long totalPoint) {
-    this.totalPoint = totalPoint;
-  }
-
-  private String mPassword;
-  private long totalPoint;
-
-
-  public User(String name, String password) {
-    mName = name;
-    mPassword = password;
-
+  public void setTotalScore(long totalPoint) {
+    this.totalScore = totalPoint;
   }
 
 

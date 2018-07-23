@@ -1,0 +1,109 @@
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical"
+  tools:context="com.example.smmousavi.maktab_hw10_quizrace.mvc.controller.fragments.UserLoginFragment">
+
+
+  <TextView
+    android:id="@+id/txt_sign_up_username"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/login_logo"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="30dp"
+    android:text="USERNAME"
+    android:textColor="#f36b00  "
+    android:textSize="18dp"/>
+
+  <EditText
+    android:id="@+id/edt_sign_up_username"
+    android:layout_width="230dp"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/txt_sign_up_username"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="-7dp"
+    android:backgroundTint="#f36b00 "/>
+
+  <ImageView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignBottom="@id/edt_sign_up_username"
+    android:layout_marginBottom="5dp"
+    android:layout_toStartOf="@id/edt_sign_up_username"
+    android:background="@drawable/ic_user"/>
+
+  <TextView
+    android:id="@+id/txt_sign_up_password"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/edt_sign_up_username"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="20dp"
+    android:text="PASSWORD"
+    android:textColor="#f36b00"
+    android:textSize="18dp"/>
+
+  <EditText
+    android:id="@+id/edt_sign_up_password"
+    android:layout_width="230dp"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/txt_sign_up_password"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="-7dp"
+    android:backgroundTint="#f36b00"
+    android:inputType="textPassword"/>
+
+  <ImageView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignBottom="@id/edt_sign_up_password"
+    android:layout_marginBottom="5dp"
+    android:layout_toStartOf="@id/edt_sign_up_password"
+    android:background="@drawable/ic_padlock"/>
+
+
+  <TextView
+    android:id="@+id/txt_sign_up_repeat_password"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/edt_sign_up_password"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="20dp"
+    android:text="REAPTE PASSWORD"
+    android:textColor="#f36b00"
+    android:textSize="18dp"/>
+
+  <EditText
+    android:id="@+id/edt_sign_up_repeat_password"
+    android:layout_width="230dp"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/txt_sign_up_repeat_password"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="-7dp"
+    android:backgroundTint="#f36b00"
+    android:inputType="textPassword"/>
+
+  <ImageView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignBottom="@id/edt_sign_up_repeat_password"
+    android:layout_marginBottom="5dp"
+    android:layout_toStartOf="@id/edt_sign_up_repeat_password"
+    android:background="@drawable/ic_padlock"/>
+
+  <CheckBox
+    android:id="@+id/chk_policy_agreement"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignStart="@+id/edt_sign_up_repeat_password"
+    android:layout_below="@id/edt_sign_up_repeat_password"
+    android:layout_marginTop="25dp"
+    android:buttonTint="#f36b00"
+    android:text="I Agree to The Terms of Policy"
+    android:textColor="#f36b00"/>
+
+
+</RelativeLayout>
