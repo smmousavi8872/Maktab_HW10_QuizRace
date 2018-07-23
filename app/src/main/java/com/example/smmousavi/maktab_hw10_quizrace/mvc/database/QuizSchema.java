@@ -33,9 +33,9 @@ public class QuizSchema {
                 + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + COLUMN_UUID + " TEXT,"
                 + COLUMN_QUESTION_TEXT + " TEXT,"
-                + COLUMN_CAT_ID + " INTEGER,"
+                + COLUMN_CAT_ID + " TEXT,"
                 + COLUMN_LEVEL + " INTEGER,"
-                + "FOREIGN KEY (" + COLUMN_CAT_ID + ") REFERENCES " + CategoryTable.NAME + "(" + COLUMN_ID + ")"
+                + "FOREIGN KEY (" + COLUMN_CAT_ID + ") REFERENCES " + CategoryTable.NAME + "(" + CategoryTable.COLUMN_UUID + ")"
                 + ")";
     }
 
@@ -66,8 +66,8 @@ public class QuizSchema {
                 + COLUMN_UUID + " TEXT,"
                 + COLUMN_ANSWER_TEXT + " TEXT,"
                 + COLUMN_IS_TRUE + " INTEGER,"
-                + COLUMN_QUESTION_ID + " INTEGER,"
-                + "FOREIGN KEY (" + COLUMN_QUESTION_ID + ") REFERENCES " + QuestionTable.NAME + "(" + COLUMN_ID + ")"
+                + COLUMN_QUESTION_ID + " TEXT,"
+                + "FOREIGN KEY (" + COLUMN_QUESTION_ID + ") REFERENCES " + QuestionTable.NAME + "(" + QuestionTable.COLUMN_UUID + ")"
                 + ")";
     }
 
@@ -82,12 +82,12 @@ public class QuizSchema {
         public static final String CREATE_TABLE = "CREATE TABLE " + NAME + "("
                 + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
                 + COLUMN_UUID + " TEXT,"
-                + COLUMN_USER_ID + " INTEGER,"
-                + COLUMN_QUESTION_ID + " INTEGER,"
-                + COLUMN_ANSWER_ID + " INTEGER,"
-                + "FOREIGN KEY (" + COLUMN_USER_ID + ") REFERENCES " + UserTable.NAME + "(" + COLUMN_ID + "),"
-                + "FOREIGN KEY (" + COLUMN_QUESTION_ID + ") REFERENCES " + QuestionTable.NAME + "(" + COLUMN_ID + "),"
-                + "FOREIGN KEY (" + COLUMN_ANSWER_ID + ") REFERENCES " + AnswerTable.NAME + "(" + COLUMN_ID + ")"
+                + COLUMN_USER_ID + " TEXT,"
+                + COLUMN_QUESTION_ID + " TEXT,"
+                + COLUMN_ANSWER_ID + " TEXT,"
+                + "FOREIGN KEY (" + COLUMN_USER_ID + ") REFERENCES " + UserTable.NAME + "(" + UserTable.COLUMN_UUID + "),"
+                + "FOREIGN KEY (" + COLUMN_QUESTION_ID + ") REFERENCES " + QuestionTable.NAME + "(" + QuestionTable.COLUMN_UUID + "),"
+                + "FOREIGN KEY (" + COLUMN_ANSWER_ID + ") REFERENCES " + AnswerTable.NAME + "(" + AnswerTable.COLUMN_UUID + ")"
                 + ")";
     }
 }
