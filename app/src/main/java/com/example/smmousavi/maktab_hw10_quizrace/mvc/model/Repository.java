@@ -4,9 +4,14 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
+import com.example.smmousavi.maktab_hw10_quizrace.mvc.database.AnswerCursorWrapper;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.database.CategoryCursorWrapper;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.database.DatabaseHelper;
+import com.example.smmousavi.maktab_hw10_quizrace.mvc.database.QuestionCursorWrapper;
+import com.example.smmousavi.maktab_hw10_quizrace.mvc.database.QuizSchema.AnswerTable;
+import com.example.smmousavi.maktab_hw10_quizrace.mvc.database.QuizSchema.QuestionTable;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.database.UserCursorWrapper;
 
 import java.util.ArrayList;
@@ -18,14 +23,14 @@ import static com.example.smmousavi.maktab_hw10_quizrace.mvc.database.QuizSchema
 
 public class Repository {
 
-  private List<Question> questions;
   private static Repository instance;
   private SQLiteDatabase database;
 
   private Repository(Context context) {
-    //generateQuestionList();
-    DatabaseHelper db = new DatabaseHelper(context);
-    database = db.getWritableDatabase();
+    DatabaseHelper db = new DatabaseHelper(context); /* this must be always at the first line */
+    database = db.getWritableDatabase(); /* this must be always at the second line */
+
+    generateQuestions(); /* this generates a set of random quesions for test delete when real database added*/
   } // end of Repository()
 
 
@@ -37,40 +42,158 @@ public class Repository {
   }// end of getInstance()
 
 
-  public List<Question> getQuestions() {
-    return questions;
+  public void addQuestion(Question question) {
+    ContentValues values = getQuestionContentValue(question);
+    database.insert(QuestionTable.NAME, null, values);
+  }// end of addQuesiont()
 
-  }// end of getQuestions()
+
+  public void generateQuestions() {
+    for (int i = 0; i < 45; i++) {
+      Question question = new Question("Queston number" + i);
+      if (i % 4 == 0) {
+        question.setCategory("science");
+        question.setLevel("tough");
+
+      } else if (i % 4 == 1) {
+        question.setCategory("sport");
+        question.setLevel("moderate");
+
+      } else if (i % 4 == 2) {
+        question.setCategory("technology");
+        question.setLevel("easy");
+
+      } else
+        question.setCategory("general");
+
+      for (int j = 0; j < 4; j++) {
+        Answer answer;
+        if (j == 3)
+          answer = new Answer("Answer number " + j + " of Question number" + i, true);
+
+        else
+          answer = new Answer("Answer number " + j + " of Question number" + i, false);
+
+        answer.setRelatedQuestionId(question.getId());
+
+        addAnswer(answer);
+      }
+
+      addQuestion(question);
+    }
+  }// end of generateQuestions()
 
 
   public Question getQuestion(UUID questionId) {
-    for (Question question : questions) {
+    String whereClause = QuestionTable.Cols.UUID + " = ? ";
+    String[] whereArgs = {questionId.toString()};
+    QuestionCursorWrapper cursor = getQuestionQuery(QuestionTable.NAME, whereClause, whereArgs);
+    try {
+      if (cursor.getCount() == 0)
+        return null;
 
-      if (question.getId().equals(questionId))
-        return question;
+      cursor.moveToFirst();
+      return cursor.getQuestion();
+
+    } finally {
+      cursor.close();
     }
-    return null;
-  } // end of getQuestion
+  }// end of questionId()
+
+
+  public List<Question> getQuestionsList(String category, String level) {
+    List<Question> questions = new ArrayList<>();
+    String whereClause = QuestionTable.Cols.CATEGORY + " = ? and "
+      + QuestionTable.Cols.LEVEL + " = ? ";
+    String[] whereArgs = {category, level};
+    QuestionCursorWrapper cursor = getQuestionQuery(QuestionTable.NAME, whereClause, whereArgs);
+    Log.i("TAG2", cursor.getCount() + "");
+    if (cursor.getCount() > 0) {
+      try {
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+          questions.add(cursor.getQuestion());
+          cursor.moveToNext();
+        }
+
+      } finally {
+        cursor.close();
+      }
+    }
+    return questions;
+  }// end of getQuestionsList()
+
+
+  public void addAnswer(Answer answer) {
+    ContentValues values = getAnswerContentValue(answer);
+    database.insert(AnswerTable.NAME, null, values);
+  }// end of addAnswer()
+
+
+  public List<Answer> getAnswersList(UUID mQuestionId) {
+    List<Answer> questionAnswers = new ArrayList<>();
+    String whereClause = AnswerTable.Cols.QUESTION_ID + " = ? ";
+    String[] whereArgs = {mQuestionId.toString()};
+    AnswerCursorWrapper cursor = getAnswerQuery(AnswerTable.NAME, whereClause, whereArgs);
+    if (cursor.getCount() > 0) {
+      try {
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+          questionAnswers.add(cursor.getAnswer());
+          cursor.moveToNext();
+        }
+
+      } finally {
+        cursor.close();
+      }
+    }
+    return questionAnswers;
+  }// end of getAnswer()
 
 
   public void addUser(User user) {
     ContentValues values = getUserContentValue(user);
     database.insert(UserTable.NAME, null, values);
-    database.close();
   }// end of addUser
 
 
-  public User getUser(UUID uuid) {
-    String whereClause = UserTable.Cols.UUID + " = ? ";
-    String[] whereArgs = {uuid.toString()};
+  public User getUser(UUID userId) {
+    String whereClause = UserTable.Cols.UUID + " = ?";
+    String[] whereArgs = {userId.toString()};
     UserCursorWrapper cursor = getUserQuery(UserTable.NAME, whereClause, whereArgs);
+    try {
+      if (cursor.getCount() == 0)
+        return null;
 
-    return cursor.getUser();
+      cursor.moveToFirst();
+      return cursor.getUser();
 
-  }// end of getUser
+    } finally {
+      cursor.close();
+    }
+  }// end of getUser()
 
 
-  public List<User> getUserList() {
+  public User getUser(String username, String password) {
+    String whereClause = UserTable.Cols.USER_NAME + " = ? and "
+      + UserTable.Cols.PASSWORD + " = ? ";
+    String[] whereArgs = {username, password};
+    UserCursorWrapper cursor = getUserQuery(UserTable.NAME, whereClause, whereArgs);
+    try {
+      if (cursor.getCount() == 0)
+        return null;
+
+      cursor.moveToFirst();
+      return cursor.getUser();
+
+    } finally {
+      cursor.close();
+
+    }
+  }
+
+
+  public List<User> getUsersList() {
     List<User> userList = new ArrayList<>();
     UserCursorWrapper cursor = getUserQuery(UserTable.NAME, null, null);
     if (cursor.getCount() > 0) {
@@ -86,7 +209,7 @@ public class Repository {
       }
     }
     return userList;
-  }// end of getUserList()
+  }// end of getUsersList()
 
 
   public int getUsersCount() {
@@ -110,14 +233,12 @@ public class Repository {
     String whereClause = UserTable.Cols.UUID + " = ? ";
     String[] whereAgrs = {user.getId().toString()};
     database.delete(UserTable.NAME, whereClause, whereAgrs);
-    database.close();
   }
 
 
   public void addCategory(Category category) {
     ContentValues values = getCategoryContentValue(category);
     database.insert(CategoryTable.NAME, null, values);
-    database.close();
   }
 
 
@@ -138,7 +259,7 @@ public class Repository {
     values.put(UserTable.Cols.PASSWORD, user.getPassword());
 
     return values;
-  }
+  }// end of getUserContentValue()
 
 
   public ContentValues getCategoryContentValue(Category category) {
@@ -146,7 +267,29 @@ public class Repository {
     values.put(CategoryTable.Cols.UUID, category.getId().toString());
     values.put(CategoryTable.Cols.CATEGORY_NAME, category.getName());
     return values;
-  }
+  }// end of getCategoryContentValue()
+
+
+  public ContentValues getQuestionContentValue(Question question) {
+    ContentValues values = new ContentValues();
+    values.put(QuestionTable.Cols.UUID, question.getId().toString());
+    values.put(QuestionTable.Cols.QUESTION_TEXT, question.getText());
+    values.put(QuestionTable.Cols.CATEGORY, question.getCategory());
+    values.put(QuestionTable.Cols.LEVEL, question.getLevel());
+
+    return values;
+  }// end of getQuestionContentValue()
+
+
+  public ContentValues getAnswerContentValue(Answer answer) {
+    ContentValues values = new ContentValues();
+    values.put(AnswerTable.Cols.UUID, answer.getId().toString());
+    values.put(AnswerTable.Cols.ANSWER_TEXT, answer.getText());
+    values.put(AnswerTable.Cols.QUESTION_ID, answer.getRelatedQuestionId().toString());
+    values.put(AnswerTable.Cols.IS_TRUE, answer.isTrue());
+
+    return values;
+  }// end of getAnswerContentValue()
 
 
   public UserCursorWrapper getUserQuery(String tableName, String whereClause, String[] whereArgs) {
@@ -160,7 +303,8 @@ public class Repository {
       null);
 
     return new UserCursorWrapper(cursor);
-  }
+  }// end of getUserQuery()
+
 
   public CategoryCursorWrapper getCategoryQuery(String tableName, String whereClause, String[] whereArgs) {
     Cursor cursor = database.query(
@@ -173,5 +317,34 @@ public class Repository {
       null);
 
     return new CategoryCursorWrapper(cursor);
-  }
+  }// end of getCategoryQuery()
+
+
+  public QuestionCursorWrapper getQuestionQuery(String tableName, String whereClause, String[] whereArgs) {
+    Cursor cursor = database.query(
+      tableName,
+      null,
+      whereClause,
+      whereArgs,
+      null,
+      null,
+      null);
+
+    return new QuestionCursorWrapper(cursor);
+  }// end of getQuestoinQuery()
+
+
+  public AnswerCursorWrapper getAnswerQuery(String tableName, String whereClause, String[] whereArgs) {
+
+    Cursor cursor = database.query(
+      tableName,
+      null,
+      whereClause,
+      whereArgs,
+      null,
+      null,
+      null
+    );
+    return new AnswerCursorWrapper(cursor);
+  }// end of getAnswerQuery()
 }

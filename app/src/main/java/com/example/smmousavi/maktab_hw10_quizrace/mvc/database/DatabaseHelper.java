@@ -27,9 +27,9 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     + QuestionTable.Cols.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
     + QuestionTable.Cols.UUID + ", "
     + QuestionTable.Cols.QUESTION_TEXT + ", "
-    + QuestionTable.Cols.CATEGORY_ID + ", "
+    + QuestionTable.Cols.CATEGORY + ", "
     + QuestionTable.Cols.LEVEL + ", "
-    + "FOREIGN KEY (" + QuestionTable.Cols.CATEGORY_ID + ") REFERENCES " + CategoryTable.NAME + "(" + QuestionTable.Cols.COLUMN_ID + " )"
+    + "FOREIGN KEY (" + QuestionTable.Cols.CATEGORY + ") REFERENCES " + CategoryTable.NAME + "(" + QuestionTable.Cols.COLUMN_ID + " )"
     + ")"; // check the foreign key again
 
 

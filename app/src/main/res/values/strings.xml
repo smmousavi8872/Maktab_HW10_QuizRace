@@ -1,8 +1,16 @@
 <resources>
-  <string name="app_name">Maktab_HW10_QuizRace</string>
+  <string name="app_name">Quiz Race</string>
 
   <!-- TODO: Remove or change this placeholder text -->
   <string name="hello_blank_fragment">Hello blank fragment</string>
   <string name="sign_up_welcome_text">Welcome to Queiz Race</string>
   <string name="sign_up_dialog_title">Sign Up</string>
+  <string name="total_score_title">Total Score: %1$d</string>
+  <string name="hi_user_title">Hi %1$s</string>
+  <string name="top_score_title">Top Score: %1$d</string>
+  <string name="choose_question_category_title">Choose Your Question Category Below</string>
+  <string name="science_category_title">Science</string>
+  <string name="sport_category_title">Sport</string>
+  <string name="technology_category_title">Technology</string>
+  <string name="general_category_title">General</string>
 </resources>

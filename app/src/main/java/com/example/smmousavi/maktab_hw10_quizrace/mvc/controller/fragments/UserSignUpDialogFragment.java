@@ -2,9 +2,10 @@ package com.example.smmousavi.maktab_hw10_quizrace.mvc.controller.fragments;
 
 
 import android.annotation.SuppressLint;
-import android.app.AlertDialog;
+import android.support.v7.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Fragment;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -21,13 +22,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.smmousavi.maktab_hw10_quizrace.R;
+import com.example.smmousavi.maktab_hw10_quizrace.mvc.controller.activities.CategorySelectionActivity;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.Repository;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.User;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class UserSignUpFragment extends DialogFragment {
+public class UserSignUpDialogFragment extends DialogFragment {
 
   private TextView userWelcomeTxt;
   private EditText usernameEdt;
@@ -41,20 +43,20 @@ public class UserSignUpFragment extends DialogFragment {
   private boolean policyAgreemnetCheck;
 
 
-  public static UserSignUpFragment newInstance() {
+  public static UserSignUpDialogFragment newInstance() {
 
     Bundle args = new Bundle();
 
-    UserSignUpFragment fragment = new UserSignUpFragment();
+    UserSignUpDialogFragment fragment = new UserSignUpDialogFragment();
     fragment.setArguments(args);
     return fragment;
   }// end of newInstance()
 
 
-  public UserSignUpFragment() {
+  public UserSignUpDialogFragment() {
     // Required empty public constructor
 
-  }// end of UserSignUpFragment()
+  }// end of UserSignUpDialogFragment()
 
 
   @NonNull
@@ -153,7 +155,7 @@ public class UserSignUpFragment extends DialogFragment {
             confirmSignUp.setEnabled(true);
             userWelcomeTxt.setTextColor(Color.GREEN);
             userWelcomeTxt.setText("We are good to go");
-            positiveButtonActions(confirmSignUp);
+            positiveButtonActions();
 
           } else
             invalidateSignUp("You must agree to terms of policy");
@@ -177,16 +179,16 @@ public class UserSignUpFragment extends DialogFragment {
     userWelcomeTxt.setText(massage);
   }// end of invalidateSignUp()
 
-  public void positiveButtonActions(Button b) {
-    b.setOnClickListener(new View.OnClickListener() {
+  public void positiveButtonActions() {
+    dialog.getButton(Dialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
         User user = new User(username, password);
         Repository.getInstance(getActivity()).addUser(user);
+        Intent intent = CategorySelectionActivity.newIntent(getActivity(), user.getId());
+        startActivity(intent);
 
         dialog.dismiss();
-        // ??? must be compeleted //
-
       }
     });
   }// end of positiveButtonActions()

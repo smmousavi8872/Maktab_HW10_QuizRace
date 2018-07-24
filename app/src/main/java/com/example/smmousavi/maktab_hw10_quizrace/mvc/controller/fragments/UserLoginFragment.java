@@ -55,7 +55,7 @@ public class UserLoginFragment extends Fragment {
     userSignUpBtn.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
-        UserSignUpFragment dialog = UserSignUpFragment.newInstance();
+        UserSignUpDialogFragment dialog = UserSignUpDialogFragment.newInstance();
         FragmentManager fm = getFragmentManager();
 
         dialog.show(fm, DIAL0G_SIGN_UP_TAG);

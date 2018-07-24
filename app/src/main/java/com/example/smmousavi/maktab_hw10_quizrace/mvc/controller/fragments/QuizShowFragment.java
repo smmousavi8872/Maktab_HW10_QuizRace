@@ -4,6 +4,7 @@ package com.example.smmousavi.maktab_hw10_quizrace.mvc.controller.fragments;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,7 @@ import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.Answer;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.Question;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.Repository;
 
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -31,7 +33,7 @@ public class QuizShowFragment extends Fragment {
   private Button mAnswer4Btn;
   private Question mCurrentQuestion;
   private UUID mCurrentQuestionId;
-  Answer[] answers;
+  private List<Answer> mAnswers;
 
 
   public static QuizShowFragment newInstance(UUID questionId) {
@@ -57,9 +59,12 @@ public class QuizShowFragment extends Fragment {
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
+    Log.i("TAG1", "onCreate called");
     mCurrentQuestionId = (UUID) getArguments().getSerializable(ARGS_QUESTION_ID);
     mCurrentQuestion = Repository.getInstance(getActivity()).getQuestion(mCurrentQuestionId);
-    answers = mCurrentQuestion.getAnswers();
+    mAnswers = Repository.getInstance(getActivity()).getAnswersList(mCurrentQuestionId);
+    Log.i("TAG1", mCurrentQuestionId.toString());
+    Log.i("TAG1", mAnswers.size() + "");
 
   }
 
@@ -75,10 +80,15 @@ public class QuizShowFragment extends Fragment {
     mAnswer4Btn = view.findViewById(R.id.answer_four);
 
     mQuestionViewTxt.setText(mCurrentQuestion.getText());
-    mAnswer1Btn.setText(answers[0].getText());
-    mAnswer2Btn.setText(answers[1].getText());
-    mAnswer3Btn.setText(answers[2].getText());
-    mAnswer4Btn.setText(answers[3].getText());
+    Answer answer1 = mAnswers.get(0);
+    Answer answer2 = mAnswers.get(1);
+    Answer answer3 = mAnswers.get(2);
+    Answer answer4 = mAnswers.get(3);
+
+    mAnswer1Btn.setText(answer1.getText());
+    mAnswer2Btn.setText(answer2.getText());
+    mAnswer3Btn.setText(answer3.getText());
+    mAnswer4Btn.setText(answer4.getText());
 
 
     return view;

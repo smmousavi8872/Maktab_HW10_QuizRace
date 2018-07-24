@@ -18,4 +18,14 @@
     <item name="android:background">@drawable/login_button_style</item>
   </style>
 
+  <style name="category_select_button_style">
+    <item name="android:textColor">#fff</item>
+    <item name="android:layout_margin">5dp</item>
+    <item name="android:layout_width">0dp</item>
+    <item name="android:layout_height">0dp</item>
+    <item name="android:layout_columnWeight">1</item>
+    <item name="android:layout_gravity">fill</item>
+    <item name="android:layout_rowWeight">1</item>
+  </style>
+
 </resources>

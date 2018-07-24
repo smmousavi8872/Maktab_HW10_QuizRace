@@ -24,7 +24,7 @@ public class QuizSchema {
       public static final String COLUMN_ID = "id";
       public static final String UUID = "uuid";
       public static final String QUESTION_TEXT = "question_text";
-      public static final String CATEGORY_ID = "category_id";
+      public static final String CATEGORY = "category";
       public static final String LEVEL = "level";
 
     }

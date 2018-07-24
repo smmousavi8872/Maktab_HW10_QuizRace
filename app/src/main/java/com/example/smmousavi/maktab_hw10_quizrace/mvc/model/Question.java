@@ -4,63 +4,60 @@ import java.util.UUID;
 
 public class Question {
 
-    private UUID mId;
-    private String mText;
-    private int mCategoryId;
-    private int level;
-    private Answer[] mAnswers;
+  private UUID mId;
+  private String mText;
+  private String mCategory;
+  private String level;
 
 
-    public Question(String text) {
-        mId = UUID.randomUUID();
-        mText = text;
+  public Question(String text) {
+    mId = UUID.randomUUID();
+    mText = text;
 
-    }// end of Question()
-
-
-    public UUID getId() {
-        return mId;
-    }// end of getId()
-
-    public void setId(UUID id) {
-        this.mId = id;
-    } // end of setId
+  }// end of Question()
 
 
-    public String getText() {
-        return mText;
-    }// end of getText()
+  public Question(UUID id, String text) {
+    mId = id;
+    mText = text;
+  }
 
 
-    public void setText(String mText) {
-        this.mText = mText;
-    }// end of setText
+  public UUID getId() {
+    return mId;
+  }// end of getId()
 
 
-    public int getCategoryId() {
-        return mCategoryId;
-    }// end of getCategoryId()
+  public void setId(UUID id) {
+    this.mId = id;
+  } // end of setId
 
 
-    public void setCategoryId(int categoryId) {
-        this.mCategoryId = categoryId;
-    }// end of setCategoryId()
+  public String getText() {
+    return mText;
+  }// end of getText()
 
 
-    public Answer[] getAnswers() {
-        return mAnswers;
-    }// end of getAnswers()
+  public void setText(String mText) {
+    this.mText = mText;
+  }// end of setText
 
 
-    public void setAnswers(Answer[] answers) {
-        this.mAnswers = answers;
-    }// end of setAnswers()
+  public String getCategory() {
+    return mCategory;
+  }// end of getCategoryId()
 
-    public int getLevel() {
-        return level;
-    }
 
-    public void setLevel(int level) {
-        this.level = level;
-    }
+  public void setCategory(String categoryId) {
+    this.mCategory = categoryId;
+  }// end of setCategory()
+
+
+  public String getLevel() {
+    return level;
+  }
+
+  public void setLevel(String level) {
+    this.level = level;
+  }
 }

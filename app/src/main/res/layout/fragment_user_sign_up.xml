@@ -3,7 +3,7 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:orientation="vertical"
+  android:background="@drawable/border"
   tools:context="com.example.smmousavi.maktab_hw10_quizrace.mvc.controller.fragments.UserLoginFragment">
 
 
@@ -110,10 +110,10 @@
     android:layout_height="wrap_content"
     android:layout_alignStart="@+id/edt_sign_up_repeat_password"
     android:layout_below="@id/edt_sign_up_repeat_password"
+    android:layout_marginBottom="10dp"
     android:layout_marginTop="25dp"
     android:buttonTint="#f36b00"
     android:text="I Agree to The Terms of Policy"
-    android:layout_marginBottom="10dp"
     android:textColor="#f36b00"/>
 
 
