@@ -13,4 +13,8 @@
   <string name="sport_category_title">Sport</string>
   <string name="technology_category_title">Technology</string>
   <string name="general_category_title">General</string>
+  <string name="quiz_show_specification_category">Category: %1$s</string>
+  <string name="quiz_show_specification_level">Difficulty: %1$s</string>
+  <string name="quiz_show_specification_question_number">Question Number: %1$d</string>
+  <string name="quiz_show_specification_score">Score: %1$d</string>
 </resources>

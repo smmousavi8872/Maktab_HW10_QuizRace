@@ -23,6 +23,7 @@ public class LevelChooseDialogFragment extends DialogFragment {
 
   public static final String ARGS_CATEGORY = "args_category";
   private Button[] difficultyButtons;
+  private AlertDialog dialog;
 
 
   public LevelChooseDialogFragment() {
@@ -54,7 +55,7 @@ public class LevelChooseDialogFragment extends DialogFragment {
     difficultyButtons = new Button[]{easyLevelBtn, moderateLevelBtn, toughLevelBtn};
     setOnDifficultyButtonsClickListener(difficultyButtons);
 
-    AlertDialog dialog = new AlertDialog.Builder(getActivity())
+    dialog = new AlertDialog.Builder(getActivity())
       .setTitle("Choose Difficulty")
       .setNegativeButton(android.R.string.cancel, null)
       .setView(view)
@@ -73,6 +74,8 @@ public class LevelChooseDialogFragment extends DialogFragment {
           String difficulty = button.getTag().toString();
           Intent intent = QuizShowPagerActivity.newIntent(getActivity(), category, difficulty);
           startActivity(intent);
+          dialog.dismiss();
+
         }
       });
     }

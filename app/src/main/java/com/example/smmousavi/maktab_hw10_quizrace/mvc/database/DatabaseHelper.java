@@ -23,7 +23,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     + UserTable.Cols.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
     + UserTable.Cols.UUID + ", "
     + UserTable.Cols.USER_NAME + ", "
-    + UserTable.Cols.PASSWORD
+    + UserTable.Cols.PASSWORD + ", "
+    + UserTable.Cols.TOTAL_SCORE
     + ")";
 
   public static final String CREATE_QUESTION_TABLE = "CREATE TABLE " + QuestionTable.NAME + "("

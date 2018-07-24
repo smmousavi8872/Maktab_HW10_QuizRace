@@ -185,6 +185,7 @@ public class UserSignUpDialogFragment extends DialogFragment {
       public void onClick(View view) {
         User user = new User(username, password);
         Repository.getInstance(getActivity()).addUser(user);
+        Repository.getInstance(getActivity()).setCurrentUser(user);
         Intent intent = CategorySelectionActivity.newIntent(getActivity(), user.getId());
         startActivity(intent);
 

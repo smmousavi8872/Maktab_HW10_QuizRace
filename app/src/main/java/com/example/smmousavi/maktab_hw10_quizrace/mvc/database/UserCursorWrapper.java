@@ -18,8 +18,13 @@ public class UserCursorWrapper extends CursorWrapper {
     String userId = getString(getColumnIndex(UserTable.Cols.UUID));
     String userName = getString(getColumnIndex(UserTable.Cols.USER_NAME));
     String userPassword = getString(getColumnIndex(UserTable.Cols.PASSWORD));
+    long totalScore = getLong(getColumnIndex(UserTable.Cols.TOTAL_SCORE));
 
-    return new User(UUID.fromString(userId), userName, userPassword);
+    User user = new User(UUID.fromString(userId), userName, userPassword);
+    user.setTotalScore(totalScore);
+
+    return user;
+
   }
 
 }
