@@ -76,7 +76,7 @@
     android:layout_below="@+id/edt_sign_up_password"
     android:layout_centerHorizontal="true"
     android:layout_marginTop="50dp"
-    android:background="@drawable/login_button_style"
+    android:background="@drawable/general_button_style"
     android:text="Login"
     android:textColor="#fff"
     android:textSize="19dp"/>

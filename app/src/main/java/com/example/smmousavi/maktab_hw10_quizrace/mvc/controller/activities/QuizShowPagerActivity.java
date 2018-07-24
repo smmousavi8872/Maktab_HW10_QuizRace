@@ -8,7 +8,6 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.example.smmousavi.maktab_hw10_quizrace.R;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.controller.fragments.QuizShowFragment;
@@ -46,13 +45,10 @@ public class QuizShowPagerActivity extends AppCompatActivity {
 
     String category = getIntent().getStringExtra(EXTRA_INTENT_CATEGORY);
     String difficulty = getIntent().getStringExtra(EXTRA_INTENT_DIFFICULTY);
-    Log.i("TAG2", category);
-    Log.i("TAG2", difficulty);
 
 
     viewPager = findViewById(R.id.quiz_show_view_pager);
     questionList = Repository.getInstance(QuizShowPagerActivity.this).getQuestionsList(category, difficulty);
-    Log.i("TAG2", "Question List count is: " + questionList.size());
 
     adapter = new FragmentStatePagerAdapter(getSupportFragmentManager()) {
       @Override
