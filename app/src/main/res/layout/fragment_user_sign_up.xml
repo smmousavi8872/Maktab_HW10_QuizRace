@@ -42,8 +42,7 @@
     android:layout_height="wrap_content"
     android:layout_alignBottom="@id/edt_sign_up_username"
     android:layout_marginBottom="5dp"
-    android:layout_toStartOf="@id/edt_sign_up_username"
-    android:background="@drawable/ic_user"/>
+    android:layout_toStartOf="@id/edt_sign_up_username" />
 
   <TextView
     android:id="@+id/txt_sign_up_password"
@@ -71,8 +70,7 @@
     android:layout_height="wrap_content"
     android:layout_alignBottom="@id/edt_sign_up_password"
     android:layout_marginBottom="5dp"
-    android:layout_toStartOf="@id/edt_sign_up_password"
-    android:background="@drawable/ic_padlock"/>
+    android:layout_toStartOf="@id/edt_sign_up_password" />
 
 
   <TextView
@@ -101,8 +99,7 @@
     android:layout_height="wrap_content"
     android:layout_alignBottom="@id/edt_sign_up_repeat_password"
     android:layout_marginBottom="5dp"
-    android:layout_toStartOf="@id/edt_sign_up_repeat_password"
-    android:background="@drawable/ic_padlock"/>
+    android:layout_toStartOf="@id/edt_sign_up_repeat_password" />
 
   <CheckBox
     android:id="@+id/chk_policy_agreement"

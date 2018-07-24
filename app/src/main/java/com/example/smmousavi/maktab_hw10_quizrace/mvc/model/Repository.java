@@ -129,7 +129,7 @@ public class Repository {
     cursor.close();
     return category;
   }
-
+  
 
   public ContentValues getUserContentValue(User user) {
     ContentValues values = new ContentValues();

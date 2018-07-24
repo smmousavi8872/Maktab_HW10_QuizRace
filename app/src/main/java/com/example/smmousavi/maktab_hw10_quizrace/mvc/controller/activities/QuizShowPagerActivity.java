@@ -26,7 +26,6 @@ public class QuizShowPagerActivity extends AppCompatActivity {
     setContentView(R.layout.activity_quiz_pager_show);
     viewPager = findViewById(R.id.quiz_show_view_pager);
     questionList = Repository.getInstance(QuizShowPagerActivity.this).getQuestions();
-
     adapter = new FragmentStatePagerAdapter(getSupportFragmentManager()) {
       @Override
       public Fragment getItem(int i) {
