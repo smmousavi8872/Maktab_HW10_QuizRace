@@ -13,6 +13,7 @@ public class QuizSchema {
       public static final String UUID = "uuid";
       public static final String USER_NAME = "user_name";
       public static final String PASSWORD = "password";
+      public static final String TOTAL_SCORE = "total_score";
     }
   }
 

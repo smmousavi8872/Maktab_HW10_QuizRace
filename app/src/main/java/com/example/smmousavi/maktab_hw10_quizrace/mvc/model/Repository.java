@@ -25,6 +25,8 @@ public class Repository {
 
   private static Repository instance;
   private SQLiteDatabase database;
+  private User currentUser;
+
 
   private Repository(Context context) {
     DatabaseHelper db = new DatabaseHelper(context); /* this must be always at the first line */
@@ -83,6 +85,14 @@ public class Repository {
     }
   }// end of generateQuestions()
 
+
+  public User getCurrentUser() {
+    return currentUser;
+  }
+
+  public void setCurrentUser(User currentUser) {
+    this.currentUser = currentUser;
+  }
 
   public Question getQuestion(UUID questionId) {
     String whereClause = QuestionTable.Cols.UUID + " = ? ";
@@ -250,13 +260,14 @@ public class Repository {
     cursor.close();
     return category;
   }
-  
+
 
   public ContentValues getUserContentValue(User user) {
     ContentValues values = new ContentValues();
     values.put(UserTable.Cols.UUID, user.getId().toString());
     values.put(UserTable.Cols.USER_NAME, user.getName());
     values.put(UserTable.Cols.PASSWORD, user.getPassword());
+    values.put(UserTable.Cols.TOTAL_SCORE, user.getTotalScore());
 
     return values;
   }// end of getUserContentValue()

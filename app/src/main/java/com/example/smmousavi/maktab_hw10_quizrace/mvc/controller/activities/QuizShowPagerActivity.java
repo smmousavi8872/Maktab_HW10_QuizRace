@@ -28,6 +28,7 @@ public class QuizShowPagerActivity extends AppCompatActivity {
   private ViewPager viewPager;
   private FragmentStatePagerAdapter adapter;
   private List<Question> questionList;
+  public static long scoreSum; // this field belogs with Fragment of this Activity
 
 
   public static Intent newIntent(Context orgin, String category, String difficulty) {
