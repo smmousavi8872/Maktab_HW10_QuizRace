@@ -46,6 +46,41 @@
 
   </LinearLayout>
 
+
+  <RelativeLayout
+    android:layout_below="@+id/quiz_show_specifications_layout"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_above="@+id/txt_question"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center">
+
+
+    <ProgressBar
+      android:id="@+id/progress_bar_circle"
+      style="?android:attr/progressBarStyleHorizontal"
+      android:layout_width="180dp"
+      android:layout_height="180dp"
+      android:layout_centerInParent="true"
+      android:background="@drawable/drawable_circle_dark_blue"
+      android:indeterminate="false"
+      android:max="100"
+      android:progress="100"
+      android:progressDrawable="@drawable/drawable_circle_yellow"
+      android:rotation="-90"/>
+
+
+    <TextView
+      android:id="@+id/txt_time_counter"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_centerInParent="true"
+      android:text="60"
+      android:textColor="@color/app_orange_color"
+      android:textSize="50sp"/>
+
+  </RelativeLayout>
+
   <TextView
     android:id="@+id/txt_question"
     android:layout_width="match_parent"

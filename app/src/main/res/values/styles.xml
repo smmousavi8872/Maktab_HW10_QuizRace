@@ -15,7 +15,7 @@
     <item name="android:layout_height">wrap_content</item>
     <item name="android:layout_weight">.5</item>
     <item name="android:layout_margin">3dp</item>
-    <item name="android:background">@drawable/login_button_style</item>
+    <item name="android:background">@drawable/general_button_style</item>
   </style>
 
   <style name="category_select_button_style">
