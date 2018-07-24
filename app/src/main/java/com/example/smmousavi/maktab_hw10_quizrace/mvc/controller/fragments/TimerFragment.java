@@ -48,7 +48,7 @@ public class TimerFragment extends Fragment {
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
-    View view = inflater.inflate(R.layout.fragment_quiz_show, container, false);
+    View view = inflater.inflate(R.layout.fragment_timer, container, false);
     initViews(view);
     return view;
   }
@@ -98,7 +98,6 @@ public class TimerFragment extends Fragment {
         textViewTime.setText(sTimeFormatter(TIME_COUNT_MILLIES));
         setProgressBarValues();
         //Send message to change question
-        send();
         timerStatus = TimerStatus.STOPPED;
       }
 
