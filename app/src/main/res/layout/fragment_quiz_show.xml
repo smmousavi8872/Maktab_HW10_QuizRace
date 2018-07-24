@@ -46,16 +46,6 @@
 
   </LinearLayout>
 
-
-  <FrameLayout
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_above="@id/txt_question"
-      android:layout_below="@id/quiz_show_specifications_layout"
-      android:id="@+id/timerContainer">
-
-  </FrameLayout>
-
   <TextView
     android:id="@+id/txt_question"
     android:layout_width="match_parent"

@@ -104,10 +104,6 @@ public class QuizShowFragment extends Fragment {
 
         setOnAnswerButtonsClickListener(answerButtons);
 
-        TimerFragment timerFragment = TimerFragment.newInstance();
-        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-        fragmentManager.beginTransaction().add(R.id.timerContainer, timerFragment).commit();
-
         return view;
     }//end of onCreateView()
 
