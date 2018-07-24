@@ -78,11 +78,11 @@ public class CategorySelectionFragment extends Fragment {
     totalScoreTxt.setText(getString(R.string.total_score_title, currentUser.getTotalScore()));
     topScoreTxt.setText(getString(R.string.top_score_title, currentUser.getTotalScore()));
 
+
     setOnCategoryButtonsListener(categoryButtons);
 
     return view;
   }
-
 
   public Button createCategoryButton(Category category) {
     return null;

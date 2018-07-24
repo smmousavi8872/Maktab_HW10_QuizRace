@@ -16,7 +16,6 @@ public class QuizSchema {
     }
   }
 
-
   public static final class QuestionTable {
     public static final String NAME = "questions";
 

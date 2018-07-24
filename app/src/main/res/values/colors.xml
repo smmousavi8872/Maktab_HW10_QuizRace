@@ -4,4 +4,6 @@
   <color name="colorPrimaryDark">#303F9F</color>
   <color name="colorAccent">#FF4081</color>
   <color name="app_orange_color">#f36b00</color>
+  <color name="colorBackground"></color>
+  <color name="colorYellow"></color>
 </resources>

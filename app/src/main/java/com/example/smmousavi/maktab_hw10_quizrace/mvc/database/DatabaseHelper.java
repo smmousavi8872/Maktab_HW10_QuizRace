@@ -9,11 +9,14 @@ import com.example.smmousavi.maktab_hw10_quizrace.mvc.database.QuizSchema.Catego
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.database.QuizSchema.QuestionTable;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.database.QuizSchema.UserAnswerTable;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.database.QuizSchema.UserTable;
+import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.QuestionBank;
 
 public class DatabaseHelper extends SQLiteOpenHelper {
 
+  Context ctx;
   public DatabaseHelper(Context context) {
     super(context, QuizSchema.DATABASE_NAME, null, QuizSchema.DATABASE_VERSION);
+    this.ctx=context;
   }
 
   public static final String CREATE_USER_TABLE = "CREATE TABLE " + UserTable.NAME + "("
@@ -68,6 +71,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     sqLiteDatabase.execSQL(CREATE_CATEGORY_TABLE);
     sqLiteDatabase.execSQL(CREATE_ANSWER_TABLE);
     sqLiteDatabase.execSQL(CREATE_USER_ANSWERS_TABLE);
+    //QuestionBank.getInstance(ctx).intialized();
   }
 
   @Override
