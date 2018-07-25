@@ -1,6 +1,7 @@
 package com.example.smmousavi.maktab_hw10_quizrace.mvc.controller.fragments;
 
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v4.app.Fragment;
@@ -65,13 +66,13 @@ public class TimerFragment extends Fragment {
   }
 
   //method to reset count down timer
-  private void reset() {
+  public void reset() {
     stopCountDownTimer();
     startCountDownTimer();
   }
 
   //method to start and stop count down timer
-  public void startOrStop() {
+  private void startOrStop() {
     if (timerStatus == TimerStatus.STOPPED) {
       setProgressBarValues();
       timerStatus = TimerStatus.STARTED;
@@ -99,6 +100,7 @@ public class TimerFragment extends Fragment {
         setProgressBarValues();
         //Send message to change question
         timerStatus = TimerStatus.STOPPED;
+        send();
       }
 
     }.start();
@@ -127,13 +129,13 @@ public class TimerFragment extends Fragment {
   }
 
   @Override
-  public void onAttachFragment(Fragment childFragment) {
-    super.onAttachFragment(childFragment);
-
+  public void onAttach(Activity activity) {
+    super.onAttach(activity);
     try {
-      mCallback = (TimerZero) childFragment;
+      mCallback = (TimerZero) activity;
     } catch (ClassCastException e) {
-      throw new ClassCastException(childFragment.toString() + " must implement TimerZero");
+      throw new ClassCastException(activity.toString()
+              + " must implement TextClicked");
     }
   }
 
@@ -147,4 +149,9 @@ public class TimerFragment extends Fragment {
     super.onDetach();
   }
 
+  @Override
+  public void onDestroy() {
+    super.onDestroy();
+    countDownTimer.cancel();
+  }
 }

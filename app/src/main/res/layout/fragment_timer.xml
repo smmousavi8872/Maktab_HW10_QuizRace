@@ -14,8 +14,8 @@
     android:layout_centerInParent="true"
     android:background="@drawable/drawable_circle_dark_blue"
     android:indeterminate="false"
-    android:max="100"
-    android:progress="100"
+    android:max="1400"
+    android:progress="140"
     android:progressDrawable="@drawable/drawable_circle_yellow"
     android:rotation="-90"/>
 
@@ -27,6 +27,6 @@
     android:layout_centerInParent="true"
     android:text="60"
     android:textColor="@color/app_orange_color"
-    android:textSize="50sp"/>
+    android:textSize="60sp"/>
 
 </RelativeLayout>
