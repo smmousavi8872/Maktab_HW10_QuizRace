@@ -14,7 +14,7 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.smmousavi.maktab_hw10_quizrace.R;
-import com.example.smmousavi.maktab_hw10_quizrace.mvc.controller.activities.QuizShowPagerActivity;
+import com.example.smmousavi.maktab_hw10_quizrace.mvc.controller.activities.QuizShowActivity;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -72,7 +72,7 @@ public class LevelChooseDialogFragment extends DialogFragment {
         public void onClick(View view) {
           String category = getArguments().getString(ARGS_CATEGORY);
           String difficulty = button.getTag().toString();
-          Intent intent = QuizShowPagerActivity.newIntent(getActivity(), category, difficulty);
+          Intent intent = QuizShowActivity.newIntent(getActivity(), category, difficulty);
           startActivity(intent);
           dialog.dismiss();
 

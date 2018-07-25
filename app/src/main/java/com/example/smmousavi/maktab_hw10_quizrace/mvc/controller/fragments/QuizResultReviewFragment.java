@@ -4,9 +4,7 @@ package com.example.smmousavi.maktab_hw10_quizrace.mvc.controller.fragments;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,7 +17,6 @@ import com.example.smmousavi.maktab_hw10_quizrace.mvc.controller.activities.Quiz
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.Answer;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.Question;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.Repository;
-import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.User;
 
 import java.util.List;
 import java.util.UUID;
@@ -27,34 +24,24 @@ import java.util.UUID;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class QuizShowFragment extends Fragment {
 
 
-  public static final String ARGS_QUESTION_CATEGORY = "args_question_category";
-  public static final String ARGS_QUESTION_LEVEL = "args_question_level";
+public class QuizResultReviewFragment extends Fragment {
+
+  public static final String ARGS_QUESTION_ID = "args_question_id";
+
+
 
   private TextView mCategoryTxt;
   private TextView mDifficultyTxt;
   private TextView mQuestionNumberTxt;
   private TextView mScoreTxt;
-  private TextView mQuestionTextViewTxt;
+  private TextView mQuestionViewTxt;
   private Button[] answerButtons;
-  private List<Question> mQuestionList;
-  private List<Answer> mAnswers;
-  private String mQuestionCategory;
-  private String mQuestionDifficulty;
-  private UUID mCurrentQuestionId;
-  private int mCurrentQuesionNumber;
   private Question mCurrentQuestion;
-  private User mCurrentUser;
-
-
-  //Count donw class fields
-  private enum TimerStatus {
-    STARTED,
-    STOPPED
-  }
-
+  private UUID mCurrentQuestionId;
+  private List<Answer> mAnswers;
+  private View view;
   private static final long TIME_COUNT_MILLIES = 15000;
 
   private TimerStatus timerStatus = TimerStatus.STOPPED;
@@ -64,23 +51,25 @@ public class QuizShowFragment extends Fragment {
   private CountDownTimer countDownTimer;
 
 
-  public static QuizShowFragment newInstance(String category, String difficulty) {
+  public static QuizResultReviewFragment newInstance(UUID questionId) {
 
     Bundle args = new Bundle();
-    args.putString(ARGS_QUESTION_CATEGORY, category);
-    args.putString(ARGS_QUESTION_LEVEL, difficulty);
-    Log.i("TEST1", "QuizShowFragment newInstance() Category: " + category + "Difficulty: " + difficulty);
+    args.putSerializable(ARGS_QUESTION_ID, questionId);
 
-    QuizShowFragment fragment = new QuizShowFragment();
+    QuizResultReviewFragment fragment = new QuizResultReviewFragment();
     fragment.setArguments(args);
     return fragment;
   }// end of newInstance()
 
-
-  public QuizShowFragment() {
+  public QuizResultReviewFragment() {
     // Required empty public constructor
   }
 
+  @Override
+  public void onResume() {
+    super.onResume();
+
+  } // end of onResume()
 
   @Override
   public void onStart() {
@@ -88,17 +77,13 @@ public class QuizShowFragment extends Fragment {
     startOrStop();
   }
 
-
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    mQuestionCategory = getArguments().getString(ARGS_QUESTION_CATEGORY);
-    mQuestionDifficulty = getArguments().getString(ARGS_QUESTION_LEVEL);
-    mQuestionList = Repository.getInstance(getActivity()).getQuestionsList(mQuestionCategory, mQuestionDifficulty);
-    Log.i("TEST1", "QuizShowFragment onCreate() Category: " + mQuestionCategory + " Difficulty: " + mQuestionDifficulty + " QuestionList size is: " + mQuestionList.size());
-    mCurrentUser = Repository.getInstance(getActivity()).getCurrentUser();
-  }// end of oncreate()
-
+    mCurrentQuestionId = (UUID) getArguments().getSerializable(ARGS_QUESTION_ID);
+    mCurrentQuestion = Repository.getInstance(getActivity()).getQuestion(mCurrentQuestionId);
+    mAnswers = Repository.getInstance(getActivity()).getAnswersList(mCurrentQuestionId);
+  }
 
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -106,7 +91,14 @@ public class QuizShowFragment extends Fragment {
     // Inflate the layout for this fragment
     View view = inflater.inflate(R.layout.fragment_quiz_show, container, false);
 
-    findViews(view);
+    String category = mCurrentQuestion.getCategory();
+    String difficulty = mCurrentQuestion.getLevel();
+
+    mCategoryTxt = view.findViewById(R.id.txt_category);
+    mDifficultyTxt = view.findViewById(R.id.txt_difficulty);
+    mQuestionNumberTxt = view.findViewById(R.id.txt_question_number);
+    mQuestionViewTxt = view.findViewById(R.id.txt_question);
+    initViews(view);
 
     answerButtons = new Button[]{
       view.findViewById(R.id.answer_one),
@@ -114,43 +106,45 @@ public class QuizShowFragment extends Fragment {
       view.findViewById(R.id.answer_three),
       view.findViewById(R.id.answer_four)};
 
-    mCategoryTxt.setText(getString(R.string.quiz_show_specification_category, mQuestionCategory));
-    mDifficultyTxt.setText(getString(R.string.quiz_show_specification_level, mQuestionDifficulty));
+    mCategoryTxt.setText(getString(R.string.quiz_show_specification_category, category));
+    mDifficultyTxt.setText(getString(R.string.quiz_show_specification_level, difficulty));
+    mScoreTxt = view.findViewById(R.id.txt_score);
+    mScoreTxt.setText(getString(R.string.quiz_show_specification_score, QuizResultReviewPagerActivity.scoreSum));
 
-    updateAfterUserAnswered();
+    mQuestionViewTxt.setText(mCurrentQuestion.getText());
+
+    for (int i = 0; i < answerButtons.length; i++) {
+      answerButtons[i].setText(mAnswers.get(i).getText());
+      answerButtons[i].setTag("" + mAnswers.get(i).isTrue());
+    }
+
+    setOnAnswerButtonsClickListener(answerButtons);
 
     return view;
   }//end of onCreateView()
 
 
-  private void findViews(View view) {
-    mCategoryTxt = view.findViewById(R.id.txt_category);
-    mDifficultyTxt = view.findViewById(R.id.txt_difficulty);
-    mQuestionNumberTxt = view.findViewById(R.id.txt_question_number);
-    mScoreTxt = view.findViewById(R.id.txt_score);
-    mQuestionTextViewTxt = view.findViewById(R.id.txt_question);
-    progressBarCircle = view.findViewById(R.id.progress_bar_circle);
-    textViewTime = view.findViewById(R.id.txt_time_counter);
-  }// end of findViews()
-
-
-  private void updateAfterUserAnswered() {
-    mCurrentQuestion = mQuestionList.get(mCurrentQuesionNumber);
-    mCurrentQuestionId = mCurrentQuestion.getId();
-    mAnswers = Repository.getInstance(getActivity()).getAnswersList(mCurrentQuestionId);
-    // this must be modified
-    mScoreTxt.setText(getString(R.string.quiz_show_specification_score, QuizResultReviewPagerActivity.scoreSum));
-    mQuestionTextViewTxt.setText(mCurrentQuestion.getText());
-    for (int i = 0; i < answerButtons.length; i++) {
-      answerButtons[i].setText(mAnswers.get(i).getText());
-      answerButtons[i].setTag("" + mAnswers.get(i).isTrue());
+  public void setOnAnswerButtonsClickListener(Button[] buttons) {
+    for (final Button button : buttons) {
+      button.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+          boolean isTrueAnswer = Boolean.parseBoolean(button.getTag().toString());
+          calcScore(isTrueAnswer);
+          mScoreTxt.setText(getString(R.string.quiz_show_specification_score, QuizResultReviewPagerActivity.scoreSum));
+        }
+      });
     }
-  }// end of updateAfterUserAnswered()
+  }
 
 
-  private void setOnAnswerButtonsClickListener() {
+  public void calcScore(boolean isTrueAnswer) {
+    if (isTrueAnswer)
+      QuizResultReviewPagerActivity.scoreSum += 30;
 
-  }// end of setOnAnswerButtonsClickListener()
+    else
+      QuizResultReviewPagerActivity.scoreSum -= 10;
+  }
 
   /*
    *
@@ -158,8 +152,12 @@ public class QuizShowFragment extends Fragment {
    *
    */
 
+  private void initViews(View view) {
+    progressBarCircle = view.findViewById(R.id.progress_bar_circle);
+    textViewTime = view.findViewById(R.id.txt_time_counter);
+  }
 
-  private void resetTimer() {
+  private void reset() {
     stopCountDownTimer();
     startCountDownTimer();
   }
@@ -193,26 +191,10 @@ public class QuizShowFragment extends Fragment {
         setProgressBarValues();
         //Send message to change question
         timerStatus = TimerStatus.STOPPED;
-
-        if (mCurrentQuesionNumber < mQuestionList.size()) {
-          resetTimer();
-          mCurrentQuesionNumber++;
-          updateAfterUserAnswered();
-
-        } else {
-          finishQuiz();
-
-        }
       }
 
     }.start();
     countDownTimer.start();
-  }
-
-
-  private void finishQuiz() {
-    //temperory actioon, must be modified
-    Snackbar.make(getView(), "Quiz Finished", Snackbar.LENGTH_SHORT).show();
   }
 
   //method to stop count down timer

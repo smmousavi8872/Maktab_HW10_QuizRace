@@ -85,33 +85,36 @@ public class Repository {
     }
   }// end of generateQuestions()
 
-    public void pushToDb(String text, int trueNumber, List<String> answersText, String level, String category) {
-        Question question = new Question(text);
-        question.setCategory(category);
-        question.setLevel(level);
-        addQuestion(question);
-        int count = 1;
-        for (String answerText : answersText) {
-            Answer answer;
-            if (trueNumber == count) {
-                answer = new Answer(answerText, true);
-            } else {
-                answer = new Answer(answerText, false);
-            }
-            answer.setRelatedQuestionId(question.getId());
-            count++;
-            addAnswer(answer);
-        }
+
+  public void pushToDb(String text, int trueNumber, List<String> answersText, String level, String category) {
+    Question question = new Question(text);
+    question.setCategory(category);
+    question.setLevel(level);
+    addQuestion(question);
+    int count = 1;
+    for (String answerText : answersText) {
+      Answer answer;
+      if (trueNumber == count) {
+        answer = new Answer(answerText, true);
+      } else {
+        answer = new Answer(answerText, false);
+      }
+      answer.setRelatedQuestionId(question.getId());
+      count++;
+      addAnswer(answer);
     }
+  }
 
 
   public User getCurrentUser() {
     return currentUser;
   }
 
+
   public void setCurrentUser(User currentUser) {
     this.currentUser = currentUser;
   }
+
 
   public Question getQuestion(UUID questionId) {
     String whereClause = QuestionTable.Cols.UUID + " = ? ";
