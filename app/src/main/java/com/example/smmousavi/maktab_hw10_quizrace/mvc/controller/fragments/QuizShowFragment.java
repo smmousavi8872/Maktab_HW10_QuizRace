@@ -194,9 +194,8 @@ public class QuizShowFragment extends Fragment {
         //Send message to change question
         timerStatus = TimerStatus.STOPPED;
 
-        if (mCurrentQuesionNumber < mQuestionList.size()) {
+        if (++mCurrentQuesionNumber < mQuestionList.size()) {
           resetTimer();
-          mCurrentQuesionNumber++;
           updateAfterUserAnswered();
 
         } else {
