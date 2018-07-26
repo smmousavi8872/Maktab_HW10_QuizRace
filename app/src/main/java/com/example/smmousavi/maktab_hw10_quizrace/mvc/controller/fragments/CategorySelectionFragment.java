@@ -35,6 +35,7 @@ public class CategorySelectionFragment extends Fragment {
   private Button technologyCategoryBtn;
   private Button generalCategoryBtn;
   Button[] categoryButtons;
+  private UUID userId;
 
   public CategorySelectionFragment() {
     // Required empty public constructor
@@ -51,12 +52,23 @@ public class CategorySelectionFragment extends Fragment {
     return fragment;
   }
 
+
+  @Override
+  public void onResume() {
+    super.onResume();
+    updateScore();
+  }
+
+  private void updateScore() {
+    currentUser = Repository.getInstance(getActivity()).getUser(userId);
+    totalScoreTxt.setText(getString(R.string.total_score_title, currentUser.getTotalScore()));
+    topScoreTxt.setText(getString(R.string.top_score_title, currentUser.getTotalScore()));
+  }
+
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    UUID userId = (UUID) getArguments().getSerializable(ARGS_USER_ID);
-    currentUser = Repository.getInstance(getActivity()).getUser(userId);
-
+    userId = (UUID) getArguments().getSerializable(ARGS_USER_ID);
   }
 
   @Override
@@ -72,11 +84,11 @@ public class CategorySelectionFragment extends Fragment {
       sportCategoryBtn = view.findViewById(R.id.btn_sports_category),
       technologyCategoryBtn = view.findViewById(R.id.btn_technology_category),
       generalCategoryBtn = view.findViewById(R.id.btn_general_category)
+
     };
+    updateScore();
 
     usernameTxt.setText(getString(R.string.hi_user_title, currentUser.getName()));
-    totalScoreTxt.setText(getString(R.string.total_score_title, currentUser.getTotalScore()));
-    topScoreTxt.setText(getString(R.string.top_score_title, currentUser.getTotalScore()));
 
 
     setOnCategoryButtonsListener(categoryButtons);

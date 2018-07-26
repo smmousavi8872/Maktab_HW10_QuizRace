@@ -9,7 +9,7 @@
     android:roundIcon="@mipmap/ic_launcher_round"
     android:supportsRtl="true"
     android:theme="@style/AppTheme">
-    <activity android:name=".mvc.controller.activities.QuizShowPagerActivity">
+    <activity android:name=".mvc.controller.activities.QuizResultReviewPagerActivity">
     </activity>
     <activity android:name=".mvc.controller.activities.UserLoginActivity">
       <intent-filter>
@@ -19,6 +19,8 @@
       </intent-filter>
     </activity>
     <activity android:name=".mvc.controller.activities.CategorySelectionActivity">
+    </activity>
+    <activity android:name=".mvc.controller.activities.QuizShowActivity">
     </activity>
   </application>
 

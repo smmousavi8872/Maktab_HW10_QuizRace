@@ -5,20 +5,18 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.smmousavi.maktab_hw10_quizrace.R;
-import com.example.smmousavi.maktab_hw10_quizrace.mvc.controller.fragments.QuizShowFragment;
-import com.example.smmousavi.maktab_hw10_quizrace.mvc.controller.fragments.TimerFragment;
+import com.example.smmousavi.maktab_hw10_quizrace.mvc.controller.fragments.QuizResultReviewFragment;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.Question;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.Repository;
 
 import java.util.List;
 
-public class QuizShowPagerActivity extends AppCompatActivity {
+public class QuizResultReviewPagerActivity extends AppCompatActivity {
 
   public static final String EXTRA_INTENT_CATEGORY =
     "com.example.smmousavi.maktab_hw10_quizrace.mvc.controller.activities.extra_intent_category";
@@ -33,7 +31,7 @@ public class QuizShowPagerActivity extends AppCompatActivity {
 
 
   public static Intent newIntent(Context orgin, String category, String difficulty) {
-    Intent intent = new Intent(orgin, QuizShowPagerActivity.class);
+    Intent intent = new Intent(orgin, QuizResultReviewPagerActivity.class);
     intent.putExtra(EXTRA_INTENT_CATEGORY, category);
     intent.putExtra(EXTRA_INTENT_DIFFICULTY, difficulty);
 
@@ -50,13 +48,13 @@ public class QuizShowPagerActivity extends AppCompatActivity {
 
 
     viewPager = findViewById(R.id.quiz_show_view_pager);
-    questionList = Repository.getInstance(QuizShowPagerActivity.this).getQuestionsList(category, difficulty);
+    questionList = Repository.getInstance(QuizResultReviewPagerActivity.this).getQuestionsList(category, difficulty);
 
     adapter = new FragmentStatePagerAdapter(getSupportFragmentManager()) {
       @Override
       public Fragment getItem(int i) {
         Question q = questionList.get(i);
-        return QuizShowFragment.newInstance(q.getId());
+        return QuizResultReviewFragment.newInstance(q.getId());
       }
 
       @Override
@@ -84,6 +82,8 @@ public class QuizShowPagerActivity extends AppCompatActivity {
 
       }
     });
+
+
   }
 
 }
