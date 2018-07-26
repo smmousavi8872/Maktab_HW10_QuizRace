@@ -5,12 +5,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 
 import com.example.smmousavi.maktab_hw10_quizrace.R;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.controller.fragments.QuizShowFragment;
+import com.example.smmousavi.maktab_hw10_quizrace.mvc.controller.fragments.TimerFragment;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.Question;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.Repository;
 
@@ -82,8 +84,6 @@ public class QuizShowPagerActivity extends AppCompatActivity {
 
       }
     });
-
-
   }
 
 }

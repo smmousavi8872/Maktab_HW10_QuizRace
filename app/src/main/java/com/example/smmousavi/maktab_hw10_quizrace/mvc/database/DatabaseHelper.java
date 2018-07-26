@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.renderscript.ScriptC;
 
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.database.QuizSchema.AnswerTable;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.database.QuizSchema.CategoryTable;
@@ -94,19 +95,58 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     public void intialized() {
         pushToDb(Science.Easy.Q1.text, Science.Easy.Q1.trueNumber, Science.Easy.Q1.answersText, Science.Easy.text, Science.text);
         pushToDb(Science.Easy.Q2.text, Science.Easy.Q2.trueNumber, Science.Easy.Q2.answersText, Science.Easy.text, Science.text);
+        pushToDb(Science.Easy.Q3.text, Science.Easy.Q3.trueNumber, Science.Easy.Q3.answersText, Science.Easy.text, Science.text);
+        pushToDb(Science.Easy.Q4.text, Science.Easy.Q4.trueNumber, Science.Easy.Q4.answersText, Science.Easy.text, Science.text);
+        pushToDb(Science.Easy.Q5.text, Science.Easy.Q5.trueNumber, Science.Easy.Q5.answersText, Science.Easy.text, Science.text);
+
         pushToDb(Science.Moderate.Q1.text, Science.Moderate.Q1.trueNumber, Science.Moderate.Q1.answersText, Science.Moderate.text, Science.text);
         pushToDb(Science.Moderate.Q2.text, Science.Moderate.Q2.trueNumber, Science.Moderate.Q2.answersText, Science.Moderate.text, Science.text);
+        pushToDb(Science.Moderate.Q3.text, Science.Moderate.Q3.trueNumber, Science.Moderate.Q3.answersText, Science.Moderate.text, Science.text);
+        pushToDb(Science.Moderate.Q4.text, Science.Moderate.Q4.trueNumber, Science.Moderate.Q4.answersText, Science.Moderate.text, Science.text);
+        pushToDb(Science.Moderate.Q5.text, Science.Moderate.Q5.trueNumber, Science.Moderate.Q5.answersText, Science.Moderate.text, Science.text);
+
         pushToDb(Science.Tough.Q1.text, Science.Tough.Q1.trueNumber, Science.Tough.Q1.answersText, Science.Tough.text, Science.text);
+        pushToDb(Science.Tough.Q2.text, Science.Tough.Q2.trueNumber, Science.Tough.Q2.answersText, Science.Tough.text, Science.text);
+        pushToDb(Science.Tough.Q3.text, Science.Tough.Q3.trueNumber, Science.Tough.Q3.answersText, Science.Tough.text, Science.text);
+        pushToDb(Science.Tough.Q4.text, Science.Tough.Q4.trueNumber, Science.Tough.Q4.answersText, Science.Tough.text, Science.text);
+        pushToDb(Science.Tough.Q5.text, Science.Tough.Q5.trueNumber, Science.Tough.Q5.answersText, Science.Tough.text, Science.text);
+
         pushToDb(Sport.Easy.Q1.text, Sport.Easy.Q1.trueNumber, Sport.Easy.Q1.answersText, Sport.Easy.text, Sport.text);
         pushToDb(Sport.Easy.Q2.text, Sport.Easy.Q2.trueNumber, Sport.Easy.Q2.answersText, Sport.Easy.text, Sport.text);
+        pushToDb(Sport.Easy.Q3.text, Sport.Easy.Q3.trueNumber, Sport.Easy.Q3.answersText, Sport.Easy.text, Sport.text);
+        pushToDb(Sport.Easy.Q4.text, Sport.Easy.Q4.trueNumber, Sport.Easy.Q4.answersText, Sport.Easy.text, Sport.text);
+        pushToDb(Sport.Easy.Q5.text, Sport.Easy.Q5.trueNumber, Sport.Easy.Q5.answersText, Sport.Easy.text, Sport.text);
+
         pushToDb(Sport.Moderate.Q1.text, Sport.Moderate.Q1.trueNumber, Sport.Moderate.Q1.answersText, Sport.Moderate.text, Sport.text);
         pushToDb(Sport.Moderate.Q2.text, Sport.Moderate.Q2.trueNumber, Sport.Moderate.Q2.answersText, Sport.Moderate.text, Sport.text);
+        pushToDb(Sport.Moderate.Q3.text, Sport.Moderate.Q3.trueNumber, Sport.Moderate.Q3.answersText, Sport.Moderate.text, Sport.text);
+        pushToDb(Sport.Moderate.Q4.text, Sport.Moderate.Q4.trueNumber, Sport.Moderate.Q4.answersText, Sport.Moderate.text, Sport.text);
+        pushToDb(Sport.Moderate.Q5.text, Sport.Moderate.Q5.trueNumber, Sport.Moderate.Q5.answersText, Sport.Moderate.text, Sport.text);
+
         pushToDb(Sport.Tough.Q1.text, Sport.Tough.Q1.trueNumber, Sport.Tough.Q1.answersText, Sport.Tough.text, Sport.text);
-        pushToDb(Technology.Easy.Q1.text,Technology.Easy.Q1.trueNumber,Technology.Easy.Q1.answersText,Technology.Easy.text,Technology.text);
-        pushToDb(Technology.Easy.Q2.text,Technology.Easy.Q2.trueNumber,Technology.Easy.Q2.answersText,Technology.Easy.text,Technology.text);
-        pushToDb(Technology.Moderate.Q1.text,Technology.Moderate.Q1.trueNumber,Technology.Moderate.Q1.answersText,Technology.Moderate.text,Technology.text);
-        pushToDb(Technology.Moderate.Q2.text,Technology.Moderate.Q2.trueNumber,Technology.Moderate.Q2.answersText,Technology.Moderate.text,Technology.text);
-        pushToDb(Technology.Tough.Q1.text, Technology.Tough.Q1.trueNumber, Technology.Tough.Q1.answersText, Technology.Tough.text,Technology.text);
+        pushToDb(Sport.Tough.Q2.text, Sport.Tough.Q2.trueNumber, Sport.Tough.Q2.answersText, Sport.Tough.text, Sport.text);
+        pushToDb(Sport.Tough.Q3.text, Sport.Tough.Q3.trueNumber, Sport.Tough.Q3.answersText, Sport.Tough.text, Sport.text);
+        pushToDb(Sport.Tough.Q4.text, Sport.Tough.Q4.trueNumber, Sport.Tough.Q4.answersText, Sport.Tough.text, Sport.text);
+        pushToDb(Sport.Tough.Q5.text, Sport.Tough.Q5.trueNumber, Sport.Tough.Q5.answersText, Sport.Tough.text, Sport.text);
+
+        pushToDb(Technology.Easy.Q1.text, Technology.Easy.Q1.trueNumber, Technology.Easy.Q1.answersText, Technology.Easy.text, Technology.text);
+        pushToDb(Technology.Easy.Q2.text, Technology.Easy.Q2.trueNumber, Technology.Easy.Q2.answersText, Technology.Easy.text, Technology.text);
+        pushToDb(Technology.Easy.Q3.text, Technology.Easy.Q3.trueNumber, Technology.Easy.Q3.answersText, Technology.Easy.text, Technology.text);
+        pushToDb(Technology.Easy.Q4.text, Technology.Easy.Q4.trueNumber, Technology.Easy.Q4.answersText, Technology.Easy.text, Technology.text);
+        pushToDb(Technology.Easy.Q5.text, Technology.Easy.Q5.trueNumber, Technology.Easy.Q5.answersText, Technology.Easy.text, Technology.text);
+
+        pushToDb(Technology.Moderate.Q1.text, Technology.Moderate.Q1.trueNumber, Technology.Moderate.Q1.answersText, Technology.Moderate.text, Technology.text);
+        pushToDb(Technology.Moderate.Q2.text, Technology.Moderate.Q2.trueNumber, Technology.Moderate.Q2.answersText, Technology.Moderate.text, Technology.text);
+        pushToDb(Technology.Moderate.Q3.text, Technology.Moderate.Q3.trueNumber, Technology.Moderate.Q3.answersText, Technology.Moderate.text, Technology.text);
+        pushToDb(Technology.Moderate.Q4.text, Technology.Moderate.Q4.trueNumber, Technology.Moderate.Q4.answersText, Technology.Moderate.text, Technology.text);
+        pushToDb(Technology.Moderate.Q5.text, Technology.Moderate.Q5.trueNumber, Technology.Moderate.Q5.answersText, Technology.Moderate.text, Technology.text);
+
+        pushToDb(Technology.Tough.Q1.text, Technology.Tough.Q1.trueNumber, Technology.Tough.Q1.answersText, Technology.Tough.text, Technology.text);
+        pushToDb(Technology.Tough.Q2.text, Technology.Tough.Q2.trueNumber, Technology.Tough.Q2.answersText, Technology.Tough.text, Technology.text);
+        pushToDb(Technology.Tough.Q3.text, Technology.Tough.Q3.trueNumber, Technology.Tough.Q3.answersText, Technology.Tough.text, Technology.text);
+        pushToDb(Technology.Tough.Q4.text, Technology.Tough.Q4.trueNumber, Technology.Tough.Q4.answersText, Technology.Tough.text, Technology.text);
+        pushToDb(Technology.Tough.Q5.text, Technology.Tough.Q5.trueNumber, Technology.Tough.Q5.answersText, Technology.Tough.text, Technology.text);
+
     }
 
     public void pushToDb(String text, int trueNumber, List<String> answersText, String level, String category) {

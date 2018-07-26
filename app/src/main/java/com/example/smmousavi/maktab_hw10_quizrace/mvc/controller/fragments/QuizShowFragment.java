@@ -74,7 +74,6 @@ public class QuizShowFragment extends Fragment {
   @Override
   public void onResume() {
     super.onResume();
-
   } // end of onResume()
 
   @Override
