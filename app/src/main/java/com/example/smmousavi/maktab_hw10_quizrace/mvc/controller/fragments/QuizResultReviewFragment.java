@@ -19,6 +19,7 @@ import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.Answer;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.AnsweredQuestion;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.Question;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.Repository;
+import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.User;
 
 import java.util.List;
 import java.util.UUID;
@@ -30,7 +31,7 @@ import java.util.UUID;
 
 public class QuizResultReviewFragment extends Fragment {
 
-  public static final String ARGS_ANSWERED_QUESTION_ID = "args_answered_question_id";
+  public static final String ARGS_QUESTION_ID = "args_answered_question_id";
   public static final String ARGS_QUESTION_NUMBER = "args_question_number";
 
   private TextView mCategoryTxt;
@@ -43,16 +44,21 @@ public class QuizResultReviewFragment extends Fragment {
   private UUID mAnsweredQuestionId;
   private List<Answer> mAnswers;
   private UUID mUserAnswerId;
-  private Question mQuestion;
+  private List<AnsweredQuestion> answeredQuestionList;
+  private User currentUser;
+  private UUID mCurrentQuestionID;
+  private Question mCurrentQuestion;
+  private String category;
+  private String difficulty;
   private ProgressBar progressBarCircle;
   private TextView textViewTime;
   private CountDownTimer countDownTimer;
 
 
-  public static QuizResultReviewFragment newInstance(UUID answeredQuestionId, int questionNumber) {
+  public static QuizResultReviewFragment newInstance(UUID questionId, int questionNumber) {
 
     Bundle args = new Bundle();
-    args.putSerializable(ARGS_ANSWERED_QUESTION_ID, answeredQuestionId);
+    args.putSerializable(ARGS_QUESTION_ID, questionId);
     args.putInt(ARGS_QUESTION_NUMBER, questionNumber);
 
     QuizResultReviewFragment fragment = new QuizResultReviewFragment();
@@ -68,11 +74,14 @@ public class QuizResultReviewFragment extends Fragment {
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    mAnsweredQuestionId = (UUID) getArguments().getSerializable(ARGS_ANSWERED_QUESTION_ID);
-    mAnsweredQuestion = Repository.getInstance(getActivity()).getAnsweredQuestion(mAnsweredQuestionId);
-    mUserAnswerId = mAnsweredQuestion.getAnswerId();
-    mQuestion = Repository.getInstance(getActivity()).getQuestion(mAnsweredQuestion.getQuestionId());
-    mAnswers = Repository.getInstance(getActivity()).getAnswersList(mAnsweredQuestion.getQuestionId());
+    currentUser = Repository.getInstance(getActivity()).getCurrentUser();
+    mCurrentQuestionID = (UUID) getArguments().getSerializable(ARGS_QUESTION_ID);
+    mCurrentQuestion = Repository.getInstance(getActivity()).getQuestion(mCurrentQuestionID);
+    mAnswers = Repository.getInstance(getActivity()).getAnswersList(mCurrentQuestionID);
+    category = mCurrentQuestion.getCategory();
+    difficulty = mCurrentQuestion.getDifficulty();
+
+    answeredQuestionList = Repository.getInstance(getActivity()).getAnsweredQuestionList(currentUser.getId(), category, difficulty);
   }
 
   @Override
@@ -81,10 +90,7 @@ public class QuizResultReviewFragment extends Fragment {
     // Inflate the layout for this fragment
     View view = inflater.inflate(R.layout.fragment_quiz_show, container, false);
 
-    String category = mAnsweredQuestion.getQuestionCategory();
-    String difficulty = mAnsweredQuestion.getQuestionDifficulty();
     int questionNumber = getArguments().getInt(ARGS_QUESTION_NUMBER);
-
 
     initViews(view);
 
@@ -98,8 +104,7 @@ public class QuizResultReviewFragment extends Fragment {
     mDifficultyTxt.setText(getString(R.string.quiz_show_specification_level, difficulty));
     mScoreTxt.setText(getString(R.string.quiz_show_specification_score, QuizResultReviewPagerActivity.scoreSum));
     mQuestionNumberTxt.setText(getString(R.string.quiz_show_specification_question_number, questionNumber));
-    Question question = Repository.getInstance(getActivity()).getQuestion(mAnsweredQuestion.getQuestionId());
-    mQuestionViewTxt.setText(question.getText());
+    mQuestionViewTxt.setText(mCurrentQuestion.getText());
 
     for (int i = 0; i < answerButtons.length; i++) {
       answerButtons[i].setText(mAnswers.get(i).getText());
