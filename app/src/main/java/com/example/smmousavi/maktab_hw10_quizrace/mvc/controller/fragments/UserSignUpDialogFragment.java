@@ -31,7 +31,7 @@ import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.User;
  */
 public class UserSignUpDialogFragment extends DialogFragment {
 
-  private TextView userWelcomeTxt;
+  private TextView userWarnTxt;
   private EditText usernameEdt;
   private EditText passwordEdt;
   private EditText repeatPasswordEdt;
@@ -66,7 +66,7 @@ public class UserSignUpDialogFragment extends DialogFragment {
     LayoutInflater inflater = LayoutInflater.from(getActivity());
     @SuppressLint("InflateParams") View view = inflater.inflate(R.layout.fragment_user_sign_up, null, false);
 
-    userWelcomeTxt = view.findViewById(R.id.txt_sign_up_welcome);
+    userWarnTxt = view.findViewById(R.id.txt_sign_up_user_warn);
     usernameEdt = view.findViewById(R.id.edt_sign_up_username);
     passwordEdt = view.findViewById(R.id.edt_sign_up_password);
     repeatPasswordEdt = view.findViewById(R.id.edt_sign_up_repeat_password);
@@ -75,8 +75,7 @@ public class UserSignUpDialogFragment extends DialogFragment {
 
     dialog = new AlertDialog.Builder(getActivity())
       .setView(view)
-      .setTitle(R.string.sign_up_dialog_title)
-      .setPositiveButton(android.R.string.ok, null)
+      .setPositiveButton("Let's Go", null)
       .setNegativeButton(android.R.string.cancel, null)
       .create();
 
@@ -153,21 +152,21 @@ public class UserSignUpDialogFragment extends DialogFragment {
         if (password.equals(repatePassword)) {
           if (isChecked) {
             confirmSignUp.setEnabled(true);
-            userWelcomeTxt.setTextColor(Color.GREEN);
-            userWelcomeTxt.setText("We are good to go");
+            userWarnTxt.setTextColor(Color.GREEN);
+            userWarnTxt.setText(R.string.we_are_go_to_go);
             positiveButtonActions();
 
           } else
-            invalidateSignUp("You must agree to terms of policy");
+            invalidateSignUp(getString(R.string.agree_to_terms_of_policy));
 
         } else
-          invalidateSignUp("Passwords do not match");
+          invalidateSignUp(getString(R.string.passwords_dont_match));
 
       } else
-        invalidateSignUp("Please fill in the all fields below.");
+        invalidateSignUp(getString(R.string.fill_in_all_fields));
 
     } else
-      invalidateSignUp("Please fill in the all fields below.");
+      invalidateSignUp(getString(R.string.fill_in_all_fields));
 
   }// end of validateSignUp()
 
@@ -175,8 +174,8 @@ public class UserSignUpDialogFragment extends DialogFragment {
   public void invalidateSignUp(String massage) {
     Button confirmSignUp = dialog.getButton(AlertDialog.BUTTON_POSITIVE);
     confirmSignUp.setEnabled(false);
-    userWelcomeTxt.setTextColor(Color.RED);
-    userWelcomeTxt.setText(massage);
+    userWarnTxt.setTextColor(Color.RED);
+    userWarnTxt.setText(massage);
   }// end of invalidateSignUp()
 
   public void positiveButtonActions() {
@@ -189,7 +188,7 @@ public class UserSignUpDialogFragment extends DialogFragment {
         Intent intent = CategorySelectionActivity.newIntent(getActivity(), user.getId());
         startActivity(intent);
 
-        dialog.dismiss();
+        getActivity().finish();
       }
     });
   }// end of positiveButtonActions()

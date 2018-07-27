@@ -25,7 +25,7 @@ public class QuizSchema {
       public static final String UUID = "uuid";
       public static final String QUESTION_TEXT = "question_text";
       public static final String CATEGORY = "category";
-      public static final String LEVEL = "level";
+      public static final String DIFFICULTY = "difficulty";
 
     }
   }
@@ -55,14 +55,18 @@ public class QuizSchema {
   }
 
 
-  public static final class UserAnswerTable {
-    public static final String NAME = "users_questions";
+  public static final class AnsweredQuestionTable {
+    public static final String NAME = "answered_quesiont";
 
     public static final class Cols {
       public static final String COLUMN_ID = "id";
+      public static final String UUID = "uuid";
       public static final String USER_ID = "user_id";
       public static final String QUESTION_ID = "question_id";
       public static final String ANSWER_ID = "answeer_id";
+      public static final String CATEGORY = "category";
+      public static final String DIFFICULTY = "difficulty";
+      public static final String SAVED_TIME = "saved_time";
     }
   }
 

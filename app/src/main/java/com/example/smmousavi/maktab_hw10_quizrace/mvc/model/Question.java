@@ -7,7 +7,7 @@ public class Question {
   private UUID mId;
   private String mText;
   private String mCategory;
-  private String level;
+  private String difficulty;
 
 
   public Question(String text) {
@@ -25,39 +25,39 @@ public class Question {
 
   public UUID getId() {
     return mId;
-  }// end of getId()
+  }
 
 
   public void setId(UUID id) {
     this.mId = id;
-  } // end of setId
+  }
 
 
   public String getText() {
     return mText;
-  }// end of getText()
+  }
 
 
   public void setText(String mText) {
     this.mText = mText;
-  }// end of setText
+  }
 
 
   public String getCategory() {
     return mCategory;
-  }// end of getCategoryId()
+  }
 
 
   public void setCategory(String categoryId) {
     this.mCategory = categoryId;
-  }// end of setCategory()
-
-
-  public String getLevel() {
-    return level;
   }
 
-  public void setLevel(String level) {
-    this.level = level;
+
+  public String getDifficulty() {
+    return difficulty;
+  }
+
+  public void setDifficulty(String difficulty) {
+    this.difficulty = difficulty;
   }
 }

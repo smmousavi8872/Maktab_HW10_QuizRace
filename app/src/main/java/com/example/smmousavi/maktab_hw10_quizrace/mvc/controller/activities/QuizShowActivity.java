@@ -26,6 +26,18 @@ public class QuizShowActivity extends SingleFragmentActivity {
   }
 
   @Override
+  protected void onCreate(Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    getSupportActionBar().hide();
+  }
+
+  @Override
+  public void onBackPressed() {
+    super.onBackPressed();
+
+  }
+
+  @Override
   public Fragment createFragment() {
     Bundle bundle = getIntent().getExtras();
     String category = bundle.getString(EXTRAS_QUESTION_CATEGORY);

@@ -6,34 +6,58 @@
   android:layout_height="match_parent"
   android:layout_margin="16dp"
   android:orientation="vertical"
-  tools:context=".mvc.controller.fragments.LevelChooseDialogFragment">
+  >
 
-  <Button
-    android:id="@+id/btn_easy_level"
+  <LinearLayout
     android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="1"
-    android:gravity="center"
-    android:tag="easy"
-    android:text="Easy Level"/>
+    android:layout_height="match_parent"
+    android:layout_margin="10dp"
+    android:orientation="vertical"
+    tools:context=".mvc.controller.fragments.LevelChooseDialogFragment">
 
-  <Button
-    android:id="@+id/btn_moderate_level"
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="1"
-    android:gravity="center"
-    android:tag="moderate"
-    android:text="Moderate Level"/>
+    <TextView
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="10dp"
+      android:layout_marginTop="20dp"
+      android:gravity="center"
+      android:text="DIFFICULTY"
+      android:textColor="#000"
+      android:textSize="25dp"
+      android:textStyle="bold"/>
 
-  <Button
-    android:id="@+id/btn_tough_level"
-    android:layout_width="match_parent"
-    android:layout_height="0dp"
-    android:layout_weight="1"
-    android:gravity="center"
-    android:tag="tough"
-    android:text="Tough Level"/>
+    <Button
+      android:id="@+id/btn_easy_level"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_margin="5dp"
+      android:layout_weight="1"
+      android:background="@drawable/border"
+      android:gravity="center"
+      android:tag="easy"
+      android:text="Easy Level"/>
 
+    <Button
+      android:id="@+id/btn_moderate_level"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_margin="5dp"
+      android:layout_weight="1"
+      android:background="@drawable/border"
+      android:gravity="center"
+      android:tag="moderate"
+      android:text="Moderate Level"/>
 
+    <Button
+      android:id="@+id/btn_tough_level"
+      android:layout_width="match_parent"
+      android:layout_height="0dp"
+      android:layout_margin="5dp"
+      android:layout_weight="1"
+      android:background="@drawable/border"
+      android:gravity="center"
+      android:tag="tough"
+      android:text="Tough Level"/>
+
+  </LinearLayout>
 </LinearLayout>

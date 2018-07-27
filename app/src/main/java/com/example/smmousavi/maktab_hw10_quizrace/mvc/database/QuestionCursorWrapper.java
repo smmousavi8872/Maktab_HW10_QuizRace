@@ -17,11 +17,11 @@ public class QuestionCursorWrapper extends CursorWrapper {
     String uuid = getString(getColumnIndex(QuizSchema.QuestionTable.Cols.UUID.toString()));
     String text = getString(getColumnIndex(QuizSchema.QuestionTable.Cols.QUESTION_TEXT));
     String category = getString(getColumnIndex(QuizSchema.QuestionTable.Cols.CATEGORY));
-    String level = getString(getColumnIndex(QuizSchema.QuestionTable.Cols.LEVEL));
+    String level = getString(getColumnIndex(QuizSchema.QuestionTable.Cols.DIFFICULTY));
 
     Question question = new Question(UUID.fromString(uuid), text);
     question.setCategory(category);
-    question.setLevel(level);
+    question.setDifficulty(level);
 
     return question;
   }

@@ -12,59 +12,60 @@
     android:id="@+id/quiz_show_specifications_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/border"
+    android:background="#eee"
     android:orientation="vertical"
-    android:padding="16dp">
+    android:padding="26dp">
 
     <TextView
       android:id="@+id/txt_category"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:text="@string/quiz_show_specification_category"
-      android:textSize="18dp"/>
+      android:textSize="18dp"
+      android:textStyle="bold"/>
 
     <TextView
       android:id="@+id/txt_difficulty"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:text="@string/quiz_show_specification_level"
-      android:textSize="18dp"/>
-
-    <TextView
-      android:id="@+id/txt_question_number"
-      android:layout_width="match_parent"
-      android:layout_height="wrap_content"
-      android:text="@string/quiz_show_specification_question_number"
-      android:textSize="18dp"/>
+      android:textSize="18dp"
+      android:textStyle="bold"/>
 
     <TextView
       android:id="@+id/txt_score"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:text="@string/quiz_show_specification_score"
-      android:textSize="18dp"/>
+      android:textSize="18dp"
+      android:textStyle="bold"/>
 
   </LinearLayout>
 
 
   <RelativeLayout
-    android:layout_below="@+id/quiz_show_specifications_layout"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_above="@+id/txt_question"
-    android:layout_width="match_parent"
+    android:id="@+id/quiz_show_specification_box"
+    android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_gravity="center">
+    android:layout_alignParentEnd="true"
+    android:layout_alignTop="@+id/quiz_show_specifications_layout"
+    android:layout_below="@+id/quiz_show_specifications_layout"
+    android:layout_gravity="center"
+    android:layout_marginEnd="5dp"
+    android:layout_marginTop="5dp">
 
 
     <ProgressBar
       android:id="@+id/progress_bar_circle"
       style="?android:attr/progressBarStyleHorizontal"
-      android:layout_width="180dp"
-      android:layout_height="180dp"
+      android:layout_width="115dp"
+      android:layout_height="115dp"
       android:layout_centerInParent="true"
       android:background="@drawable/drawable_circle_dark_blue"
       android:indeterminate="false"
       android:max="100"
+      android:padding="5dp"
       android:progress="100"
       android:progressDrawable="@drawable/drawable_circle_yellow"
       android:rotation="-90"/>
@@ -75,11 +76,32 @@
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
       android:layout_centerInParent="true"
-      android:text="60"
-      android:textColor="@color/app_orange_color"
-      android:textSize="50sp"/>
+      android:text="15"
+      android:textColor="#2ecc71"
+      android:textSize="50sp"
+      android:textStyle="bold"/>
 
   </RelativeLayout>
+
+
+
+  <ImageView
+    android:layout_width="150dp"
+    android:layout_height="150dp"
+    android:layout_above="@id/txt_question_number"
+    android:layout_centerHorizontal="true"
+    android:background="@drawable/question"/>
+
+  <TextView
+    android:id="@+id/txt_question_number"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_above="@id/txt_question"
+    android:layout_marginTop="20dp"
+    android:gravity="center"
+    android:text="@string/quiz_show_specification_question_number"
+    android:textSize="18dp"/>
+
 
   <TextView
     android:id="@+id/txt_question"
@@ -87,8 +109,12 @@
     android:layout_height="wrap_content"
     android:layout_above="@+id/answer_upper_layer"
     android:layout_marginBottom="24dp"
-    android:text="question number one is being shown in this text viiew"
-    android:textSize="18dp"/>
+    android:gravity="center"
+    android:padding="10dp"
+    android:text="question number one is being shown in this text view"
+    android:textColor="#444"
+    android:textSize="25dp"/>
+
 
   <LinearLayout
     android:id="@+id/answer_upper_layer"
@@ -97,15 +123,18 @@
     android:layout_above="@+id/answer_lower_layer"
     android:orientation="horizontal">
 
+
     <Button
       android:id="@+id/answer_three"
       style="@style/option_button_style"
-      android:text="Option 1"/>
+      android:text="Option 1"
+      android:textColor="#fff"/>
 
     <Button
       android:id="@+id/answer_four"
       style="@style/option_button_style"
-      android:text="Option 2"/>
+      android:text="Option 2"
+      android:textColor="#fff"/>
   </LinearLayout>
 
   <LinearLayout
@@ -118,13 +147,15 @@
     <Button
       android:id="@+id/answer_one"
       style="@style/option_button_style"
-      android:text="Option 3"/>
+      android:text="Option 3"
+      android:textColor="#fff"/>
 
     <Button
       android:id="@+id/answer_two"
       style="@style/option_button_style"
       android:layout_margin="3dp"
-      android:text="Option 4"/>
+      android:text="Option 4"
+      android:textColor="#fff"/>
 
   </LinearLayout>
 

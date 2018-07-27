@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.smmousavi.maktab_hw10_quizrace.R;
-import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.Category;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.Repository;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.User;
 
@@ -30,10 +29,6 @@ public class CategorySelectionFragment extends Fragment {
   private TextView usernameTxt;
   private TextView totalScoreTxt;
   private TextView topScoreTxt;
-  private Button scienceCategoryBtn;
-  private Button sportCategoryBtn;
-  private Button technologyCategoryBtn;
-  private Button generalCategoryBtn;
   Button[] categoryButtons;
   private UUID userId;
 
@@ -71,6 +66,7 @@ public class CategorySelectionFragment extends Fragment {
     userId = (UUID) getArguments().getSerializable(ARGS_USER_ID);
   }
 
+
   @Override
   public View onCreateView(LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
@@ -79,12 +75,16 @@ public class CategorySelectionFragment extends Fragment {
     usernameTxt = view.findViewById(R.id.category_selection_user_welcome);
     totalScoreTxt = view.findViewById(R.id.txt_category_selection_total_score);
     topScoreTxt = view.findViewById(R.id.txt_category_selection_top_score);
-    categoryButtons = new Button[]{
-      scienceCategoryBtn = view.findViewById(R.id.btn_sience_category),
-      sportCategoryBtn = view.findViewById(R.id.btn_sports_category),
-      technologyCategoryBtn = view.findViewById(R.id.btn_technology_category),
-      generalCategoryBtn = view.findViewById(R.id.btn_general_category)
+    Button scienceCategoryBtn = view.findViewById(R.id.btn_sience_category);
+    Button sportCategoryBtn = view.findViewById(R.id.btn_sports_category);
+    Button technologyCategoryBtn = view.findViewById(R.id.btn_technology_category);
+    Button generalCategoryBtn = view.findViewById(R.id.btn_general_category);
 
+    categoryButtons = new Button[]{
+      scienceCategoryBtn,
+      sportCategoryBtn,
+      technologyCategoryBtn,
+      generalCategoryBtn
     };
     updateScore();
 
@@ -94,10 +94,6 @@ public class CategorySelectionFragment extends Fragment {
     setOnCategoryButtonsListener(categoryButtons);
 
     return view;
-  }
-
-  public Button createCategoryButton(Category category) {
-    return null;
   }
 
 

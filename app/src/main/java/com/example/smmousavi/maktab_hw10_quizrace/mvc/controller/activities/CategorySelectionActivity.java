@@ -11,12 +11,19 @@ import java.util.UUID;
 public class CategorySelectionActivity extends SingleFragmentActivity {
 
   public static final String EXTRA_USER_ID = "com.example.smmousavi.maktab_hw10_quizrace.mvc.controller.activities.extra_user_id";
+  public static final String EXTRA_ORGIN = "com.example.smmousavi.maktab_hw10_quizrace.mvc.controller.activities.extra_orgin";
 
 
   public static Intent newIntent(Context orgin, UUID userId) {
     Intent intent = new Intent(orgin, CategorySelectionActivity.class);
     intent.putExtra(EXTRA_USER_ID, userId);
     return intent;
+  }
+
+  @Override
+  public void onBackPressed() {
+    super.onBackPressed();
+
   }
 
   @Override

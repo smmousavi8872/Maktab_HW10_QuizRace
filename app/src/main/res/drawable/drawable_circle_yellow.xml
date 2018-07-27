@@ -4,5 +4,5 @@
        android:shape="ring"
        android:thickness="10dp"
        android:useLevel="true">
-  <solid android:color="@color/app_orange_color"/>
+  <solid android:color="#2ecc71"/>
 </shape>

@@ -68,6 +68,7 @@ public class UserLoginFragment extends Fragment {
             Repository.getInstance(getActivity()).setCurrentUser(user);
             Intent intent = CategorySelectionActivity.newIntent(getActivity(), user.getId());
             startActivity(intent);
+            getActivity().finish();
 
           } else
             Snackbar.make(getView(), "Incorrect Username or Password", Snackbar.LENGTH_SHORT).show();
@@ -82,8 +83,8 @@ public class UserLoginFragment extends Fragment {
       public void onClick(View view) {
         UserSignUpDialogFragment dialog = UserSignUpDialogFragment.newInstance();
         FragmentManager fm = getFragmentManager();
-
         dialog.show(fm, DIAL0G_SIGN_UP_TAG);
+
       }
     });
 

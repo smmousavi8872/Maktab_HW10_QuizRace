@@ -9,8 +9,8 @@
   <ProgressBar
     android:id="@+id/progress_bar_circle"
     style="?android:attr/progressBarStyleHorizontal"
-    android:layout_width="180dp"
-    android:layout_height="180dp"
+    android:layout_width="200dp"
+    android:layout_height="200dp"
     android:layout_centerInParent="true"
     android:background="@drawable/drawable_circle_dark_blue"
     android:indeterminate="false"
@@ -26,7 +26,7 @@
     android:layout_height="wrap_content"
     android:layout_centerInParent="true"
     android:text="60"
-    android:textColor="@color/app_orange_color"
+    android:textColor="#2ecc71"
     android:textSize="60sp"/>
 
 </RelativeLayout>

@@ -2,7 +2,7 @@ package com.example.smmousavi.maktab_hw10_quizrace.mvc.controller.fragments;
 
 
 import android.app.Dialog;
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -56,7 +56,6 @@ public class LevelChooseDialogFragment extends DialogFragment {
     setOnDifficultyButtonsClickListener(difficultyButtons);
 
     dialog = new AlertDialog.Builder(getActivity())
-      .setTitle("Choose Difficulty")
       .setNegativeButton(android.R.string.cancel, null)
       .setView(view)
       .create();
@@ -74,8 +73,7 @@ public class LevelChooseDialogFragment extends DialogFragment {
           String difficulty = button.getTag().toString();
           Intent intent = QuizShowActivity.newIntent(getActivity(), category, difficulty);
           startActivity(intent);
-          dialog.dismiss();
-
+          getActivity().finish();
         }
       });
     }

@@ -18,6 +18,7 @@ import android.widget.TextView;
 
 import com.example.smmousavi.maktab_hw10_quizrace.R;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.Answer;
+import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.AnsweredQuestion;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.Question;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.Repository;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.User;
@@ -33,6 +34,7 @@ public class QuizShowFragment extends Fragment {
 
   public static final String ARGS_QUESTION_CATEGORY = "args_question_category";
   public static final String ARGS_QUESTION_LEVEL = "args_question_level";
+  private static final String REPORT_DIALOG_TAG = "report_dialog_tag";
 
   private TextView mCategoryTxt;
   private TextView mDifficultyTxt;
@@ -49,6 +51,10 @@ public class QuizShowFragment extends Fragment {
   private int mCurrentQuesionNumber;
   private long mCurrentScore;
   private User mCurrentUser;
+  private int mCorrectAnswers;
+  private int mIncorrectAnswers;
+  private int mTotalPositivePoints;
+  private int mTotalNegetivePoints;
 
 
   //Count donw class fields
@@ -70,7 +76,7 @@ public class QuizShowFragment extends Fragment {
     Bundle args = new Bundle();
     args.putString(ARGS_QUESTION_CATEGORY, category);
     args.putString(ARGS_QUESTION_LEVEL, difficulty);
-    Log.i("TEST1", "QuizShowFragment newInstance() Category: " + category + "Difficulty: " + difficulty);
+    Log.i("TEST1", "QuizShowFragment newInstance() Category: " + category + " Difficulty: " + difficulty);
 
     QuizShowFragment fragment = new QuizShowFragment();
     fragment.setArguments(args);
@@ -89,15 +95,12 @@ public class QuizShowFragment extends Fragment {
     startOrStop();
   }
 
-
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
-    setRetainInstance(true);
     mQuestionCategory = getArguments().getString(ARGS_QUESTION_CATEGORY);
     mQuestionDifficulty = getArguments().getString(ARGS_QUESTION_LEVEL);
     mQuestionList = Repository.getInstance(getActivity()).getQuestionsList(mQuestionCategory, mQuestionDifficulty);
-    Log.i("TEST1", "QuizShowFragment onCreate() Category: " + mQuestionCategory + " Difficulty: " + mQuestionDifficulty + " QuestionList size is: " + mQuestionList.size());
     mCurrentUser = Repository.getInstance(getActivity()).getCurrentUser();
   }// end of oncreate()
 
@@ -149,7 +152,8 @@ public class QuizShowFragment extends Fragment {
 
     for (int i = 0; i < mAnswerButtons.length; i++) {
       mAnswerButtons[i].setText(mAnswers.get(i).getText());
-      mAnswerButtons[i].setTag("" + mAnswers.get(i).isTrue());
+      mAnswerButtons[i].setTag(R.string.is_true_answer, mAnswers.get(i).isTrue() + "");
+      mAnswerButtons[i].setTag(R.string.answer_uuid, mAnswers.get(i).getId().toString());
     }
   }// end of updateAfterUserAnswered()
 
@@ -159,8 +163,16 @@ public class QuizShowFragment extends Fragment {
       button.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View view) {
-          boolean isTrueAnswer = Boolean.parseBoolean(button.getTag().toString());
+          boolean isTrueAnswer = Boolean.parseBoolean(button.getTag(R.string.is_true_answer).toString());
+          UUID answerId = UUID.fromString(button.getTag(R.string.answer_uuid).toString());
+          AnsweredQuestion answeredQuestion = new AnsweredQuestion(mCurrentUser.getId(), mCurrentQuestionId, answerId);
+          Log.d("TAG5", "QuizShowFragment_question uuid: " + answeredQuestion.getQuestionId() + " answer uuid: " + answeredQuestion.getAnswerId());// ok
+          answeredQuestion.setQuestionCategory(mQuestionCategory);
+          answeredQuestion.setQuestionDifficulty(mQuestionDifficulty);
+          Repository.getInstance(getActivity()).addAnsweredQuestion(answeredQuestion);
           if (isTrueAnswer) {
+            mCorrectAnswers++;
+            mTotalPositivePoints += 30;
             mCurrentScore += 30;
             updateAfterUserAnswered();
 
@@ -168,7 +180,7 @@ public class QuizShowFragment extends Fragment {
 
             stopCountDownTimer();
 
-            rightAnswerAction();
+            rightAnswerAction(button);
 
             final Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
@@ -180,14 +192,16 @@ public class QuizShowFragment extends Fragment {
             }, 1000);
 
           } else {
-            mCurrentScore -= 10;
+            mIncorrectAnswers++;
+            mTotalNegetivePoints += 15;
+            mCurrentScore -= 15;
             updateAfterUserAnswered();
 
             deactivateButtons();
 
             stopCountDownTimer();
 
-            wrongAnswerAction();
+            wrongAnswerAction(button, getTrueAnswerButton());
 
             final Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
@@ -203,13 +217,23 @@ public class QuizShowFragment extends Fragment {
   }// end of setOnAnswerButtonsClickListener()
 
 
-  private void wrongAnswerAction() {
+  private Button getTrueAnswerButton() {
+    for (Button button : mAnswerButtons) {
+      if (Boolean.parseBoolean(button.getTag(R.string.is_true_answer).toString()))
+        return button;
+
+    }
+    return null;
+  }
+
+
+  private void wrongAnswerAction(Button userChoiceButton, Button trueAnswerButton) {
     Snackbar.make(getView(), "You Choosed Wrong Answer", Snackbar.LENGTH_SHORT).show();
 
   }// end of wrongAnswerAction()
 
 
-  private void rightAnswerAction() {
+  private void rightAnswerAction(Button trueAnswerButton) {
     Snackbar.make(getView(), "You Choosed Right Answer", Snackbar.LENGTH_SHORT).show();
 
   }// end of rightAnswerAction()
@@ -217,14 +241,22 @@ public class QuizShowFragment extends Fragment {
 
   private void finishQuiz() {
     //temperory actioon, must be modified
-    Snackbar.make(getView(), "Quiz Finished", Snackbar.LENGTH_SHORT).show();
     deactivateButtons();
     stopCountDownTimer();
+    showQuizResult();
     long totalScore = mCurrentUser.getTotalScore();
     totalScore += mCurrentScore;
     mCurrentUser.setTotalScore(totalScore);
     Repository.getInstance(getActivity()).updateUser(mCurrentUser);
   }// end of finishQuiz();
+
+
+  private void showQuizResult() {
+    QuizReportDialogFragment dialog = QuizReportDialogFragment.newInstance(mCorrectAnswers, mIncorrectAnswers, mQuestionCategory, mQuestionDifficulty);
+    dialog.show(getFragmentManager(), REPORT_DIALOG_TAG);
+
+  } // end of showQuizReport()
+
 
   private void deactivateButtons() {
     for (Button button : mAnswerButtons) {
@@ -236,7 +268,6 @@ public class QuizShowFragment extends Fragment {
       });
     }
   }
-
   /*
    *
    * Count Down Timer Impelemenation

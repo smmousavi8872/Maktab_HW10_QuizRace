@@ -1,0 +1,167 @@
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  tools:context="com.example.smmousavi.maktab_hw10_quizrace.mvc.controller.fragments.QuizReportDialogFragment">
+
+
+  <RelativeLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_margin="20dp"
+    android:background="@drawable/border"
+    android:padding="20dp">
+
+    <TextView
+      android:id="@+id/txt_quiz_result_title"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignParentStart="true"
+      android:layout_centerHorizontal="true"
+      android:layout_marginTop="40dp"
+      android:text="Quiz Result"
+      android:textColor="#000"
+      android:textSize="26dp"
+      android:textStyle="bold"/>
+
+    <ImageView
+      android:id="@+id/quiz_report_logo"
+      android:layout_width="100dp"
+      android:layout_height="100dp"
+      android:layout_alignParentEnd="true"
+      android:layout_marginBottom="50dp"
+      android:layout_marginTop="5dp"
+      android:background="@drawable/quiz_report_logo"/>
+
+    <ImageView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignBottom="@id/txt_correct_answers"
+      android:layout_marginBottom="-5dp"
+      android:background="@drawable/ic_correct_answer"/>
+
+    <TextView
+      android:id="@+id/txt_correct_answers"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_below="@+id/quiz_report_logo"
+      android:layout_marginStart="35dp"
+      android:text="@string/report_correct_answers"
+      android:textColor="#555"
+      android:textSize="16dp"/>
+
+    <ImageView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignBottom="@id/txt_incorrect_answers"
+      android:layout_marginBottom="-5dp"
+      android:background="@drawable/ic_incorrect_answer"/>
+
+    <TextView
+      android:id="@+id/txt_incorrect_answers"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_below="@+id/txt_correct_answers"
+      android:layout_marginStart="35dp"
+      android:layout_marginTop="10dp"
+      android:text="@string/report_incorrect_answers"
+      android:textColor="#555"
+      android:textSize="16dp"/>
+
+    <ImageView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignBottom="@id/txt_total_positive_points"
+      android:layout_marginBottom="-5dp"
+      android:background="@drawable/ic_correct_answer"/>
+
+    <TextView
+      android:id="@+id/txt_total_positive_points"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_below="@+id/txt_incorrect_answers"
+      android:layout_marginStart="35dp"
+      android:layout_marginTop="10dp"
+      android:text="@string/report_total_positive_points"
+      android:textColor="#555"
+      android:textSize="16dp"/>
+
+    <ImageView
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignBottom="@id/txt_total_negetive_points"
+      android:layout_marginBottom="-5dp"
+      android:background="@drawable/ic_incorrect_answer"/>
+
+    <TextView
+      android:id="@+id/txt_total_negetive_points"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_below="@+id/txt_total_positive_points"
+      android:layout_marginStart="35dp"
+      android:layout_marginTop="10dp"
+      android:text="@string/report_total_negetive_points"
+      android:textColor="#555"
+      android:textSize="16dp"/>
+
+    <TextView
+      android:id="@+id/txt_total_score"
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_below="@+id/txt_total_negetive_points"
+      android:layout_marginTop="50dp"
+      android:gravity="center"
+      android:text="@string/report_total_score"
+      android:textSize="22dp"
+      android:textStyle="bold"/>
+
+
+    <TextView
+      android:id="@+id/btn_report_ok"
+      android:layout_width="80dp"
+      android:layout_height="40dp"
+      android:layout_alignParentEnd="true"
+      android:layout_below="@+id/txt_total_score"
+      android:layout_marginTop="30dp"
+      android:background="@drawable/border"
+      android:gravity="center"
+      android:padding="5dp"
+      android:text="Ok"
+      android:textColor="@color/app_orange_color"
+      android:textSize="15dp"/>
+
+    <TextView
+      android:id="@+id/btn_report_review"
+      android:layout_width="80dp"
+      android:layout_height="40dp"
+      android:layout_below="@+id/txt_total_score"
+      android:layout_marginEnd="10dp"
+      android:layout_marginTop="30dp"
+      android:background="@drawable/border"
+      android:gravity="center"
+      android:padding="5dp"
+      android:text="Review"
+      android:textColor="@color/app_orange_color"
+      android:textSize="15dp"/>
+
+
+    <TextView
+      android:id="@+id/btn_report_share"
+      android:layout_width="80dp"
+      android:layout_height="40dp"
+      android:layout_below="@+id/txt_total_score"
+      android:layout_centerHorizontal="true"
+      android:layout_marginTop="30dp"
+      android:background="@drawable/border"
+      android:gravity="center"
+      android:padding="5dp"
+      android:text="Share"
+      android:textColor="@color/app_orange_color"
+      android:textSize="15dp"/>
+
+
+  </RelativeLayout>
+
+
+</RelativeLayout>
