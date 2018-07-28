@@ -70,4 +70,16 @@ public class QuizSchema {
     }
   }
 
+  public static final class UserPassedLevels {
+    public static final String NAME = "user_passed_table";
+
+    public static final class Cols {
+      public static final String COLUMN_ID = "id";
+      public static final String UUID = "uuid";
+      public static final String USER_ID = "user_id";
+      public static final String CATEGORY = "category";
+      public static final String DIFFICULTY = "difficulty";
+    }
+  }
+
 }

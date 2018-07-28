@@ -77,7 +77,6 @@ public class QuizShowFragment extends Fragment {
         Bundle args = new Bundle();
         args.putString(ARGS_QUESTION_CATEGORY, category);
         args.putString(ARGS_QUESTION_LEVEL, difficulty);
-        Log.i("TEST1", "QuizShowFragment newInstance() Category: " + category + " Difficulty: " + difficulty);
 
         QuizShowFragment fragment = new QuizShowFragment();
         fragment.setArguments(args);
@@ -167,7 +166,6 @@ public class QuizShowFragment extends Fragment {
                     boolean isTrueAnswer = Boolean.parseBoolean(button.getTag(R.string.is_true_answer).toString());
                     UUID answerId = UUID.fromString(button.getTag(R.string.answer_uuid).toString());
                     AnsweredQuestion answeredQuestion = new AnsweredQuestion(mCurrentUser.getId(), mCurrentQuestionId, answerId);
-                    Log.d("TAG5", "QuizShowFragment_question uuid: " + answeredQuestion.getQuestionId() + " answer uuid: " + answeredQuestion.getAnswerId());// ok
                     answeredQuestion.setQuestionCategory(mQuestionCategory);
                     answeredQuestion.setQuestionDifficulty(mQuestionDifficulty);
                     Repository.getInstance(getActivity()).addAnsweredQuestion(answeredQuestion);
@@ -283,7 +281,6 @@ public class QuizShowFragment extends Fragment {
             public void onTick(long millisUntilFinished) {
                 textViewTime.setText(sTimeFormatter(millisUntilFinished));
                 progressBarCircle.setProgress((int) (millisUntilFinished / 1000));
-                currentTimer = millisUntilFinished;
             }
 
             @Override

@@ -7,8 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -26,8 +24,8 @@ import java.util.UUID;
  */
 public class CategorySelectionFragment extends Fragment {
 
-    public static final String ARGS_USER_ID = "args_user_id";
-    public static final String TAG_DIALOG_CATEGORY = "tag_dialog_category";
+  public static final String ARGS_USER_ID = "args_user_id";
+  public static final String TAG_DIALOG_CATEGORY = "tag_dialog_category";
 
     private User currentUser;
     private TextView usernameTxt;
@@ -37,39 +35,39 @@ public class CategorySelectionFragment extends Fragment {
     private UUID userId;
     private Button settingBtn;
 
-    public CategorySelectionFragment() {
-        // Required empty public constructor
-    }
+  public CategorySelectionFragment() {
+    // Required empty public constructor
+  }
 
 
-    public static CategorySelectionFragment newInstance(UUID userId) {
+  public static CategorySelectionFragment newInstance(UUID userId) {
 
-        Bundle args = new Bundle();
-        args.putSerializable(ARGS_USER_ID, userId);
+    Bundle args = new Bundle();
+    args.putSerializable(ARGS_USER_ID, userId);
 
-        CategorySelectionFragment fragment = new CategorySelectionFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
+    CategorySelectionFragment fragment = new CategorySelectionFragment();
+    fragment.setArguments(args);
+    return fragment;
+  }
 
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        updateScore();
-    }
+  @Override
+  public void onResume() {
+    super.onResume();
+    updateScore();
+  }
 
-    private void updateScore() {
-        currentUser = Repository.getInstance(getActivity()).getUser(userId);
-        totalScoreTxt.setText(getString(R.string.total_score_title, currentUser.getTotalScore()));
-        topScoreTxt.setText(getString(R.string.top_score_title, currentUser.getTotalScore()));
-    }
+  private void updateScore() {
+    currentUser = Repository.getInstance(getActivity()).getUser(userId);
+    totalScoreTxt.setText(getString(R.string.total_score_title, currentUser.getTotalScore()));
+    topScoreTxt.setText(getString(R.string.top_score_title, currentUser.getTotalScore()));
+  }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        userId = (UUID) getArguments().getSerializable(ARGS_USER_ID);
-    }
+  @Override
+  public void onCreate(@Nullable Bundle savedInstanceState) {
+    super.onCreate(savedInstanceState);
+    userId = (UUID) getArguments().getSerializable(ARGS_USER_ID);
+  }
 
 
     @Override
@@ -93,37 +91,38 @@ public class CategorySelectionFragment extends Fragment {
             }
         });
 
-        categoryButtons = new Button[]{
-                scienceCategoryBtn,
-                sportCategoryBtn,
-                technologyCategoryBtn,
-                generalCategoryBtn
-        };
-        updateScore();
+    categoryButtons = new Button[]{
+      scienceCategoryBtn,
+      sportCategoryBtn,
+      technologyCategoryBtn,
+      generalCategoryBtn
+    };
+    updateScore();
 
-        usernameTxt.setText(getString(R.string.hi_user_title, currentUser.getName()));
-
-
-        setOnCategoryButtonsListener(categoryButtons);
-
-        return view;
-    }
+    usernameTxt.setText(getString(R.string.hi_user_title, currentUser.getName()));
 
 
-    public void setOnCategoryButtonsListener(Button[] buttons) {
+    setOnCategoryButtonsListener(categoryButtons);
 
-        for (final Button button : buttons) {
-            button.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    String category = button.getTag().toString();
-                    FragmentManager fm = getFragmentManager();
-                    LevelChooseDialogFragment dialog = LevelChooseDialogFragment.newInstance(category);
-                    dialog.show(fm, TAG_DIALOG_CATEGORY);
+    return view;
+  }
 
-                }
-            });
+
+  public void setOnCategoryButtonsListener(Button[] buttons) {
+
+    for (final Button button : buttons) {
+      button.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+          String category = button.getTag().toString();
+          FragmentManager fm = getFragmentManager();
+          LevelChooseDialogFragment dialog = LevelChooseDialogFragment.newInstance(category);
+          dialog.show(fm, TAG_DIALOG_CATEGORY);
+
         }
-
+      });
     }
+
+  }
+
 }

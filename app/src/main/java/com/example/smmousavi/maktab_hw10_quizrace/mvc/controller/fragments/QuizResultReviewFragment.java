@@ -1,6 +1,7 @@
 package com.example.smmousavi.maktab_hw10_quizrace.mvc.controller.fragments;
 
 
+import android.graphics.Color;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
@@ -40,16 +41,16 @@ public class QuizResultReviewFragment extends Fragment {
   private TextView mScoreTxt;
   private TextView mQuestionViewTxt;
   private Button[] answerButtons;
-  private AnsweredQuestion mAnsweredQuestion;
-  private UUID mAnsweredQuestionId;
   private List<Answer> mAnswers;
-  private UUID mUserAnswerId;
-  private List<AnsweredQuestion> answeredQuestionList;
   private User currentUser;
   private UUID mCurrentQuestionID;
   private Question mCurrentQuestion;
   private String category;
   private String difficulty;
+  private List<AnsweredQuestion> answeredQuestionList;
+  private AnsweredQuestion mAnsweredQuestion;
+  private UUID mAnsweredQuestionId;
+  private UUID mUserAnswerId;
   private ProgressBar progressBarCircle;
   private TextView textViewTime;
   private CountDownTimer countDownTimer;
@@ -66,6 +67,7 @@ public class QuizResultReviewFragment extends Fragment {
     return fragment;
   }// end of newInstance()
 
+
   public QuizResultReviewFragment() {
     // Required empty public constructor
   }
@@ -80,9 +82,37 @@ public class QuizResultReviewFragment extends Fragment {
     mAnswers = Repository.getInstance(getActivity()).getAnswersList(mCurrentQuestionID);
     category = mCurrentQuestion.getCategory();
     difficulty = mCurrentQuestion.getDifficulty();
-
     answeredQuestionList = Repository.getInstance(getActivity()).getAnsweredQuestionList(currentUser.getId(), category, difficulty);
+
+
+  }// end of onCreate()
+
+  private void showCorrectAnswers() {
+    for (AnsweredQuestion AQ : answeredQuestionList) {
+      if (AQ.getQuestionId().equals(mCurrentQuestionID)) {
+        for (Button button : answerButtons) {
+          boolean isTureAnswer = Boolean.parseBoolean(button.getTag(R.string.is_true_answer).toString());
+          if (isTureAnswer) {
+            button.setBackgroundColor(Color.GREEN);
+          }
+        }
+
+      }
+    }
+
   }
+
+  private void showUserAnswer() {
+    for (AnsweredQuestion AQ : answeredQuestionList) {
+      for (Button button : answerButtons) {
+        UUID answerButtonUUID = UUID.fromString(button.getTag(R.string.answer_uuid).toString());
+        if (AQ.getAnswerId().equals(answerButtonUUID)) {
+          button.setBackgroundColor(Color.GRAY);
+        }
+      }
+    }
+  }
+
 
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
@@ -112,6 +142,10 @@ public class QuizResultReviewFragment extends Fragment {
       answerButtons[i].setTag(R.string.answer_uuid, mAnswers.get(i).getId().toString());
     }
 
+    showUserAnswer();
+    showCorrectAnswers();
+
+
     return view;
   }//end of onCreateView()
 
@@ -124,28 +158,6 @@ public class QuizResultReviewFragment extends Fragment {
     mScoreTxt = view.findViewById(R.id.txt_score);
     mQuestionNumberTxt = view.findViewById(R.id.txt_question_number);
     mQuestionViewTxt = view.findViewById(R.id.txt_question);
-  }
-
-
-  private void identifyUserChoice() {
-    for (Button button : answerButtons) {
-      boolean isTrueAnswer = Boolean.parseBoolean(button.getTag(R.string.is_true_answer).toString());
-      UUID buttonId = UUID.fromString(button.getTag(R.string.answer_uuid).toString());
-      if (isTrueAnswer)
-        setCorrectButtonView(button);
-
-      if (buttonId.equals(mUserAnswerId))
-        setUserChoiceButtonView(button);
-    }
-  }
-
-  private void setCorrectButtonView(Button button) {
-
-  }
-
-
-  private void setUserChoiceButtonView(Button button) {
-
   }
 
 

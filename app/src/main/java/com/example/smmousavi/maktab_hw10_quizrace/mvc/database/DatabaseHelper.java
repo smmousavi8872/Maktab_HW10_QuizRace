@@ -20,12 +20,14 @@ import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.QuestionBank.General
 
 import java.util.List;
 
+import static com.example.smmousavi.maktab_hw10_quizrace.mvc.database.QuizSchema.*;
+
 public class DatabaseHelper extends SQLiteOpenHelper {
 
   SQLiteDatabase db;
 
   public DatabaseHelper(Context context) {
-    super(context, QuizSchema.DATABASE_NAME, null, QuizSchema.DATABASE_VERSION);
+    super(context, DATABASE_NAME, null, DATABASE_VERSION);
   }
 
   public static final String CREATE_USER_TABLE = "CREATE TABLE " + UserTable.NAME + "("
@@ -64,7 +66,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
 
 
   public static final String CREATE_ANSWERED_QUESTION_TABLE = "CREATE TABLE " + AnsweredQuestionTable.NAME + "("
-    + AnsweredQuestionTable.Cols.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+    + AnsweredQuestionTable.Cols.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
     + AnsweredQuestionTable.Cols.UUID + ", "
     + AnsweredQuestionTable.Cols.USER_ID + ", "
     + AnsweredQuestionTable.Cols.QUESTION_ID + ", "
@@ -78,6 +80,14 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     + ")";// check the foreign keys again
 
 
+  public static final String CREATE_USER_PASSED_LEVEL_TABLE = "CREATE TABLE " + UserPassedLevels.NAME + "("
+    + UserPassedLevels.Cols.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+    + UserPassedLevels.Cols.UUID + ", "
+    + UserPassedLevels.Cols.USER_ID + ", "
+    + UserPassedLevels.Cols.CATEGORY + ", "
+    + UserPassedLevels.Cols.DIFFICULTY
+    + ")";
+
   @Override
   public void onCreate(SQLiteDatabase sqLiteDatabase) {
     sqLiteDatabase.execSQL(CREATE_USER_TABLE);
@@ -85,6 +95,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     sqLiteDatabase.execSQL(CREATE_CATEGORY_TABLE);
     sqLiteDatabase.execSQL(CREATE_ANSWER_TABLE);
     sqLiteDatabase.execSQL(CREATE_ANSWERED_QUESTION_TABLE);
+    sqLiteDatabase.execSQL(CREATE_USER_PASSED_LEVEL_TABLE);
     db = sqLiteDatabase;
     intializeDBContent();
   }// end of onCreate()

@@ -23,6 +23,7 @@
     <string name="fill_in_all_fields">Please fill in the all fields below</string>
     <string name="is_true_answer" type="id">0</string>
     <string name="answer_uuid" type="id">1</string>
+    <string name="difficulty_option" type="id">0</string>
     <string name="report_correct_answers">Correct Answers: %1$d</string>
     <string name="report_incorrect_answers">Incorrect Answers: %1$d</string>
     <string name="report_total_positive_points">Total Positive Points: %1$d</string>

@@ -39,6 +39,13 @@ public class QuizResultReviewPagerActivity extends AppCompatActivity {
   }
 
   @Override
+  public void onBackPressed() {
+    super.onBackPressed();
+    Intent intent = CategorySelectionActivity.newIntent(this, Repository.getInstance(this).getCurrentUser().getId());
+    startActivity(intent);
+  }
+
+  @Override
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_quiz_pager_show);
