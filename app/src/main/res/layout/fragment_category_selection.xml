@@ -7,6 +7,8 @@
   android:layout_margin="26dp"
   tools:context=".mvc.controller.fragments.CategorySelectionFragment">
 
+
+
   <LinearLayout
     android:id="@+id/layout_user_specification"
 
@@ -41,6 +43,15 @@
       android:layout_marginTop="5dp"
       android:text="@string/top_score_title"
       android:textColor="#3e3e3e"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="settings"
+        android:textColor="@color/white"
+        android:background="@drawable/general_button_style"
+        android:layout_gravity="end"
+        android:id="@+id/settings"/>
   </LinearLayout>
 
   <TextView

@@ -655,4 +655,218 @@ public class QuestionBank {
 
     }
 
+    public static final class General {
+
+        public static final String text = "general";
+
+        public static final class Easy {
+            public static final String text = "easy";
+
+            public static final class Q1 {
+                public static final String text = "How many bits make a byte?";
+                public static final List<String> answersText = new ArrayList<>();
+                public static int trueNumber = 2;
+
+                static {
+                    answersText.add("16 bits");
+                    answersText.add("8 bits");
+                    answersText.add("24 bits");
+                    answersText.add("12 bits");
+                }
+            }
+
+            public static final class Q2 {
+                public static final String text = "What is the meaning of (CPU)?";
+                public static final List<String> answersText = new ArrayList<>();
+                public static int trueNumber = 1;
+
+                static {
+                    answersText.add("Central Processing Unit");
+                    answersText.add("Critical Processing Unit");
+                    answersText.add("Crucial Processing Unit");
+                    answersText.add("Central Printing Unit");
+                }
+            }
+
+            public static final class Q3{
+                public static final String text = "The process of starting or restarting a computer is called:";
+                public static final List<String> answersText = new ArrayList<>();
+                public static int trueNumber = 2;
+
+                static {
+                    answersText.add("Start up point");
+                    answersText.add("Booting");
+                    answersText.add("Connecting");
+                    answersText.add("Resetting");
+                }
+            }
+
+            public static final class Q4{
+                public static final String text = "The other name for a Hard disk is:";
+                public static final List<String> answersText = new ArrayList<>();
+                public static int trueNumber = 3;
+
+                static {
+                    answersText.add("Compact Disc");
+                    answersText.add("Fixed Disk");
+                    answersText.add("Hard Drive Disk");
+                    answersText.add("Floppy Disk");
+                }
+            }
+
+            public static final class Q5{
+                public static final String text = "Which of the items is an input device?";
+                public static final List<String> answersText = new ArrayList<>();
+                public static int trueNumber = 2;
+
+                static {
+                    answersText.add("Computer Monitor");
+                    answersText.add("Keyboard");
+                    answersText.add("Display Board");
+                    answersText.add("Overhead Projector");
+                }
+            }
+        }
+
+        public static final class Moderate {
+            public static final String text = "moderate";
+
+            public static final class Q1 {
+                public static final String text = "What is ISP and what is their functions?";
+                public static final List<String> answersText = new ArrayList<>();
+                public static int trueNumber = 3;
+
+                static {
+                    answersText.add("Intenal Service Provider. A company which provide internet connection for a fee.");
+                    answersText.add("Internet Service Provider. A company which provide internal transferring data service to an organization.");
+                    answersText.add("Internet Service Provider. A company which provide internet connection to other people for a fee.");
+                    answersText.add("Internal Service Provider. A company provide internal connection to transfer data between two company.");
+                }
+            }
+
+            public static final class Q2 {
+                public static final String text = "HTTP stand for ______.";
+                public static final List<String> answersText = new ArrayList<>();
+                public static int trueNumber = 4;
+
+                static {
+                    answersText.add("Hyper Transport Text Protocol");
+                    answersText.add("High Text Transport Protocol");
+                    answersText.add("High Transport Text Protocol");
+                    answersText.add("Hyper Text Transport Protocol");
+                }
+            }
+
+            public static final class Q3{
+                public static final String text = "Arrange the slower to the higher access latency.";
+                public static final List<String> answersText = new ArrayList<>();
+                public static int trueNumber = 1;
+
+                static {
+                    answersText.add("Magnetic tape, Magnetic disk, Main memory, Cache, Registers.");
+                    answersText.add("Registers, Cache, Main memory, Magnetic disk, Magnetic tape.");
+                    answersText.add("Registers, Main memory, Cache, Magnetic disk, Magnetic tape.");
+                    answersText.add("Magnetic tape, Main memory, Magnetic tape, Cache, Registers.");
+                }
+            }
+
+            public static final class Q4{
+                public static final String text = "The smallet measurement of memory is ______________";
+                public static final List<String> answersText = new ArrayList<>();
+                public static int trueNumber = 4;
+
+                static {
+                    answersText.add("MB");
+                    answersText.add("GB");
+                    answersText.add("KB");
+                    answersText.add("Bit");
+                }
+            }
+
+            public static final class Q5{
+                public static final String text = "1 GB=____________KB";
+                public static final List<String> answersText = new ArrayList<>();
+                public static int trueNumber = 1;
+
+                static {
+                    answersText.add("1024");
+                    answersText.add("1344");
+                    answersText.add("1624");
+                    answersText.add("1111");
+                }
+            }
+
+        }
+
+        public static final class Tough {
+
+            public static final String text="tough";
+            public static final class Q1 {
+                public static final String text = "What is the protocol used for the majority of network/internet traffic?";
+                public static final List<String> answersText = new ArrayList<>();
+                public static int trueNumber = 1;
+
+                static {
+                    answersText.add("TCP/IP");
+                    answersText.add("IPX/SPX");
+                    answersText.add("OSX");
+                    answersText.add("64-Bit");
+                }
+            }
+
+            public static final class Q2{
+                public static final String text = "What is the most popular wired network topology?";
+                public static final List<String> answersText = new ArrayList<>();
+                public static int trueNumber = 2;
+
+                static {
+                    answersText.add("Bus");
+                    answersText.add("Star");
+                    answersText.add("Mesh");
+                    answersText.add("Ring");
+                }
+            }
+
+            public static final class Q3{
+                public static final String text = "Which file extension is an image file?";
+                public static final List<String> answersText = new ArrayList<>();
+                public static int trueNumber = 2;
+
+                static {
+                    answersText.add("MPG");
+                    answersText.add("JPG");
+                    answersText.add("MA4");
+                    answersText.add("MOV");
+                }
+            }
+
+            public static final class Q4{
+                public static final String text = "What file is a Word 2007 or newer document?";
+                public static final List<String> answersText = new ArrayList<>();
+                public static int trueNumber = 3;
+
+                static {
+                    answersText.add(".xls");
+                    answersText.add(".doc");
+                    answersText.add(".docx");
+                    answersText.add(".rtf");
+                }
+            }
+
+            public static final class Q5{
+                public static final String text = "If you wanted to add a user to a Domain where would you add them?";
+                public static final List<String> answersText = new ArrayList<>();
+                public static int trueNumber = 3;
+
+                static {
+                    answersText.add("Domain List");
+                    answersText.add("Registry");
+                    answersText.add("Active Directory");
+                    answersText.add("Directory");
+                }
+            }
+        }
+
+    }
+
 }

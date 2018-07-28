@@ -12,9 +12,11 @@ import com.example.smmousavi.maktab_hw10_quizrace.mvc.database.QuizSchema.Answer
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.database.QuizSchema.UserTable;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.Answer;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.Question;
+import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.QuestionBank;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.QuestionBank.Science;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.QuestionBank.Sport;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.QuestionBank.Technology;
+import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.QuestionBank.General;
 
 import java.util.List;
 
@@ -153,6 +155,24 @@ public class DatabaseHelper extends SQLiteOpenHelper {
     pushToDb(Technology.Tough.Q3.text, Technology.Tough.Q3.trueNumber, Technology.Tough.Q3.answersText, Technology.Tough.text, Technology.text);
     pushToDb(Technology.Tough.Q4.text, Technology.Tough.Q4.trueNumber, Technology.Tough.Q4.answersText, Technology.Tough.text, Technology.text);
     pushToDb(Technology.Tough.Q5.text, Technology.Tough.Q5.trueNumber, Technology.Tough.Q5.answersText, Technology.Tough.text, Technology.text);
+
+    pushToDb(General.Easy.Q1.text, General.Easy.Q1.trueNumber, General.Easy.Q1.answersText, General.Easy.text, General.text);
+    pushToDb(General.Easy.Q2.text, General.Easy.Q2.trueNumber, General.Easy.Q2.answersText, General.Easy.text, General.text);
+    pushToDb(General.Easy.Q3.text, General.Easy.Q3.trueNumber, General.Easy.Q3.answersText, General.Easy.text, General.text);
+    pushToDb(General.Easy.Q4.text, General.Easy.Q4.trueNumber, General.Easy.Q4.answersText, General.Easy.text, General.text);
+    pushToDb(General.Easy.Q5.text, General.Easy.Q5.trueNumber, General.Easy.Q5.answersText, General.Easy.text, General.text);
+
+    pushToDb(General.Moderate.Q1.text, General.Moderate.Q1.trueNumber, General.Moderate.Q1.answersText, General.Moderate.text, General.text);
+    pushToDb(General.Moderate.Q2.text, General.Moderate.Q2.trueNumber, General.Moderate.Q2.answersText, General.Moderate.text, General.text);
+    pushToDb(General.Moderate.Q3.text, General.Moderate.Q3.trueNumber, General.Moderate.Q3.answersText, General.Moderate.text, General.text);
+    pushToDb(General.Moderate.Q4.text, General.Moderate.Q4.trueNumber, General.Moderate.Q4.answersText, General.Moderate.text, General.text);
+    pushToDb(General.Moderate.Q5.text, General.Moderate.Q5.trueNumber, General.Moderate.Q5.answersText, General.Moderate.text, General.text);
+
+    pushToDb(General.Tough.Q1.text, General.Tough.Q1.trueNumber, General.Tough.Q1.answersText, General.Tough.text, General.text);
+    pushToDb(General.Tough.Q2.text, General.Tough.Q2.trueNumber, General.Tough.Q2.answersText, General.Tough.text, General.text);
+    pushToDb(General.Tough.Q3.text, General.Tough.Q3.trueNumber, General.Tough.Q3.answersText, General.Tough.text, General.text);
+    pushToDb(General.Tough.Q4.text, General.Tough.Q4.trueNumber, General.Tough.Q4.answersText, General.Tough.text, General.text);
+    pushToDb(General.Tough.Q5.text, General.Tough.Q5.trueNumber, General.Tough.Q5.answersText, General.Tough.text, General.text);
   }// end of Initialized()
 
 
