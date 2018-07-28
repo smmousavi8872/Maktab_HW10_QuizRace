@@ -29,8 +29,9 @@ public class CategorySelectionFragment extends Fragment {
   private TextView usernameTxt;
   private TextView totalScoreTxt;
   private TextView topScoreTxt;
-  Button[] categoryButtons;
+  private Button[] categoryButtons;
   private UUID userId;
+
 
   public CategorySelectionFragment() {
     // Required empty public constructor
@@ -64,6 +65,7 @@ public class CategorySelectionFragment extends Fragment {
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     userId = (UUID) getArguments().getSerializable(ARGS_USER_ID);
+
   }
 
 

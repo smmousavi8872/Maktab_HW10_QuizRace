@@ -14,7 +14,9 @@ import com.example.smmousavi.maktab_hw10_quizrace.mvc.database.QuestionCursorWra
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.database.QuizSchema.AnswerTable;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.database.QuizSchema.AnsweredQuestionTable;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.database.QuizSchema.QuestionTable;
+import com.example.smmousavi.maktab_hw10_quizrace.mvc.database.QuizSchema.UserPassedLevels;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.database.UserCursorWrapper;
+import com.example.smmousavi.maktab_hw10_quizrace.mvc.database.UserPassedLevelsCursorWrapper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -108,7 +110,6 @@ public class Repository {
 
 
   public void addAnsweredQuestion(AnsweredQuestion answeredQuestion) {
-    Log.d("TAG5", "addAnsweredQuestion()_question uuid: " + answeredQuestion.getQuestionId() + " answer uuid: " + answeredQuestion.getAnswerId());
     ContentValues values = getAnsweredQuestionContentValue(answeredQuestion);
     database.insert(AnsweredQuestionTable.NAME, null, values);
   }// addAnsweredQuestion()
@@ -251,6 +252,35 @@ public class Repository {
   }
 
 
+  public void addUserPassedLevel(UserPassedLevel level) {
+    ContentValues values = getUserPassedLevelContentValue(level);
+    database.insert(UserPassedLevels.NAME, null, values);
+  }
+
+
+  public List<UserPassedLevel> getUserPassedLevels(UUID userId) {
+    List<UserPassedLevel> userPassedLevels = new ArrayList<>();
+    String whereClause = UserPassedLevels.Cols.USER_ID + " = ?";
+    String[] whereArgs = {userId.toString()};
+    UserPassedLevelsCursorWrapper cursorWrapper = getUserPassedLevelsQuery(UserPassedLevels.NAME, whereClause, whereArgs);
+
+    if (cursorWrapper.getCount() > 0) {
+      try {
+        cursorWrapper.moveToFirst();
+        while (!cursorWrapper.isAfterLast()) {
+          userPassedLevels.add(cursorWrapper.getUserPassedLevel());
+          cursorWrapper.moveToNext();
+
+        }
+      } finally {
+        cursorWrapper.close();
+
+      }
+    }
+    return userPassedLevels;
+  }// end of getUserPassedLevel()
+
+
   public void addCategory(Category category) {
     ContentValues values = getCategoryContentValue(category);
     database.insert(CategoryTable.NAME, null, values);
@@ -299,7 +329,6 @@ public class Repository {
 
   public ContentValues getAnsweredQuestionContentValue(AnsweredQuestion answeredQuestion) {
     ContentValues values = new ContentValues();
-    Log.d("TAG5", "contentvalue_question uuid: " + answeredQuestion.getQuestionId() + " answer uuid: " + answeredQuestion.getAnswerId());// ok
     values.put(AnsweredQuestionTable.Cols.UUID, answeredQuestion.getId().toString());
     values.put(AnsweredQuestionTable.Cols.USER_ID, answeredQuestion.getUserId().toString());
     values.put(AnsweredQuestionTable.Cols.QUESTION_ID, answeredQuestion.getQuestionId().toString());
@@ -321,6 +350,17 @@ public class Repository {
 
     return values;
   }// end of getAnswerContentValue()
+
+
+  public ContentValues getUserPassedLevelContentValue(UserPassedLevel levels) {
+    ContentValues values = new ContentValues();
+    values.put(UserPassedLevels.Cols.UUID, levels.getId().toString());
+    values.put(UserPassedLevels.Cols.USER_ID, levels.getUserId().toString());
+    values.put(UserPassedLevels.Cols.CATEGORY, levels.getCategory());
+    values.put(UserPassedLevels.Cols.DIFFICULTY, levels.getDifficulty());
+
+    return values;
+  }
 
 
   public UserCursorWrapper getUserQuery(String tableName, String whereClause, String[] whereArgs) {
@@ -391,4 +431,19 @@ public class Repository {
 
     return new AnsweredQuestionCursorWrapper(cursor);
   }
+
+
+  public UserPassedLevelsCursorWrapper getUserPassedLevelsQuery(String tableName, String whereClause, String[] whereArgs) {
+    Cursor cursor = database.query(
+      tableName,
+      null,
+      whereClause,
+      whereArgs,
+      null,
+      null,
+      null,
+      null);
+
+    return new UserPassedLevelsCursorWrapper(cursor);
+  }// end of UserPassedLevelsCursorWrapper()
 }

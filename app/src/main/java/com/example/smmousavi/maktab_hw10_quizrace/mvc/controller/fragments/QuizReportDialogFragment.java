@@ -3,12 +3,12 @@ package com.example.smmousavi.maktab_hw10_quizrace.mvc.controller.fragments;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
-import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -18,6 +18,7 @@ import com.example.smmousavi.maktab_hw10_quizrace.mvc.controller.activities.Cate
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.controller.activities.QuizResultReviewPagerActivity;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.Repository;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.User;
+import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.UserPassedLevel;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -29,15 +30,17 @@ public class QuizReportDialogFragment extends DialogFragment {
   public static final String ARGS_CATEGORY = "args_category";
   public static final String ARGS_DIFFICULTY = "args_difficulty";
 
-  TextView correctAnswersTxt;
-  TextView incorrectAnswersTxt;
-  TextView totalPositivePointsTxt;
-  TextView totalNegetivePointsTxt;
-  TextView totalScoreTxt;
-  TextView gotItBtn;
-  TextView reviewAnswersBtn;
-  String questionCategory;
-  String questionDifficulty;
+  private TextView correctAnswersTxt;
+  private TextView incorrectAnswersTxt;
+  private TextView totalPositivePointsTxt;
+  private TextView totalNegetivePointsTxt;
+  private TextView totalScoreTxt;
+  private TextView okReportBtn;
+  private TextView shareReportBtn;
+  private TextView reviewAnswersBtn;
+  private String questionCategory;
+  private String questionDifficulty;
+  private UserPassedLevel userPassedLevel;
 
   public static QuizReportDialogFragment newInstance(int correctAnswers, int incorrectAnswers, String category, String difficulty) {
     Bundle args = new Bundle();
@@ -84,7 +87,13 @@ public class QuizReportDialogFragment extends DialogFragment {
     totalNegetivePointsTxt.setText(getString(R.string.report_total_negetive_points, totalNegetivePoints));
     totalScoreTxt.setText(getString(R.string.report_total_score, totalScore));
 
-    gotItBtn.setOnClickListener(new View.OnClickListener() {
+    userPassedLevel = new UserPassedLevel();
+    userPassedLevel.setUserId(currentUser.getId());
+    userPassedLevel.setCategory(questionCategory);
+    userPassedLevel.setDifficulty(questionDifficulty);
+    Repository.getInstance(getActivity()).addUserPassedLevel(userPassedLevel);
+
+    okReportBtn.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
         Intent intent = CategorySelectionActivity.newIntent(getActivity(), currentUser.getId());
@@ -103,6 +112,13 @@ public class QuizReportDialogFragment extends DialogFragment {
       }
     });
 
+    shareReportBtn.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+
+      }
+    });
+
     return dialog;
   }
 
@@ -113,7 +129,8 @@ public class QuizReportDialogFragment extends DialogFragment {
     totalPositivePointsTxt = view.findViewById(R.id.txt_total_positive_points);
     totalNegetivePointsTxt = view.findViewById(R.id.txt_total_negetive_points);
     totalScoreTxt = view.findViewById(R.id.txt_total_score);
-    gotItBtn = view.findViewById(R.id.btn_report_ok);
+    okReportBtn = view.findViewById(R.id.btn_report_ok);
     reviewAnswersBtn = view.findViewById(R.id.btn_report_review);
+    shareReportBtn = view.findViewById(R.id.btn_report_share);
   } // end of getViews()
 }
