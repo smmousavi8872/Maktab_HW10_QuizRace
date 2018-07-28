@@ -8,13 +8,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 
 import com.example.smmousavi.maktab_hw10_quizrace.R;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.controller.fragments.QuizResultReviewFragment;
-import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.AnsweredQuestion;
+import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.Question;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.Repository;
-import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.User;
 
 import java.util.List;
 
@@ -28,8 +26,7 @@ public class QuizResultReviewPagerActivity extends AppCompatActivity {
 
   private ViewPager viewPager;
   private FragmentStatePagerAdapter adapter;
-  private List<AnsweredQuestion> answeredQuestionList;
-  private User currentUser;
+  private List<Question> questionList;
   public static long scoreSum; // this field belogs with Fragment of this Activity
 
 
@@ -48,24 +45,20 @@ public class QuizResultReviewPagerActivity extends AppCompatActivity {
 
     String category = getIntent().getStringExtra(EXTRA_INTENT_CATEGORY);
     String difficulty = getIntent().getStringExtra(EXTRA_INTENT_DIFFICULTY);
-    currentUser = Repository.getInstance(this).getCurrentUser();
-
 
     viewPager = findViewById(R.id.quiz_show_view_pager);
-    answeredQuestionList = Repository.getInstance(QuizResultReviewPagerActivity.this).getAnsweredQuestionList(currentUser.getId(), category, difficulty);
-    Log.i("TAG3", "Answered Question List: " + answeredQuestionList.size());
+
+    questionList = Repository.getInstance(QuizResultReviewPagerActivity.this).getQuestionsList(category, difficulty);
 
     adapter = new FragmentStatePagerAdapter(getSupportFragmentManager()) {
       @Override
       public Fragment getItem(int i) {
-        AnsweredQuestion AQ = answeredQuestionList.get(i);
-        Log.i("TAG3", "Answered Question ID: " + AQ.getId());
-        return QuizResultReviewFragment.newInstance(AQ.getId(), i + 1);
+        return QuizResultReviewFragment.newInstance(questionList.get(i).getId(), i + 1);
       }
 
       @Override
       public int getCount() {
-        return answeredQuestionList.size();
+        return questionList.size();
       }
     };
 
@@ -88,8 +81,5 @@ public class QuizResultReviewPagerActivity extends AppCompatActivity {
 
       }
     });
-
-
   }
-
 }

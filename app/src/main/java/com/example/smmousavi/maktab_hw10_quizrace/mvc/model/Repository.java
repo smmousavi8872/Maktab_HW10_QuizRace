@@ -380,7 +380,8 @@ public class Repository {
 
 
   public AnsweredQuestionCursorWrapper getAnsweredQuestionQuery(String tableName, String whereClause, String[] whereArgs) {
-    Cursor cursor = database.query(tableName,
+    Cursor cursor = database.query(
+      tableName,
       null,
       whereClause,
       whereArgs,
