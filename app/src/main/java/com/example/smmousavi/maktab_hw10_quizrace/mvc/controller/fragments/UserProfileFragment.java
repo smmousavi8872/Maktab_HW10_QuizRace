@@ -30,6 +30,9 @@ import java.util.List;
 public class UserProfileFragment extends Fragment {
 
 
+  public static final String USER_PROFILE_FRAGMENT_TAG = "user_profile_fragment_tag";
+
+
   private Spinner reviewCategorySelction;
   private Spinner reviewLevelSelction;
   private Spinner addCategorySelction;

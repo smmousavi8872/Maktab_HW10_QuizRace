@@ -34,6 +34,7 @@ public class QuizShowFragment extends Fragment {
   public static final String ARGS_QUESTION_CATEGORY = "args_question_category";
   public static final String ARGS_QUESTION_LEVEL = "args_question_level";
   private static final String REPORT_DIALOG_TAG = "report_dialog_tag";
+  public static final String QUIZ_SHOW_FRAGMENT_TAG = "quiz_show_fragment_tag";
 
   private TextView mCategoryTxt;
   private TextView mDifficultyTxt;
@@ -91,14 +92,9 @@ public class QuizShowFragment extends Fragment {
   @Override
   public void onStart() {
     super.onStart();
-    startOrStop();
+    startOrStopTimer();
   }
 
-
-  @Override
-  public void onPause() {
-    super.onPause();
-  }
 
   @Override
   public void onResume() {
@@ -263,7 +259,8 @@ public class QuizShowFragment extends Fragment {
 
   private void showQuizResult() {
     QuizReportDialogFragment dialog = QuizReportDialogFragment.newInstance(mCorrectAnswers, mIncorrectAnswers, mQuestionCategory, mQuestionDifficulty);
-    dialog.show(getFragmentManager(), REPORT_DIALOG_TAG);
+    if (dialog != null)
+      dialog.show(getFragmentManager(), REPORT_DIALOG_TAG);
 
   } // end of showQuizReport()
 
@@ -278,6 +275,7 @@ public class QuizShowFragment extends Fragment {
       });
     }
   }
+
   /*
    *
    * Count Down Timer Impelemenation
@@ -292,6 +290,7 @@ public class QuizShowFragment extends Fragment {
       public void onTick(long millisUntilFinished) {
         textViewTime.setText(sTimeFormatter(millisUntilFinished));
         progressBarCircle.setProgress((int) (millisUntilFinished / 1000));
+        currentTimer = millisUntilFinished;
       }
 
       @Override
@@ -320,7 +319,7 @@ public class QuizShowFragment extends Fragment {
 
 
   //method to start and stop count down timer
-  public void startOrStop() {
+  public void startOrStopTimer() {
     if (timerStatus == TimerStatus.STOPPED) {
       setProgressBarValues();
       timerStatus = TimerStatus.STARTED;
@@ -357,12 +356,23 @@ public class QuizShowFragment extends Fragment {
         setProgressBarValues();
         //Send message to change question
         timerStatus = TimerStatus.STOPPED;
+        textViewTime.setText(sTimeFormatter(TIME_COUNT_MILLIES));
+        setProgressBarValues();
+        timerStatus = TimerStatus.STOPPED;
+
+        if (++mCurrentQuesionNumber < mQuestionList.size()) {
+          resetTimer();
+          updateAfterUserAnswered();
+          setOnAnswerButtonClickListener();
+
+        } else
+          finishQuiz();
       }
     }.start();
   }
 
   //method to stop count down timer
-  private void stopCountDownTimer() {
+  public void stopCountDownTimer() {
     countDownTimer.cancel();
   }
 

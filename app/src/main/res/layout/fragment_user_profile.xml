@@ -12,13 +12,14 @@
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="25dp">
 
 
     <RelativeLayout
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:background="@drawable/border"
+      android:focusableInTouchMode="true"
       android:padding="10dp">
 
       <TextView
@@ -26,7 +27,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="20dp"
-        android:text="Your Profile"
+        android:text="Informations"
         android:textColor="#000"
         android:textSize="20dp"
         android:textStyle="bold"/>
@@ -51,6 +52,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/edit_profile_txt_total_score"
         android:backgroundTint="@color/app_orange_color"
+        android:enabled="false"
         android:hint="username"/>
 
       <android.support.design.widget.TextInputLayout
@@ -66,6 +68,7 @@
           android:layout_width="match_parent"
           android:layout_height="wrap_content"
           android:backgroundTint="#f36b00"
+          android:enabled="false"
           android:hint="password"
           android:inputType="textPassword"/>
       </android.support.design.widget.TextInputLayout>
@@ -104,7 +107,11 @@
         android:id="@+id/add_question_top"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="AddQuestion"/>
+        android:layout_marginBottom="15dp"
+        android:text="Add Question"
+        android:textColor="#000"
+        android:textSize="20dp"
+        android:textStyle="bold"/>
 
       <Spinner
         android:id="@+id/add_question_category_selection"
@@ -222,10 +229,14 @@
       android:padding="10dp">
 
       <TextView
+        android:textColor="#000"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        android:layout_marginBottom="15dp"
         android:id="@+id/review_top_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Review Your Question"/>
+        android:text="Passed Quizes"/>
 
       <Spinner
         android:id="@+id/review_category_selection"

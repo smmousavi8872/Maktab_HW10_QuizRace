@@ -18,7 +18,8 @@ public class QuizShowActivity extends SingleFragmentActivity {
 
   public static final String EXIT_DIALOG = "exit_dialog";
 
-  QuizShowFragment questFragment;
+
+  public static QuizShowFragment questFragment;
 
 
   public static Intent newIntent(Context orgin, String category, String difficulty) {
@@ -26,17 +27,6 @@ public class QuizShowActivity extends SingleFragmentActivity {
     intent.putExtra(EXTRAS_QUESTION_CATEGORY, category);
     intent.putExtra(EXTRAS_QUESTION_DIFFICULTY, difficulty);
     return intent;
-  }
-
-  @Override
-  protected void onResume() {
-    super.onResume();
-  }
-
-
-  @Override
-  protected void onPause() {
-    super.onPause();
   }
 
 
@@ -62,6 +52,11 @@ public class QuizShowActivity extends SingleFragmentActivity {
     String difficulty = bundle.getString(EXTRAS_QUESTION_DIFFICULTY);
     questFragment = QuizShowFragment.newInstance(category, difficulty);
     return questFragment;
+  }
+
+  @Override
+  public String getTag() {
+    return QuizShowFragment.QUIZ_SHOW_FRAGMENT_TAG;
   }
 
 }

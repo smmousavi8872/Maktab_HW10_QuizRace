@@ -23,6 +23,7 @@ import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.User;
 public class UserLoginFragment extends Fragment {
 
   public static final String DIAL0G_SIGN_UP_TAG = "dialog_sign_up_tag";
+  public static final String USER_LOGIN_FRAGMENT = "user_login_fragment";
 
 
   TextView userNameEdt;
