@@ -8,54 +8,6 @@
   tools:context=".mvc.controller.fragments.CategorySelectionFragment">
 
 
-  <LinearLayout
-    android:id="@+id/layout_user_specification"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_alignEnd="@id/txt_choose_category_title"
-    android:layout_alignStart="@id/txt_choose_category_title"
-    android:background="@drawable/border"
-    android:orientation="vertical"
-
-    android:padding="10dp">
-
-    <TextView
-      android:id="@+id/category_selection_user_welcome"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:text="@string/hi_user_title"
-      android:textColor="#3e3e3e"/>
-
-    <TextView
-      android:id="@+id/txt_category_selection_total_score"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="5dp"
-      android:text="@string/total_score_title"
-      android:textColor="#3e3e3e"/>
-
-    <TextView
-      android:id="@+id/txt_category_selection_top_score"
-      android:layout_width="wrap_content"
-      android:layout_height="wrap_content"
-      android:layout_marginTop="5dp"
-      android:text="@string/top_score_title"
-      android:textColor="#3e3e3e"/>
-
-  </LinearLayout>
-
-  <Button
-    android:id="@+id/btn_category_selection_profile"
-    android:layout_width="80dp"
-    android:layout_height="30dp"
-    android:layout_alignBottom="@id/layout_user_specification"
-    android:layout_alignParentEnd="true"
-    android:layout_margin="10dp"
-    android:background="@drawable/general_button_style"
-    android:text="Profile"
-    android:textColor="#fff"
-    android:textSize="14dp"/>
-
   <TextView
     android:id="@+id/txt_choose_category_title"
     android:layout_width="match_parent"
@@ -64,7 +16,7 @@
     android:layout_alignStart="@id/category_grid_layout"
     android:layout_below="@+id/layout_user_specification"
     android:layout_marginTop="20dp"
-    android:gravity="center"
+    android:gravity="center_vertical"
     android:text="@string/choose_question_category_title"
     android:textColor="@color/app_orange_color"
     android:textSize="16dp"/>
@@ -74,6 +26,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_below="@id/txt_choose_category_title"
+    android:layout_margin="15dp"
     android:columnCount="2"
     android:rowCount="2"
     >

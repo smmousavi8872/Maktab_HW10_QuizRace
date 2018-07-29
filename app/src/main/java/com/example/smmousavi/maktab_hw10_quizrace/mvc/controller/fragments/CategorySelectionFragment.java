@@ -13,7 +13,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.example.smmousavi.maktab_hw10_quizrace.R;
-import com.example.smmousavi.maktab_hw10_quizrace.mvc.controller.activities.ProfileActivity;
+import com.example.smmousavi.maktab_hw10_quizrace.mvc.controller.activities.UserProfileActivity;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.Repository;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.User;
 
@@ -27,13 +27,15 @@ public class CategorySelectionFragment extends Fragment {
   public static final String ARGS_USER_ID = "args_user_id";
   public static final String TAG_DIALOG_CATEGORY = "tag_dialog_category";
 
-    private User currentUser;
-    private TextView usernameTxt;
-    private TextView totalScoreTxt;
-    private TextView topScoreTxt;
-    Button[] categoryButtons;
-    private UUID userId;
-    private Button settingBtn;
+  private User currentUser;
+  private TextView usernameTxt;
+  private TextView totalScoreTxt;
+  private TextView topScoreTxt;
+  Button[] categoryButtons;
+  private UUID userId;
+  private Button settingBtn;
+
+  View view;
 
   public CategorySelectionFragment() {
     // Required empty public constructor
@@ -54,11 +56,13 @@ public class CategorySelectionFragment extends Fragment {
   @Override
   public void onResume() {
     super.onResume();
-    updateScore();
+    updateSpecification();
   }
 
-  private void updateScore() {
+
+  private void updateSpecification() {
     currentUser = Repository.getInstance(getActivity()).getUser(userId);
+    usernameTxt.setText(getString(R.string.hi_user_title, currentUser.getName()));
     totalScoreTxt.setText(getString(R.string.total_score_title, currentUser.getTotalScore()));
     topScoreTxt.setText(getString(R.string.top_score_title, currentUser.getTotalScore()));
   }
@@ -70,26 +74,26 @@ public class CategorySelectionFragment extends Fragment {
   }
 
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_category_selection, container, false);
-        usernameTxt = view.findViewById(R.id.category_selection_user_welcome);
-        totalScoreTxt = view.findViewById(R.id.txt_category_selection_total_score);
-        topScoreTxt = view.findViewById(R.id.txt_category_selection_top_score);
-        Button scienceCategoryBtn = view.findViewById(R.id.btn_sience_category);
-        Button sportCategoryBtn = view.findViewById(R.id.btn_sports_category);
-        Button technologyCategoryBtn = view.findViewById(R.id.btn_technology_category);
-        Button generalCategoryBtn = view.findViewById(R.id.btn_general_category);
-        settingBtn = view.findViewById(R.id.settings);
-        settingBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent=new Intent(getActivity(),ProfileActivity.class);
-                startActivity(intent);
-            }
-        });
+  @Override
+  public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                           Bundle savedInstanceState) {
+    // Inflate the layout for this fragment
+    view = inflater.inflate(R.layout.fragment_category_selection, container, false);
+    usernameTxt = view.findViewById(R.id.category_selection_user_welcome);
+    totalScoreTxt = view.findViewById(R.id.txt_category_selection_total_score);
+    topScoreTxt = view.findViewById(R.id.txt_category_selection_top_score);
+    Button scienceCategoryBtn = view.findViewById(R.id.btn_sience_category);
+    Button sportCategoryBtn = view.findViewById(R.id.btn_sports_category);
+    Button technologyCategoryBtn = view.findViewById(R.id.btn_technology_category);
+    Button generalCategoryBtn = view.findViewById(R.id.btn_general_category);
+    settingBtn = view.findViewById(R.id.btn_category_selection_profile);
+    settingBtn.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        Intent intent = new Intent(getActivity(), UserProfileActivity.class);
+        startActivity(intent);
+      }
+    });
 
     categoryButtons = new Button[]{
       scienceCategoryBtn,
@@ -97,10 +101,7 @@ public class CategorySelectionFragment extends Fragment {
       technologyCategoryBtn,
       generalCategoryBtn
     };
-    updateScore();
-
-    usernameTxt.setText(getString(R.string.hi_user_title, currentUser.getName()));
-
+    updateSpecification();
 
     setOnCategoryButtonsListener(categoryButtons);
 

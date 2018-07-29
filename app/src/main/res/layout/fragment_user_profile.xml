@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:orientation="vertical"
+  tools:context=".mvc.controller.fragments.UserProfileFragment">
+
+  <LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="10dp">
+
+
+    <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:background="@drawable/border"
+      android:padding="10dp">
+
+      <TextView
+        android:id="@+id/edit_profile_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:text="Your Profile"
+        android:textColor="#000"
+        android:textSize="20dp"
+        android:textStyle="bold"/>
+
+      <TextView
+        android:id="@+id/edit_profile_txt_total_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/edit_profile_top"
+        android:text="Total Score: "/>
+
+      <TextView
+        android:id="@+id/edit_profile_total_score"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_profile_top"
+        android:layout_toEndOf="@id/edit_profile_txt_total_score"/>
+
+      <EditText
+        android:id="@+id/edit_profile_username"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_profile_txt_total_score"
+        android:backgroundTint="@color/app_orange_color"
+        android:hint="username"/>
+
+      <android.support.design.widget.TextInputLayout
+        android:id="@+id/edit_profile_paas_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/edit_profile_username"
+        app:passwordToggleEnabled="true"
+        app:passwordToggleTint="#f36b00">
+
+        <android.support.design.widget.TextInputEditText
+          android:id="@+id/edit_profile_pass"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:backgroundTint="#f36b00"
+          android:hint="password"
+          android:inputType="textPassword"/>
+      </android.support.design.widget.TextInputLayout>
+
+
+      <Button
+        android:id="@+id/edit_profile_apply_btn"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/edit_profile_paas_layout"
+        android:background="@drawable/border"
+        android:text="apply"
+        android:textColor="#000"/>
+
+      <Button
+        android:id="@+id/edt_profile_edit"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/edit_profile_paas_layout"
+        android:background="@drawable/border"
+        android:text="edit"
+        android:textColor="#000"/>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="10dp"
+      android:background="@drawable/border"
+      android:padding="10dp">
+
+      <TextView
+        android:id="@+id/add_question_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="AddQuestion"/>
+
+      <Spinner
+        android:id="@+id/add_question_category_selection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/add_question_top">
+
+      </Spinner>
+
+      <Spinner
+        android:id="@+id/add_question_level_selection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/add_question_category_selection">
+
+      </Spinner>
+
+      <EditText
+        android:id="@+id/add_question_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/add_question_level_selection"
+        android:backgroundTint="#f36b00"
+        android:hint="Type your question here...."/>
+
+      <EditText
+        android:id="@+id/add_question_answer1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/add_question_text"
+        android:backgroundTint="#f36b00"
+        android:hint="answer1"/>
+
+      <EditText
+        android:id="@+id/add_question_answer2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/add_question_answer1"
+        android:backgroundTint="#f36b00"
+        android:hint="answer2"/>
+
+      <EditText
+        android:id="@+id/add_question_answer3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/add_question_answer2"
+        android:backgroundTint="#f36b00"
+        android:hint="answer3"/>
+
+      <EditText
+        android:id="@+id/add_question_answer4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/add_question_answer3"
+        android:backgroundTint="#f36b00"
+        android:hint="answer4"/>
+
+      <RadioGroup
+        android:id="@+id/add_question_answers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/add_question_answer4"
+        android:backgroundTint="#f36b00"
+        android:orientation="horizontal">
+
+        <RadioButton
+          android:id="@+id/add_qiestion_radio_answer1"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="0.25"
+          android:backgroundTint="#f36b00"
+          android:text="1"/>
+
+        <RadioButton
+          android:id="@+id/add_question_radio_answer2"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="0.25"
+          android:backgroundTint="#f36b00"
+          android:text="2"/>
+
+        <RadioButton
+          android:id="@+id/add_question_radio_answer3"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="0.25"
+          android:backgroundTint="#f36b00"
+          android:text="3"/>
+
+        <RadioButton
+          android:id="@+id/add_question_radio_answer4"
+          android:layout_width="0dp"
+          android:layout_height="wrap_content"
+          android:layout_weight="0.25"
+          android:backgroundTint="#f36b00"
+          android:text="4"/>
+      </RadioGroup>
+
+      <Button
+        android:id="@+id/add_question_add_btn"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/add_question_answers"
+        android:background="@drawable/border"
+        android:text="Add"
+        android:textColor="#000"/>
+    </RelativeLayout>
+
+    <RelativeLayout
+      android:layout_width="match_parent"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="10dp"
+      android:background="@drawable/border"
+      android:padding="10dp">
+
+      <TextView
+        android:id="@+id/review_top_txt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Review Your Question"/>
+
+      <Spinner
+        android:id="@+id/review_category_selection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/review_top_txt">
+
+      </Spinner>
+
+      <Spinner
+        android:id="@+id/review_level_selection"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/review_top_txt"
+        android:layout_toEndOf="@id/review_category_selection">
+
+      </Spinner>
+
+      <Button
+        android:id="@+id/review_btn"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/review_level_selection"
+        android:background="@drawable/border"
+        android:text="Review"
+        android:textColor="#000"/>
+
+    </RelativeLayout>
+
+  </LinearLayout>
+</ScrollView>
