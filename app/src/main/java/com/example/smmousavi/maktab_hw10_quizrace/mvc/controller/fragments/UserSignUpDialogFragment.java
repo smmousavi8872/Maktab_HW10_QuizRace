@@ -23,6 +23,7 @@ import android.widget.TextView;
 
 import com.example.smmousavi.maktab_hw10_quizrace.R;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.controller.activities.CategorySelectionActivity;
+import com.example.smmousavi.maktab_hw10_quizrace.mvc.controller.activities.UserLoginActivity;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.Repository;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.User;
 
@@ -41,6 +42,8 @@ public class UserSignUpDialogFragment extends DialogFragment {
   private String password;
   private String repatePassword;
   private boolean policyAgreemnetCheck;
+  Button cancelBtn;
+  Button letsGoBtn;
 
 
   public static UserSignUpDialogFragment newInstance() {
@@ -67,17 +70,25 @@ public class UserSignUpDialogFragment extends DialogFragment {
     @SuppressLint("InflateParams") View view = inflater.inflate(R.layout.fragment_user_sign_up, null, false);
 
     userWarnTxt = view.findViewById(R.id.txt_sign_up_user_warn);
-    usernameEdt = view.findViewById(R.id.edt_sign_up_username);
-    passwordEdt = view.findViewById(R.id.edt_sign_up_password);
+    usernameEdt = view.findViewById(R.id.edt_sign_in_username);
+    passwordEdt = view.findViewById(R.id.edt_sign_in_password);
     repeatPasswordEdt = view.findViewById(R.id.edt_sign_up_repeat_password);
     policyAgreementChk = view.findViewById(R.id.chk_policy_agreement);
+    cancelBtn = view.findViewById(R.id.cancel_sign_up);
+    letsGoBtn = view.findViewById(R.id.btn_lets_go_sign_up);
 
 
-    dialog = new AlertDialog.Builder(getActivity())
+    dialog = new AlertDialog.Builder(getActivity(), R.style.CustomDialog)
       .setView(view)
-      .setPositiveButton("Let's Go", null)
-      .setNegativeButton(android.R.string.cancel, null)
       .create();
+
+    cancelBtn.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        dismiss();
+
+      }
+    });
 
     usernameEdt.addTextChangedListener(new TextWatcher() {
       @Override
@@ -179,7 +190,7 @@ public class UserSignUpDialogFragment extends DialogFragment {
   }// end of invalidateSignUp()
 
   public void positiveButtonActions() {
-    dialog.getButton(Dialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+    letsGoBtn.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
         User user = new User(username, password);
@@ -193,4 +204,9 @@ public class UserSignUpDialogFragment extends DialogFragment {
     });
   }// end of positiveButtonActions()
 
+  @Override
+  public void onDetach() {
+    super.onDetach();
+    UserLoginActivity.showGeustFragmentViews();
+  }
 }

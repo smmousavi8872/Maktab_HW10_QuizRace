@@ -8,14 +8,28 @@ import com.example.smmousavi.maktab_hw10_quizrace.mvc.controller.fragments.UserL
 
 public class UserLoginActivity extends SingleFragmentActivity {
 
+  static UserLoginFragment geustFragment;
+
   @Override
   public Fragment createFragment() {
-    return UserLoginFragment.newInstance();
+    geustFragment = UserLoginFragment.newInstance();
+    return geustFragment;
   }
 
   @Override
   public String getTag() {
     return UserLoginFragment.USER_LOGIN_FRAGMENT;
+  }
+
+
+  @Override
+  public void onBackPressed() {
+    super.onBackPressed();
+    showGeustFragmentViews();
+  }
+
+  public static void showGeustFragmentViews() {
+    geustFragment.showViews();
   }
 
   @Override
