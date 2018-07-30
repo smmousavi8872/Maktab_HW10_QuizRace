@@ -292,6 +292,7 @@ public class QuizShowFragment extends Fragment {
       public void onTick(long millisUntilFinished) {
         textViewTime.setText(sTimeFormatter(millisUntilFinished));
         progressBarCircle.setProgress((int) (millisUntilFinished / 1000));
+        currentTimer = millisUntilFinished;
       }
 
       @Override

@@ -1,0 +1,119 @@
+<RelativeLayout android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="10dp"
+    android:padding="10dp"
+    xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <TextView
+        android:id="@+id/add_question_top"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="AddQuestion"/>
+
+    <Spinner
+        android:id="@+id/add_question_category_selection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/add_question_top">
+
+    </Spinner>
+
+    <Spinner
+        android:id="@+id/add_question_level_selection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/add_question_category_selection">
+
+    </Spinner>
+
+    <EditText
+        android:id="@+id/add_question_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/add_question_level_selection"
+        android:backgroundTint="#f36b00"
+        android:hint="Type your question here...."/>
+
+    <EditText
+        android:id="@+id/add_question_answer1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/add_question_text"
+        android:backgroundTint="#f36b00"
+        android:hint="answer1"/>
+
+    <EditText
+        android:id="@+id/add_question_answer2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/add_question_answer1"
+        android:backgroundTint="#f36b00"
+        android:hint="answer2"/>
+
+    <EditText
+        android:id="@+id/add_question_answer3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/add_question_answer2"
+        android:backgroundTint="#f36b00"
+        android:hint="answer3"/>
+
+    <EditText
+        android:id="@+id/add_question_answer4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/add_question_answer3"
+        android:backgroundTint="#f36b00"
+        android:hint="answer4"/>
+
+    <RadioGroup
+        android:id="@+id/add_question_answers"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/add_question_answer4"
+        android:backgroundTint="#f36b00"
+        android:orientation="horizontal">
+
+        <RadioButton
+            android:id="@+id/add_qiestion_radio_answer1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:backgroundTint="#f36b00"
+            android:text="1"/>
+
+        <RadioButton
+            android:id="@+id/add_question_radio_answer2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:backgroundTint="#f36b00"
+            android:text="2"/>
+
+        <RadioButton
+            android:id="@+id/add_question_radio_answer3"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:backgroundTint="#f36b00"
+            android:text="3"/>
+
+        <RadioButton
+            android:id="@+id/add_question_radio_answer4"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.25"
+            android:backgroundTint="#f36b00"
+            android:text="4"/>
+    </RadioGroup>
+
+    <Button
+        android:id="@+id/add_question_add_btn"
+        android:layout_width="80dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/add_question_answers"
+        android:background="@drawable/border"
+        android:text="Add"
+        android:textColor="#000"/>
+</RelativeLayout>

@@ -51,7 +51,8 @@ public class DatabaseHelper extends SQLiteOpenHelper {
   public static final String CREATE_CATEGORY_TABLE = "CREATE TABLE " + CategoryTable.NAME + "("
     + CategoryTable.Cols.COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
     + CategoryTable.Cols.UUID + ", "
-    + CategoryTable.Cols.CATEGORY_NAME
+    + CategoryTable.Cols.CATEGORY_NAME+", "
+    + CategoryTable.Cols.Serie
     + ")";
 
 
