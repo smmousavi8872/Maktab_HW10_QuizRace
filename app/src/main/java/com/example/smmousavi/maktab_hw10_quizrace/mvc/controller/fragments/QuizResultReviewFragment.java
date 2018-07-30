@@ -2,15 +2,18 @@ package com.example.smmousavi.maktab_hw10_quizrace.mvc.controller.fragments;
 
 
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -40,7 +43,9 @@ public class QuizResultReviewFragment extends Fragment {
   private TextView mQuestionNumberTxt;
   private TextView mScoreTxt;
   private TextView mQuestionViewTxt;
+  private ImageView mQuestionLogoImg;
   private Button[] answerButtons;
+  private Button mSkipBtn;
   private List<Answer> mAnswers;
   private User currentUser;
   private UUID mCurrentQuestionID;
@@ -48,6 +53,7 @@ public class QuizResultReviewFragment extends Fragment {
   private String category;
   private String difficulty;
   private List<AnsweredQuestion> answeredQuestionList;
+  private List<Question> questions;
   private AnsweredQuestion mAnsweredQuestion;
   private UUID mAnsweredQuestionId;
   private UUID mUserAnswerId;
@@ -83,37 +89,48 @@ public class QuizResultReviewFragment extends Fragment {
     category = mCurrentQuestion.getCategory();
     difficulty = mCurrentQuestion.getDifficulty();
     answeredQuestionList = Repository.getInstance(getActivity()).getAnsweredQuestionList(currentUser.getId(), category, difficulty);
+    questions = Repository.getInstance(getActivity()).getQuestionsList(category, difficulty);
 
 
   }// end of onCreate()
 
+  @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
   private void showCorrectAnswers() {
-    for (AnsweredQuestion AQ : answeredQuestionList) {
-      if (AQ.getQuestionId().equals(mCurrentQuestionID)) {
-        for (Button button : answerButtons) {
-          boolean isTureAnswer = Boolean.parseBoolean(button.getTag(R.string.is_true_answer).toString());
-          if (isTureAnswer) {
-            button.setBackgroundColor(Color.GREEN);
-          }
+    for (Question q : questions) {
+      for (Button button : answerButtons) {
+        boolean isTureAnswer = Boolean.parseBoolean(button.getTag(R.string.is_true_answer).toString());
+        if (isTureAnswer) {
+          button.setBackground(getActivity().getDrawable(R.drawable.correct_answer_button_style));
         }
-
       }
     }
 
   }
 
+  @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
   private void showUserAnswer() {
     for (AnsweredQuestion AQ : answeredQuestionList) {
       for (Button button : answerButtons) {
         UUID answerButtonUUID = UUID.fromString(button.getTag(R.string.answer_uuid).toString());
         if (AQ.getAnswerId().equals(answerButtonUUID)) {
           button.setBackgroundColor(Color.GRAY);
+          boolean isTureAnswer = Boolean.parseBoolean(button.getTag(R.string.is_true_answer).toString());
+          if (isTureAnswer) {
+            mQuestionLogoImg.setBackground(getActivity().getDrawable(R.drawable.correct_answer));
+
+
+          } else {
+            mQuestionLogoImg.setBackground(getActivity().getDrawable(R.drawable.wrong_answer));
+            button.setBackground(getActivity().getDrawable(R.drawable.wrong_answer_style));
+
+          }
         }
       }
     }
   }
 
 
+  @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
   @Override
   public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                            Bundle savedInstanceState) {
@@ -130,6 +147,7 @@ public class QuizResultReviewFragment extends Fragment {
       view.findViewById(R.id.answer_three),
       view.findViewById(R.id.answer_four)};
 
+    mSkipBtn.setVisibility(View.GONE);
     mCategoryTxt.setText(getString(R.string.quiz_show_specification_category, category));
     mDifficultyTxt.setText(getString(R.string.quiz_show_specification_level, difficulty));
     mScoreTxt.setText(getString(R.string.quiz_show_specification_score, QuizResultReviewPagerActivity.scoreSum));
@@ -145,12 +163,12 @@ public class QuizResultReviewFragment extends Fragment {
     showUserAnswer();
     showCorrectAnswers();
 
-
     return view;
   }//end of onCreateView()
 
 
   private void initViews(View view) {
+    mQuestionLogoImg = view.findViewById(R.id.img_question_logo);
     progressBarCircle = view.findViewById(R.id.progress_bar_circle);
     textViewTime = view.findViewById(R.id.txt_time_counter);
     mCategoryTxt = view.findViewById(R.id.txt_category);
@@ -158,6 +176,7 @@ public class QuizResultReviewFragment extends Fragment {
     mScoreTxt = view.findViewById(R.id.txt_score);
     mQuestionNumberTxt = view.findViewById(R.id.txt_question_number);
     mQuestionViewTxt = view.findViewById(R.id.txt_question);
+    mSkipBtn = view.findViewById(R.id.btn_skip_question);
   }
 
 

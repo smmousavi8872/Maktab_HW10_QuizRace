@@ -8,7 +8,7 @@
   android:orientation="vertical"
   >
 
-  <LinearLayout
+  <RelativeLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_margin="10dp"
@@ -16,9 +16,11 @@
     tools:context=".mvc.controller.fragments.LevelChooseDialogFragment">
 
     <TextView
+
+      android:id="@+id/txt_difficulty_title"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
-      android:layout_marginBottom="10dp"
+      android:layout_marginBottom="15dp"
       android:layout_marginTop="20dp"
       android:gravity="center"
       android:text="DIFFICULTY"
@@ -26,38 +28,79 @@
       android:textSize="25dp"
       android:textStyle="bold"/>
 
+    <ImageView
+      android:id="@+id/img_done_level_easy"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignBottom="@id/btn_easy_level"
+      android:layout_alignEnd="@+id/btn_easy_level"
+      android:layout_marginBottom="12dp"
+      android:layout_marginEnd="12dp"
+      android:background="@drawable/ic_done_black_24dp"/>
+
     <Button
       android:id="@+id/btn_easy_level"
       android:layout_width="match_parent"
-      android:layout_height="0dp"
+      android:layout_height="45dp"
+      android:layout_below="@+id/txt_difficulty_title"
       android:layout_margin="5dp"
-      android:layout_weight="1"
-      android:background="@drawable/border"
+      android:background="@drawable/passed_level_button_style"
       android:gravity="center"
+      android:padding="10dp"
       android:tag="easy"
-      android:text="Easy Level"/>
+      android:text="Easy Level"
+      android:textColor="#fff"
+      android:textStyle="bold
+"/>
+
+    <ImageView
+      android:id="@+id/img_done_level_moderate"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignBottom="@id/btn_moderate_level"
+      android:layout_alignEnd="@+id/btn_moderate_level"
+      android:layout_marginBottom="12dp"
+      android:layout_marginEnd="12dp"
+      android:background="@drawable/ic_done_black_24dp"
+      android:visibility="invisible"/>
 
     <Button
       android:id="@+id/btn_moderate_level"
       android:layout_width="match_parent"
-      android:layout_height="0dp"
+      android:layout_height="45dp"
+      android:layout_below="@id/btn_easy_level"
       android:layout_margin="5dp"
-      android:layout_weight="1"
-      android:background="@drawable/border"
+      android:background="@drawable/passed_level_button_style"
       android:gravity="center"
+      android:padding="10dp"
       android:tag="moderate"
-      android:text="Moderate Level"/>
+      android:text="Moderate Level"
+      android:textColor="#fff"
+      android:textStyle="bold"/>
+
+    <ImageView
+      android:id="@+id/img_done_level_tough"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_alignBottom="@id/btn_tough_level"
+      android:layout_alignEnd="@+id/btn_tough_level"
+      android:layout_marginBottom="12dp"
+      android:layout_marginEnd="12dp"
+      android:src="@drawable/ic_done_black_24dp"/>
 
     <Button
       android:id="@+id/btn_tough_level"
       android:layout_width="match_parent"
-      android:layout_height="0dp"
+      android:layout_height="45dp"
+      android:layout_below="@id/btn_moderate_level"
       android:layout_margin="5dp"
-      android:layout_weight="1"
-      android:background="@drawable/border"
+      android:background="@drawable/passed_level_button_style"
       android:gravity="center"
+      android:padding="10dp"
       android:tag="tough"
-      android:text="Tough Level"/>
+      android:text="Tough Level"
+      android:textColor="#fff"
+      android:textStyle="bold"/>
 
-  </LinearLayout>
+  </RelativeLayout>
 </LinearLayout>

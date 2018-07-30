@@ -3,16 +3,18 @@ package com.example.smmousavi.maktab_hw10_quizrace.mvc.controller.fragments;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 
 import com.example.smmousavi.maktab_hw10_quizrace.R;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.controller.activities.QuizResultReviewPagerActivity;
@@ -33,6 +35,9 @@ public class LevelChooseDialogFragment extends DialogFragment {
   private AlertDialog dialog;
   private List<UserPassedLevel> userPassedLevels;
   private String category;
+  private ImageView doneLevelEasyImg;
+  private ImageView doneLevelModerateImg;
+  private ImageView doneLevelToughImg;
 
 
   public LevelChooseDialogFragment() {
@@ -50,6 +55,7 @@ public class LevelChooseDialogFragment extends DialogFragment {
   }
 
 
+  @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
   @NonNull
   @Override
   public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -61,6 +67,10 @@ public class LevelChooseDialogFragment extends DialogFragment {
     Button moderateLevelBtn = view.findViewById(R.id.btn_moderate_level);
     Button toughLevelBtn = view.findViewById(R.id.btn_tough_level);
 
+    doneLevelEasyImg = view.findViewById(R.id.img_done_level_easy);
+    doneLevelModerateImg = view.findViewById(R.id.img_done_level_moderate);
+    doneLevelToughImg = view.findViewById(R.id.img_done_level_tough);
+
     easyLevelBtn.setTag(R.string.difficulty_option, "easy");
     moderateLevelBtn.setTag(R.string.difficulty_option, "moderate");
     toughLevelBtn.setTag(R.string.difficulty_option, "tough");
@@ -68,9 +78,10 @@ public class LevelChooseDialogFragment extends DialogFragment {
     optionButtons = new Button[]{easyLevelBtn, moderateLevelBtn, toughLevelBtn};
     category = getArguments().getString(ARGS_CATEGORY);
 
-
     UUID userId = Repository.getInstance(getActivity()).getCurrentUser().getId();
     userPassedLevels = Repository.getInstance(getActivity()).getUserPassedLevels(userId);
+
+    tickPassedLevels();
 
     setOnDifficultyButtonsClickListener();
 
@@ -86,6 +97,7 @@ public class LevelChooseDialogFragment extends DialogFragment {
   public void setOnDifficultyButtonsClickListener() {
     for (final Button button : optionButtons) {
       button.setOnClickListener(new View.OnClickListener() {
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         @Override
         public void onClick(View view) {
           String difficulty = button.getTag(R.string.difficulty_option).toString();
@@ -112,10 +124,41 @@ public class LevelChooseDialogFragment extends DialogFragment {
       String levelCategory = level.getCategory();
       String levelDifficulty = level.getDifficulty();
       if (category.equals(levelCategory) && buttonDifficulty.equals(levelDifficulty)) {
-        button.setBackgroundColor(Color.GRAY);
         return true;
       }
     }
     return false;
   }// end of isPassed()
+
+
+  @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+  public void tickPassedLevels() {
+    for (Button button : optionButtons) {
+      for (UserPassedLevel level : userPassedLevels) {
+        String passedCategory = level.getCategory();
+        String passedDifficulty = level.getDifficulty();
+        String buttonDifficulty = button.getTag().toString();
+        if (category.equals(passedCategory) && buttonDifficulty.equals(passedDifficulty)) {
+          button.setBackground(getActivity().getDrawable(R.drawable.passed_level_button_style));
+          setDifficultyLevelDone(buttonDifficulty);
+        }
+      }
+    }
+  }
+
+
+  public void setDifficultyLevelDone(String difficulty) {
+
+    switch (difficulty) {
+      case "easy":
+        doneLevelEasyImg.setVisibility(View.VISIBLE);
+        break;
+      case "moderate":
+        doneLevelModerateImg.setVisibility(View.VISIBLE);
+        break;
+      case "tough":
+        doneLevelToughImg.setVisibility(View.VISIBLE);
+    }
+
+  }
 }

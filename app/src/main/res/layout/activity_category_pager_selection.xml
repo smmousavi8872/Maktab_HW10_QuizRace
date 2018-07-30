@@ -12,7 +12,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginBottom="10dp"
-    app:tabIndicatorColor="#00ffffff"
+    app:tabIndicatorColor="@color/app_orange_color"
     app:tabSelectedTextColor="@color/app_orange_color">
 
     <android.support.design.widget.TabItem

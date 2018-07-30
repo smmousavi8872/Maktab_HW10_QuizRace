@@ -1,17 +1,19 @@
 package com.example.smmousavi.maktab_hw10_quizrace.mvc.controller.fragments;
 
 
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
-import android.support.design.widget.Snackbar;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -34,6 +36,7 @@ public class QuizShowFragment extends Fragment {
   public static final String ARGS_QUESTION_CATEGORY = "args_question_category";
   public static final String ARGS_QUESTION_LEVEL = "args_question_level";
   private static final String REPORT_DIALOG_TAG = "report_dialog_tag";
+  public static final String QUIZ_SHOW_FRAGMENT_TAG = "quiz_show_fragment_tag";
 
   private TextView mCategoryTxt;
   private TextView mDifficultyTxt;
@@ -41,6 +44,7 @@ public class QuizShowFragment extends Fragment {
   private TextView mScoreTxt;
   private TextView mQuestionTextViewTxt;
   private Button[] mAnswerButtons;
+  private Button mSkipBtn;
   private List<Question> mQuestionList;
   private List<Answer> mAnswers;
   private String mQuestionCategory;
@@ -55,6 +59,7 @@ public class QuizShowFragment extends Fragment {
   private int mTotalPositivePoints;
   private int mTotalNegetivePoints;
   private long currentTimer;
+  private ImageView mQuestionLogoImg;
 
 
   //Count donw class fields
@@ -91,14 +96,9 @@ public class QuizShowFragment extends Fragment {
   @Override
   public void onStart() {
     super.onStart();
-    startOrStop();
+    startOrStopTimer();
   }
 
-
-  @Override
-  public void onPause() {
-    super.onPause();
-  }
 
   @Override
   public void onResume() {
@@ -134,6 +134,12 @@ public class QuizShowFragment extends Fragment {
 
     mCategoryTxt.setText(getString(R.string.quiz_show_specification_category, mQuestionCategory));
     mDifficultyTxt.setText(getString(R.string.quiz_show_specification_level, mQuestionDifficulty));
+    mSkipBtn.setOnClickListener(new View.OnClickListener() {
+      @Override
+      public void onClick(View view) {
+        countDownTimer.onFinish();
+      }
+    });
 
     updateAfterUserAnswered();
 
@@ -149,6 +155,8 @@ public class QuizShowFragment extends Fragment {
     mQuestionTextViewTxt = view.findViewById(R.id.txt_question);
     progressBarCircle = view.findViewById(R.id.progress_bar_circle);
     textViewTime = view.findViewById(R.id.txt_time_counter);
+    mSkipBtn = view.findViewById(R.id.btn_skip_question);
+    mQuestionLogoImg = view.findViewById(R.id.img_question_logo);
 
   }// end of findViews()
 
@@ -172,6 +180,7 @@ public class QuizShowFragment extends Fragment {
   private void setOnAnswerButtonClickListener() {
     for (final Button button : mAnswerButtons) {
       button.setOnClickListener(new View.OnClickListener() {
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         @Override
         public void onClick(View view) {
           boolean isTrueAnswer = Boolean.parseBoolean(button.getTag(R.string.is_true_answer).toString());
@@ -211,7 +220,7 @@ public class QuizShowFragment extends Fragment {
 
             stopCountDownTimer();
 
-            wrongAnswerAction(button, getTrueAnswerButton());
+            wrongAnswerAction(button);
 
             final Handler handler = new Handler();
             handler.postDelayed(new Runnable() {
@@ -237,14 +246,18 @@ public class QuizShowFragment extends Fragment {
   }
 
 
-  private void wrongAnswerAction(Button userChoiceButton, Button trueAnswerButton) {
-    Snackbar.make(getView(), "You Choosed Wrong Answer", Snackbar.LENGTH_SHORT).show();
+  @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+  private void wrongAnswerAction(Button userChoiceButton) {
+    mQuestionLogoImg.setBackground(getActivity().getDrawable(R.drawable.wrong_answer));
+    userChoiceButton.setBackground(getActivity().getDrawable(R.drawable.wrong_answer_style));
 
   }// end of wrongAnswerAction()
 
 
+  @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
   private void rightAnswerAction(Button trueAnswerButton) {
-    Snackbar.make(getView(), "You Choosed Right Answer", Snackbar.LENGTH_SHORT).show();
+    trueAnswerButton.setBackground(getActivity().getDrawable(R.drawable.correct_answer_button_style));
+    mQuestionLogoImg.setBackground(getActivity().getDrawable(R.drawable.correct_answer));
 
   }// end of rightAnswerAction()
 
@@ -263,7 +276,8 @@ public class QuizShowFragment extends Fragment {
 
   private void showQuizResult() {
     QuizReportDialogFragment dialog = QuizReportDialogFragment.newInstance(mCorrectAnswers, mIncorrectAnswers, mQuestionCategory, mQuestionDifficulty);
-    dialog.show(getFragmentManager(), REPORT_DIALOG_TAG);
+    if (dialog != null)
+      dialog.show(getFragmentManager(), REPORT_DIALOG_TAG);
 
   } // end of showQuizReport()
 
@@ -278,6 +292,7 @@ public class QuizShowFragment extends Fragment {
       });
     }
   }
+
   /*
    *
    * Count Down Timer Impelemenation
@@ -295,12 +310,16 @@ public class QuizShowFragment extends Fragment {
         currentTimer = millisUntilFinished;
       }
 
+      @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
       @Override
       public void onFinish() {
+        for (Button button : mAnswerButtons) {
+          button.setBackground(getActivity().getDrawable(R.drawable.general_button_style));
+        }
         textViewTime.setText(sTimeFormatter(TIME_COUNT_MILLIES));
         setProgressBarValues();
         timerStatus = TimerStatus.STOPPED;
-
+        mQuestionLogoImg.setBackground(getActivity().getDrawable(R.drawable.question));
         if (++mCurrentQuesionNumber < mQuestionList.size()) {
           resetTimer();
           updateAfterUserAnswered();
@@ -321,7 +340,7 @@ public class QuizShowFragment extends Fragment {
 
 
   //method to start and stop count down timer
-  public void startOrStop() {
+  public void startOrStopTimer() {
     if (timerStatus == TimerStatus.STOPPED) {
       setProgressBarValues();
       timerStatus = TimerStatus.STARTED;
@@ -334,7 +353,7 @@ public class QuizShowFragment extends Fragment {
   }
 
 
-  public void pausCounter() {
+  public void pauseCounter() {
     timerStatus = TimerStatus.STOPPED;
     stopCountDownTimer();
   }
@@ -352,18 +371,34 @@ public class QuizShowFragment extends Fragment {
         currentTimer = l;
       }
 
+      @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
       @Override
       public void onFinish() {
         textViewTime.setText(sTimeFormatter(TIME_COUNT_MILLIES));
+        for (Button button : mAnswerButtons) {
+          button.setBackground(getActivity().getDrawable(R.drawable.general_button_style));
+        }
         setProgressBarValues();
+        mQuestionLogoImg.setBackground(getActivity().getDrawable(R.drawable.question));
         //Send message to change question
         timerStatus = TimerStatus.STOPPED;
+        textViewTime.setText(sTimeFormatter(TIME_COUNT_MILLIES));
+        setProgressBarValues();
+        timerStatus = TimerStatus.STOPPED;
+
+        if (++mCurrentQuesionNumber < mQuestionList.size()) {
+          resetTimer();
+          updateAfterUserAnswered();
+          setOnAnswerButtonClickListener();
+
+        } else
+          finishQuiz();
       }
     }.start();
   }
 
   //method to stop count down timer
-  private void stopCountDownTimer() {
+  public void stopCountDownTimer() {
     countDownTimer.cancel();
   }
 

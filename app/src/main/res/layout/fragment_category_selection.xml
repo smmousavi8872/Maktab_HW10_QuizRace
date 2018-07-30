@@ -4,7 +4,7 @@
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
-  android:layout_margin="26dp"
+  android:layout_margin="20dp"
   tools:context=".mvc.controller.fragments.CategorySelectionFragment">
 
 
@@ -14,47 +14,60 @@
     android:layout_height="wrap_content"
     android:layout_alignEnd="@id/txt_choose_category_title"
     android:layout_alignStart="@id/txt_choose_category_title"
-    android:background="@drawable/border"
+    android:background="@drawable/specification_box_style"
     android:orientation="vertical"
 
-    android:padding="10dp">
+    android:padding="1dp">
 
     <TextView
       android:id="@+id/category_selection_user_welcome"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
+      android:layout_gravity="center_horizontal"
+      android:layout_marginTop="10dp"
       android:text="@string/hi_user_title"
-      android:textColor="#3e3e3e"/>
+      android:textColor="#fff"
+      android:textSize="25dp"
+      android:textStyle="bold"/>
 
     <TextView
       android:id="@+id/txt_category_selection_total_score"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
+      android:layout_marginStart="10dp"
       android:layout_marginTop="5dp"
       android:text="@string/total_score_title"
-      android:textColor="#3e3e3e"/>
+      android:textColor="#fff"
+      android:textSize="18dp"
+      android:textStyle="bold"/>
 
     <TextView
       android:id="@+id/txt_category_selection_top_score"
       android:layout_width="wrap_content"
       android:layout_height="wrap_content"
+      android:layout_marginStart="10dp"
       android:layout_marginTop="5dp"
       android:text="@string/top_score_title"
-      android:textColor="#3e3e3e"/>
+      android:textColor="#fff"
+      android:textSize="18dp"
+      android:textStyle="bold"/>
 
+    <Button
+      android:id="@+id/btn_category_selection_profile"
+      android:layout_width="match_parent"
+      android:layout_height="40dp"
+      android:layout_gravity="center_horizontal"
+      android:layout_marginBottom="10dp"
+      android:layout_marginEnd="10dp"
+      android:layout_marginStart="10dp"
+      android:layout_marginTop="20dp"
+      android:background="@drawable/profile_button_style"
+      android:text="Profile"
+      android:textColor="#fff"
+      android:textSize="16dp"
+      android:textStyle="bold"/>
   </LinearLayout>
 
-  <Button
-    android:id="@+id/btn_category_selection_profile"
-    android:layout_width="80dp"
-    android:layout_height="30dp"
-    android:layout_alignBottom="@id/layout_user_specification"
-    android:layout_alignParentEnd="true"
-    android:layout_margin="10dp"
-    android:background="@drawable/general_button_style"
-    android:text="Profile"
-    android:textColor="#fff"
-    android:textSize="14dp"/>
 
   <TextView
     android:id="@+id/txt_choose_category_title"
@@ -64,10 +77,11 @@
     android:layout_alignStart="@id/category_grid_layout"
     android:layout_below="@+id/layout_user_specification"
     android:layout_marginTop="20dp"
-    android:gravity="center"
+    android:gravity="center_vertical"
     android:text="@string/choose_question_category_title"
     android:textColor="@color/app_orange_color"
-    android:textSize="16dp"/>
+    android:textSize="16dp"
+    android:textStyle="bold"/>
 
   <GridLayout
     android:id="@+id/category_grid_layout"
@@ -84,9 +98,12 @@
       android:layout_column="0"
       android:layout_row="0"
       android:background="@drawable/fill_border_science"
+      android:drawableBottom="@drawable/science_category"
+      android:paddingBottom="20dp"
       android:tag="science"
       android:text="@string/science_category_title"
-      android:textColor="#fff"/>
+      android:textColor="#fff"
+      android:textSize="18dp"/>
 
     <Button
       android:id="@+id/btn_sports_category"
@@ -94,9 +111,12 @@
       android:layout_column="1"
       android:layout_row="0"
       android:background="@drawable/fill_border_sport"
+      android:drawableBottom="@drawable/sport_category"
+      android:paddingBottom="20dp"
       android:tag="sport"
       android:text="@string/sport_category_title"
-      android:textColor="#fff"/>
+      android:textColor="#fff"
+      android:textSize="18dp"/>
 
     <Button
       android:id="@+id/btn_technology_category"
@@ -104,18 +124,24 @@
       android:layout_column="0"
       android:layout_row="1"
       android:background="@drawable/fill_border_technology"
+      android:drawableBottom="@drawable/technology_category"
+      android:paddingBottom="20dp"
       android:tag="technology"
       android:text="@string/technology_category_title"
-      android:textColor="#fff"/>
+      android:textColor="#fff"
+      android:textSize="18dp"/>
 
     <Button
       android:id="@+id/btn_general_category"
       style="@style/category_select_button_style"
       android:layout_gravity="fill"
       android:background="@drawable/fill_border_general"
+      android:drawableBottom="@drawable/general_category"
+      android:paddingBottom="20dp"
       android:tag="general"
       android:text="@string/general_category_title"
-      android:textColor="#fff"/>
+      android:textColor="#fff"
+      android:textSize="18dp"/>
   </GridLayout>
 
 

@@ -11,6 +11,8 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
 
   public abstract Fragment createFragment();
 
+  public abstract String getTag();
+
   @Override
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -21,8 +23,9 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
 
     if (foundFragment == null) {
       foundFragment = createFragment();
+      String tag = getTag();
       fm.beginTransaction()
-        .add(R.id.fragment_container, foundFragment)
+        .add(R.id.fragment_container, foundFragment, tag)
         .commit();
     }
   }
