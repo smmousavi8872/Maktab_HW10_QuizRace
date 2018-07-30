@@ -175,23 +175,23 @@ public class Repository {
     return questionAnswers;
   }// end of getAnswer()
 
-  public List<Category> getCategoryList() {
-    List<Category> categories = new ArrayList<>();
-    CategoryCursorWrapper cursor = getCategoryQuery(CategoryTable.NAME, null, null);
-    Log.e("cursercount", String.valueOf(cursor.getCount()));
-    if (cursor.getCount() > 0) {
-      try {
-        cursor.moveToFirst();
-        while (!cursor.isAfterLast()) {
-          categories.add(cursor.getCategory());
-          cursor.moveToNext();
+    public List<Category> getCategoryList() {
+        List<Category> categories = new ArrayList<>();
+        CategoryCursorWrapper cursor = getCategoryQuery(CategoryTable.NAME, null, null);
+        Log.e("cursercount", String.valueOf(cursor.getCount()));
+        if (cursor.getCount() > 0) {
+            try {
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+                    categories.add(cursor.getCategory());
+                    cursor.moveToNext();
+                }
+            } finally {
+                cursor.close();
+            }
         }
-      } finally {
-        cursor.close();
-      }
+        return categories;
     }
-    return categories;
-  }
 
   public void addUser(User user) {
     ContentValues values = getUserContentValue(user);
@@ -252,6 +252,23 @@ public class Repository {
     }
     return userList;
   }// end of getUsersList()
+
+    public List<UserPassedLevel> getUserPassedLevelList() {
+        List<UserPassedLevel> userPassedLevelList = new ArrayList<>();
+        UserPassedLevelsCursorWrapper cursor = getUserPassedLevelsQuery(UserPassedLevels.NAME, null, null);
+        if (cursor.getCount() > 0) {
+            try {
+                cursor.moveToFirst();
+                while (!cursor.isAfterLast()) {
+                    userPassedLevelList.add(cursor.getUserPassedLevel());
+                    cursor.moveToNext();
+                }
+            } finally {
+                cursor.close();
+            }
+        }
+        return userPassedLevelList;
+    }
 
 
   public void updateUser(User user) {

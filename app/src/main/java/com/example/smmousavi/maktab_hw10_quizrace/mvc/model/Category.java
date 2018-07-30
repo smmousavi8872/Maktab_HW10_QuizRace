@@ -4,31 +4,41 @@ import java.util.UUID;
 
 public class Category {
 
-  UUID mId;
-  String mName;
+    UUID mId;
+    String mName;
+    int mSerie;
 
-  public Category(String name) {
-    mId = UUID.randomUUID();
-  }
-
-
-  public Category(UUID id, String name) {
-    mId = id;
-    mName = name;
-  }
+    public Category(String name) {
+        mId = UUID.randomUUID();
+        mName = name;
+    }
 
 
-  public UUID getId() {
-    return mId;
-  }
+    public Category(UUID id, String name) {
+        mId = id;
+        mName = name;
+    }
 
 
-  public String getName() {
-    return mName;
-  }
+    public UUID getId() {
+        return mId;
+    }
 
 
-  public void setName(String name) {
-    mName = name;
-  }
+    public String getName() {
+        return mName;
+    }
+
+
+    public void setName(String name) {
+        mName = name;
+    }
+
+    public int getSerie() {
+        return mSerie;
+    }
+
+    public void setSerie(int serie) {
+        this.mSerie = mSerie;
+    }
 }
