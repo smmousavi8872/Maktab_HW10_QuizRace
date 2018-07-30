@@ -39,8 +39,9 @@ public class QuizShowActivity extends SingleFragmentActivity {
 
   @Override
   public void onBackPressed() {
-    questFragment.pausCounter();
+    questFragment.pauseCounter();
     ExitDialogFragment exitDialog = new ExitDialogFragment();
+
     exitDialog.show(getSupportFragmentManager(), EXIT_DIALOG);
   }
 

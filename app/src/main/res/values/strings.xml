@@ -38,4 +38,5 @@
   <string name="default_level_easy">easy</string>
   <string name="default_level_moderate">moderate</string>
   <string name="default_level_tough">tough</string>
+  <string name="yellow_color">#FFFF33</string>
 </resources>

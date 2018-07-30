@@ -175,23 +175,23 @@ public class Repository {
     return questionAnswers;
   }// end of getAnswer()
 
-    public List<Category> getCategoryList() {
-        List<Category> categories = new ArrayList<>();
-        CategoryCursorWrapper cursor = getCategoryQuery(CategoryTable.NAME, null, null);
-        Log.e("cursercount",String.valueOf(cursor.getCount()));
-        if (cursor.getCount() > 0) {
-            try {
-                cursor.moveToFirst();
-                while (!cursor.isAfterLast()) {
-                    categories.add(cursor.getCategory());
-                    cursor.moveToNext();
-                }
-            } finally {
-                cursor.close();
-            }
+  public List<Category> getCategoryList() {
+    List<Category> categories = new ArrayList<>();
+    CategoryCursorWrapper cursor = getCategoryQuery(CategoryTable.NAME, null, null);
+    Log.e("cursercount", String.valueOf(cursor.getCount()));
+    if (cursor.getCount() > 0) {
+      try {
+        cursor.moveToFirst();
+        while (!cursor.isAfterLast()) {
+          categories.add(cursor.getCategory());
+          cursor.moveToNext();
         }
-        return categories;
+      } finally {
+        cursor.close();
+      }
     }
+    return categories;
+  }
 
   public void addUser(User user) {
     ContentValues values = getUserContentValue(user);

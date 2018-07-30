@@ -3,10 +3,11 @@ package com.example.smmousavi.maktab_hw10_quizrace.mvc.controller.fragments;
 
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.annotation.RequiresApi;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -86,8 +87,10 @@ public class LevelChooseDialogFragment extends DialogFragment {
   public void setOnDifficultyButtonsClickListener() {
     for (final Button button : optionButtons) {
       button.setOnClickListener(new View.OnClickListener() {
+        @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
         @Override
         public void onClick(View view) {
+          button.setBackground(getActivity().getDrawable(R.drawable.general_button_style));
           String difficulty = button.getTag(R.string.difficulty_option).toString();
           if (!isPassed(button)) {
             Intent intent = QuizShowActivity.newIntent(getActivity(), category, difficulty);
@@ -112,7 +115,6 @@ public class LevelChooseDialogFragment extends DialogFragment {
       String levelCategory = level.getCategory();
       String levelDifficulty = level.getDifficulty();
       if (category.equals(levelCategory) && buttonDifficulty.equals(levelDifficulty)) {
-        button.setBackgroundColor(Color.GRAY);
         return true;
       }
     }
