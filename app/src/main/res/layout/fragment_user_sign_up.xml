@@ -7,9 +7,8 @@
 
 
   <RelativeLayout
-    android:layout_width="wrap_content"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="60dp"
     android:background="@drawable/border"
     android:padding="20dp">
 
@@ -20,7 +19,7 @@
       android:layout_alignParentStart="true"
       android:layout_centerHorizontal="true"
       android:layout_marginStart="30dp"
-      android:layout_marginTop="60dp"
+      android:layout_marginTop="50dp"
       android:text="@string/sign_up_welcome_text"
       android:textColor="@color/app_orange_color"
       android:textSize="26dp"
@@ -32,7 +31,7 @@
       android:layout_height="100dp"
       android:layout_alignParentEnd="true"
       android:layout_marginEnd="30dp"
-      android:layout_marginTop="25dp"
+      android:layout_marginTop="10dp"
       android:background="@drawable/login_logo"/>
 
 
@@ -41,7 +40,6 @@
       android:layout_width="match_parent"
       android:layout_height="wrap_content"
       android:layout_below="@+id/sign_up_logo"
-      android:layout_margin="20dp"
       android:gravity="center"
       android:textSize="16dp"/>
 
@@ -51,7 +49,7 @@
       android:layout_height="wrap_content"
       android:layout_below="@+id/txt_sign_up_welcome"
       android:layout_centerHorizontal="true"
-      android:layout_marginTop="100dp"
+      android:layout_marginTop="60dp"
       android:text="USERNAME"
       android:textColor="#f36b00"
       android:textSize="18dp"/>

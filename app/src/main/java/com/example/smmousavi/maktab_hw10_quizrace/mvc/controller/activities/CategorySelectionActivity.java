@@ -52,6 +52,7 @@ public class CategorySelectionActivity extends AppCompatActivity {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_category_pager_selection);
     setTitle("Quiz Race");
+    getSupportActionBar().hide();
 
     viewPager = findViewById(R.id.category_selection_view_pager);
     tabLayout = findViewById(R.id.category_selection_tab_layout);

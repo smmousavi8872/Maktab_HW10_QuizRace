@@ -17,6 +17,7 @@ public abstract class SingleFragmentActivity extends AppCompatActivity {
   protected void onCreate(Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_single_fragment);
+    getSupportActionBar().hide();
 
     FragmentManager fm = getSupportFragmentManager();
     Fragment foundFragment = fm.findFragmentById(R.id.fragment_container);

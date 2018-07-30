@@ -49,6 +49,7 @@ public class QuizResultReviewPagerActivity extends AppCompatActivity {
   protected void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
     setContentView(R.layout.activity_quiz_pager_show);
+    getSupportActionBar().hide();
 
     String category = getIntent().getStringExtra(EXTRA_INTENT_CATEGORY);
     String difficulty = getIntent().getStringExtra(EXTRA_INTENT_DIFFICULTY);
