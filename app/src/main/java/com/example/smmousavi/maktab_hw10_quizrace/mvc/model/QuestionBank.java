@@ -1,8 +1,5 @@
 package com.example.smmousavi.maktab_hw10_quizrace.mvc.model;
 
-import android.content.Context;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -738,10 +735,10 @@ public class QuestionBank {
         public static int trueNumber = 3;
 
         static {
-          answersText.add("Intenal Service Provider. A company which provide internet connection for a fee.");
-          answersText.add("Internet Service Provider. A company which provide internal transferring data service to an organization.");
-          answersText.add("Internet Service Provider. A company which provide internet connection to other people for a fee.");
-          answersText.add("Internal Service Provider. A company provide internal connection to transfer data between two company.");
+          answersText.add("Internal Service Provider");
+          answersText.add("Identical Service Provider");
+          answersText.add("Internet Service Provider");
+          answersText.add("Interval Service Provider");
         }
       }
 

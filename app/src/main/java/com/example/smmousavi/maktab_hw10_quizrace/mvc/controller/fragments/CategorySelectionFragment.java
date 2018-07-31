@@ -31,11 +31,11 @@ public class CategorySelectionFragment extends Fragment {
   private TextView usernameTxt;
   private TextView totalScoreTxt;
   private TextView topScoreTxt;
-  Button[] categoryButtons;
+  private Button[] categoryButtons;
   private UUID userId;
   private Button settingBtn;
 
-  View view;
+  private View view;
 
   public CategorySelectionFragment() {
     // Required empty public constructor
@@ -67,6 +67,7 @@ public class CategorySelectionFragment extends Fragment {
     topScoreTxt.setText(getString(R.string.top_score_title, currentUser.getTotalScore()));
   }
 
+
   @Override
   public void onCreate(@Nullable Bundle savedInstanceState) {
     super.onCreate(savedInstanceState);
@@ -87,6 +88,7 @@ public class CategorySelectionFragment extends Fragment {
     Button technologyCategoryBtn = view.findViewById(R.id.btn_technology_category);
     Button generalCategoryBtn = view.findViewById(R.id.btn_general_category);
     settingBtn = view.findViewById(R.id.btn_category_selection_profile);
+
     settingBtn.setOnClickListener(new View.OnClickListener() {
       @Override
       public void onClick(View view) {
@@ -123,7 +125,6 @@ public class CategorySelectionFragment extends Fragment {
         }
       });
     }
-
   }
 
 
