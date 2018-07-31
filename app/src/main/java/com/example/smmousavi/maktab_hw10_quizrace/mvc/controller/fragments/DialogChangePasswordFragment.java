@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 
 import com.example.smmousavi.maktab_hw10_quizrace.R;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.Repository;
@@ -29,6 +30,7 @@ public class DialogChangePasswordFragment extends DialogFragment {
     TextInputEditText currentPassword;
     TextInputEditText newPassword;
     TextInputEditText repeatedPassword;
+    ImageButton closeBtn;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -46,6 +48,7 @@ public class DialogChangePasswordFragment extends DialogFragment {
         repeatedPassword = view.findViewById(R.id.edit_profile_pass_repeat);
         currentPasswordLayout = view.findViewById(R.id.edit_profile_current_pass_layout);
         repeatedPasswordLayout = view.findViewById(R.id.edit_profile_pass_repeat_layout);
+        closeBtn = view.findViewById(R.id.change_password_close_btn);
         applyPasswordBtn.setEnabled(false);
         checkNewPassword();
 
@@ -53,6 +56,13 @@ public class DialogChangePasswordFragment extends DialogFragment {
             @Override
             public void onClick(View view) {
                 changePassword();
+            }
+        });
+
+        closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
             }
         });
         return view;

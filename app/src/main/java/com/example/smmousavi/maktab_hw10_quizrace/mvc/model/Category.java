@@ -39,6 +39,6 @@ public class Category {
     }
 
     public void setSerie(int serie) {
-        this.mSerie = mSerie;
+        this.mSerie = serie;
     }
 }

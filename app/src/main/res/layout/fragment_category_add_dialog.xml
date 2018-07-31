@@ -1,28 +1,75 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="10dp">
+    android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/add_question_top"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="AddQuestion"/>
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/add_category_toolbar_top"
+        android:layout_height="40dp"
+        android:layout_width="match_parent"
+        android:background="@color/app_orange_color"
+        android:minHeight="?attr/actionBarSize">
 
-    <EditText
+
+        <TextView
+            android:id="@+id/add_category_top"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:textColor="@color/white"
+            android:textStyle="bold"
+            android:text="Add Category"/>
+
+        <ImageButton
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:contentDescription="a"
+            android:layout_marginEnd="10dp"
+            android:background="@color/app_orange_color"
+            android:src="@drawable/ic_close_black_24dp"
+            android:id="@+id/add_category_close_btn"/>
+
+
+    </android.support.v7.widget.Toolbar>
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Enter the new category"
-        android:layout_below="@+id/add_question_top"
-        android:id="@+id/add_category_text"/>
+        android:layout_below="@id/add_category_toolbar_top"
+        android:padding="10dp">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentEnd="true"
-        android:layout_below="@+id/add_category_text"
-        android:text="Add"
-        android:id="@+id/add_category_btn"/>
+
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter the new category"
+            android:id="@+id/add_category_text"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/add_category_text"
+            android:textColor="#000"
+            android:text="Your category's serie No. is : "
+            android:id="@+id/add_category_serie_text"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/add_category_serie_text"
+            android:layout_below="@+id/add_category_text"
+            android:textColor="#000"
+            android:id="@+id/add_category_serie"/>
+
+        <Button
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/add_category_text"
+            android:text="Add"
+            android:background="@drawable/border"
+            android:id="@+id/add_category_btn"/>
+    </RelativeLayout>
+
 
 </RelativeLayout>

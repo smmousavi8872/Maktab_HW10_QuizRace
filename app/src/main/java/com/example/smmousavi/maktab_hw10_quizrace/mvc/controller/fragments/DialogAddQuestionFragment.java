@@ -13,8 +13,10 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.smmousavi.maktab_hw10_quizrace.R;
 import com.example.smmousavi.maktab_hw10_quizrace.mvc.model.Answer;
@@ -29,6 +31,7 @@ import java.util.List;
 public class DialogAddQuestionFragment extends DialogFragment {
 
     private Spinner addCategorySelction;
+    private Spinner addSerieSelection;
     private Spinner addLevelSelection;
     private Repository repository;
 
@@ -39,8 +42,11 @@ public class DialogAddQuestionFragment extends DialogFragment {
     private EditText addQuestionAnswer4Edt;
     private RadioGroup addQuestionRadioGroup;
     private Button addQuestionAddBtn;
+    private ImageButton closeBtn;
     private String addCategorySelected;
     private String addLevelSelected;
+    private String addSerieSelected;
+    private String currentCategory;
 
     @Nullable
     @Override
@@ -54,6 +60,13 @@ public class DialogAddQuestionFragment extends DialogFragment {
 
         setAddQuestion();
 
+        closeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
+
         return view;
     }
 
@@ -61,6 +74,7 @@ public class DialogAddQuestionFragment extends DialogFragment {
         repository = Repository.getInstance(getActivity());
         addCategorySelction = view.findViewById(R.id.add_question_category_selection);
         addLevelSelection = view.findViewById(R.id.add_question_level_selection);
+        addSerieSelection = view.findViewById(R.id.add_question_serie_selection);
 
         addQuestionTitleEdt = view.findViewById(R.id.add_question_text);
         addQuestionAnswer1Edt = view.findViewById(R.id.add_question_answer1);
@@ -69,6 +83,7 @@ public class DialogAddQuestionFragment extends DialogFragment {
         addQuestionAnswer4Edt = view.findViewById(R.id.add_question_answer4);
         addQuestionRadioGroup = view.findViewById(R.id.add_question_answers);
         addQuestionAddBtn = view.findViewById(R.id.add_question_add_btn);
+        closeBtn=view.findViewById(R.id.add_question_close_btn);
     }// end of findViews()
 
     public static DialogAddQuestionFragment newInstance() {
@@ -83,8 +98,15 @@ public class DialogAddQuestionFragment extends DialogFragment {
     public void setCategorySpinner() {
         List<Category> categoryList = repository.getCategoryList();
         List<String> categories = new ArrayList<>();
-        categories.add("Choose Your Category");
+        List<String> series = new ArrayList<>();
+        categories.add("Choose A Category");
+        outer:
         for (Category category : categoryList) {
+            for (String s : categories) {
+                if (s.equals(category.getName())) {
+                    continue outer;
+                }
+            }
             categories.add(category.getName());
         }
 
@@ -94,6 +116,32 @@ public class DialogAddQuestionFragment extends DialogFragment {
             @Override
             public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
                 addCategorySelected = (String) addCategorySelction.getSelectedItem();
+                setAddSerieSpinner();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // your code here
+            }
+
+        });
+    }
+
+    public void setAddSerieSpinner() {
+        List<String> series = new ArrayList<>();
+        series.add("Choose A Serie");
+        List<Category> categoryList = repository.getCategoryList();
+        for (Category category : categoryList) {
+            if (category.getName().equals(addCategorySelected)) {
+                series.add("Serie No. " + String.valueOf(category.getSerie()));
+            }
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, series);
+        addSerieSelection.setAdapter(adapter);
+        addSerieSelection.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                addSerieSelected = (String) addSerieSelection.getSelectedItem();
             }
 
             @Override
@@ -106,7 +154,7 @@ public class DialogAddQuestionFragment extends DialogFragment {
 
 
     public void setLevelSpinner() {
-        String[] levels = {"Choose Your Level", "easy", "moderate", "tough"};
+        String[] levels = {"Choose A Level", "easy", "moderate", "tough"};
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), android.R.layout.simple_spinner_dropdown_item, levels);
         addLevelSelection.setAdapter(adapter);
         addLevelSelection.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
@@ -132,8 +180,7 @@ public class DialogAddQuestionFragment extends DialogFragment {
                         addQuestion();
                     } else {
                         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        builder.setTitle("My title");
-                        builder.setMessage("This is my message.");
+                        builder.setMessage("You can't add question because someone has passed this serie.");
                         builder.setPositiveButton("OK", null);
                         AlertDialog dialog = builder.create();
                         dialog.show();
@@ -151,7 +198,7 @@ public class DialogAddQuestionFragment extends DialogFragment {
         View radioButton = addQuestionRadioGroup.findViewById(radioButtonID);
         int idx = addQuestionRadioGroup.indexOfChild(radioButton);
         Question question = new Question(addQuestionTitleEdt.getText().toString());
-        question.setCategory(addCategorySelected);
+        question.setCategory(addCategorySelected + addSerieSelected);
         question.setDifficulty(addLevelSelected);
         repository.addQuestion(question);
         for (int i = 0; i < 4; i++) {
@@ -167,7 +214,7 @@ public class DialogAddQuestionFragment extends DialogFragment {
     private boolean checkCategory() {
         List<UserPassedLevel> userPassedLevels = repository.getUserPassedLevelList();
         for (UserPassedLevel userPassedLevel : userPassedLevels) {
-            if (userPassedLevel.getCategory().equals(addCategorySelected) && userPassedLevel.getDifficulty().equals(addLevelSelected)) {
+            if (userPassedLevel.getCategory().equals(addCategorySelected + addSerieSelected) && userPassedLevel.getDifficulty().equals(addLevelSelected)) {
                 return false;
             }
         }
@@ -175,11 +222,24 @@ public class DialogAddQuestionFragment extends DialogFragment {
     }
 
     private boolean isEmpty() {
-        if (addCategorySelction.getSelectedItemPosition() == 0 || addLevelSelection.getSelectedItemPosition() == 0 || addQuestionTitleEdt.getText().length() == 0 ||
+        if (addCategorySelction.getSelectedItemPosition() == 0 || addLevelSelection.getSelectedItemPosition() == 0 || addSerieSelection.getSelectedItemPosition() == 0 ||
+                addQuestionTitleEdt.getText().length() == 0 ||
                 addQuestionAnswer1Edt.getText().length() == 0 || addQuestionAnswer2Edt.getText().length() == 0 || addQuestionAnswer3Edt.getText().length() == 0 ||
                 addQuestionAnswer4Edt.getText().length() == 0)
             return true;
         else
             return false;
+    }
+
+    private void setCurrentCategory() {
+        int count = 0;
+        List<Category> categories = repository.getCategoryList();
+        for (Category category : categories) {
+            if (category.getName().equals(addCategorySelected)) {
+                count++;
+            }
+        }
+        currentCategory = addCategorySelected + "Serie No." + count;
+        Toast.makeText(getContext(), String.valueOf(count), Toast.LENGTH_SHORT).show();
     }
 }
