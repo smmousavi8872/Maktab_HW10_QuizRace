@@ -143,8 +143,10 @@
     android:layout_above="@+id/answer_lower_layer"
     android:orientation="horizontal">
 
-
     <Button
+      android:layout_width="0dp"
+      android:layout_weight="1"
+      android:layout_height="match_parent"
       android:id="@+id/answer_three"
       style="@style/option_button_style"
       android:text="Option 1"
@@ -153,6 +155,9 @@
     <Button
       android:id="@+id/answer_four"
       style="@style/option_button_style"
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="1"
       android:text="Option 2"
       android:textColor="#fff"/>
   </LinearLayout>
@@ -167,12 +172,18 @@
     <Button
       android:id="@+id/answer_one"
       style="@style/option_button_style"
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="1"
       android:text="Option 3"
       android:textColor="#fff"/>
 
     <Button
       android:id="@+id/answer_two"
       style="@style/option_button_style"
+      android:layout_width="0dp"
+      android:layout_height="match_parent"
+      android:layout_weight="1"
       android:text="Option 4"
       android:textColor="#fff"/>
 

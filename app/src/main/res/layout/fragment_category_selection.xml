@@ -5,8 +5,8 @@
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:layout_margin="-10dp"
-  android:padding="10dp"
   android:background="@drawable/category_selection_background"
+  android:padding="10dp"
   tools:context=".mvc.controller.fragments.CategorySelectionFragment">
 
 
@@ -87,7 +87,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layout_below="@id/txt_choose_category_title"
+    android:background="@drawable/black_background_box"
     android:columnCount="2"
+    android:padding="5dp"
     android:rowCount="2"
     >
 
