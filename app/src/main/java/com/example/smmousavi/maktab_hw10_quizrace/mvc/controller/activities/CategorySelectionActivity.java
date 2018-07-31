@@ -22,10 +22,9 @@ import java.util.UUID;
 public class CategorySelectionActivity extends AppCompatActivity {
 
   public static final String EXTRA_USER_ID = "com.example.smmousavi.maktab_hw10_quizrace.mvc.controller.activities.extra_user_id";
-  public static final String EXTRA_ORGIN = "com.example.smmousavi.maktab_hw10_quizrace.mvc.controller.activities.extra_orgin";
 
   private TabLayout tabLayout;
-  public  ViewPager viewPager;
+  private ViewPager viewPager;
   private List<Fragment> fragments;
   private List<String> tabLayoutTitles;
 
