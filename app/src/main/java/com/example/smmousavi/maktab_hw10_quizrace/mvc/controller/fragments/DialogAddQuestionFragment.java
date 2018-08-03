@@ -83,7 +83,7 @@ public class DialogAddQuestionFragment extends DialogFragment {
         addQuestionAnswer4Edt = view.findViewById(R.id.add_question_answer4);
         addQuestionRadioGroup = view.findViewById(R.id.add_question_answers);
         addQuestionAddBtn = view.findViewById(R.id.add_question_add_btn);
-        closeBtn=view.findViewById(R.id.add_question_close_btn);
+        closeBtn = view.findViewById(R.id.add_question_close_btn);
     }// end of findViews()
 
     public static DialogAddQuestionFragment newInstance() {
@@ -198,7 +198,7 @@ public class DialogAddQuestionFragment extends DialogFragment {
         View radioButton = addQuestionRadioGroup.findViewById(radioButtonID);
         int idx = addQuestionRadioGroup.indexOfChild(radioButton);
         Question question = new Question(addQuestionTitleEdt.getText().toString());
-        question.setCategory(addCategorySelected + addSerieSelected);
+        question.setCategory(addCategorySelected + " " + addSerieSelected);
         question.setDifficulty(addLevelSelected);
         repository.addQuestion(question);
         for (int i = 0; i < 4; i++) {

@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -188,6 +189,7 @@ public class QuizShowFragment extends Fragment {
           AnsweredQuestion answeredQuestion = new AnsweredQuestion(mCurrentUser.getId(), mCurrentQuestionId, answerId);
           answeredQuestion.setQuestionCategory(mQuestionCategory);
           answeredQuestion.setQuestionDifficulty(mQuestionDifficulty);
+          answeredQuestion.setSavedTime((int)currentTimer);
           Repository.getInstance(getActivity()).addAnsweredQuestion(answeredQuestion);
           if (isTrueAnswer) {
             mCorrectAnswers++;
@@ -308,6 +310,7 @@ public class QuizShowFragment extends Fragment {
         textViewTime.setText(sTimeFormatter(millisUntilFinished));
         progressBarCircle.setProgress((int) (millisUntilFinished / 1000));
         currentTimer = millisUntilFinished;
+        Log.e("currenttimer",String.valueOf(currentTimer));
       }
 
       @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
@@ -332,6 +335,15 @@ public class QuizShowFragment extends Fragment {
     }.start();
   }
 
+  public void setCurrentTimer(long millis) {
+    progressBarCircle.setMax((int) 15000 / 1000);
+    progressBarCircle.setProgress((int) millis / 1000);
+    currentTimer = millis;
+  }
+
+  public long getCurrentTimer(){
+    return currentTimer;
+  }
 
   private void resetTimer() {
     stopCountDownTimer();

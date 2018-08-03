@@ -9,6 +9,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.annotation.RequiresApi;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -89,6 +90,7 @@ public class QuizResultReviewFragment extends Fragment {
     category = mCurrentQuestion.getCategory();
     difficulty = mCurrentQuestion.getDifficulty();
     answeredQuestionList = Repository.getInstance(getActivity()).getAnsweredQuestionList(currentUser.getId(), category, difficulty);
+
     questions = Repository.getInstance(getActivity()).getQuestionsList(category, difficulty);
 
 
@@ -113,11 +115,11 @@ public class QuizResultReviewFragment extends Fragment {
       for (Button button : answerButtons) {
         UUID answerButtonUUID = UUID.fromString(button.getTag(R.string.answer_uuid).toString());
         if (AQ.getAnswerId().equals(answerButtonUUID)) {
+          setCurrentTimer(AQ.getSavedTime());
           button.setBackgroundColor(Color.GRAY);
           boolean isTureAnswer = Boolean.parseBoolean(button.getTag(R.string.is_true_answer).toString());
           if (isTureAnswer) {
             mQuestionLogoImg.setBackground(getActivity().getDrawable(R.drawable.correct_answer));
-
 
           } else {
             mQuestionLogoImg.setBackground(getActivity().getDrawable(R.drawable.wrong_answer));
@@ -180,4 +182,9 @@ public class QuizResultReviewFragment extends Fragment {
   }
 
 
+  public void setCurrentTimer(long millis) {
+    progressBarCircle.setMax((int) 15000 / 1000);
+    progressBarCircle.setProgress((int) millis / 1000);
+    textViewTime.setText(String.valueOf(millis/1000));
+  }
 }
