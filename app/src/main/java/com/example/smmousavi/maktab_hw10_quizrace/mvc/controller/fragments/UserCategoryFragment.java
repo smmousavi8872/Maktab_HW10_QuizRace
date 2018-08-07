@@ -52,16 +52,7 @@ public class UserCategoryFragment extends Fragment {
         recyclerView = view.findViewById(R.id.my_recycle_view);
         recyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2));
         repository = Repository.getInstance(getActivity());
-        categories = new ArrayList<>();
-        List<Category> categoryList = repository.getCategoryList();
-        outer:
-        for (Category category : categoryList) {
-            for (Category category1 : categories) {
-                if (category1.getName().equals(category.getName()))
-                    continue outer;
-            }
-            categories.add(category);
-        }
+        updateList();
         adapter = new CategoryAdapter();
         recyclerView.setAdapter(adapter);
         return view;
@@ -121,6 +112,26 @@ public class UserCategoryFragment extends Fragment {
             LevelChooseDialogFragment dialog = LevelChooseDialogFragment.newInstance(categoryName + " " + serieName);
             Log.e("leveltag", categoryName + " " + serieName);
             dialog.show(getActivity().getSupportFragmentManager(), "leveltag");
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        updateList();
+        adapter.notifyDataSetChanged();
+    }
+
+    public void updateList(){
+        categories = new ArrayList<>();
+        List<Category> categoryList = repository.getCategoryList();
+        outer:
+        for (Category category : categoryList) {
+            for (Category category1 : categories) {
+                if (category1.getName().equals(category.getName()))
+                    continue outer;
+            }
+            categories.add(category);
         }
     }
 }
