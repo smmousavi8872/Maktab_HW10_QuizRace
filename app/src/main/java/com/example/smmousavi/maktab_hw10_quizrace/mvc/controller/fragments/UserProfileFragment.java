@@ -146,7 +146,7 @@ public class UserProfileFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 if (reviewCategorySelction.getSelectedItemPosition() == 0 || reviewLevelSelction.getSelectedItemPosition() == 0) {
-                    Snackbar.make(getView(), "First, You should chose category and level.", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(getView(), "Select your Category and Level", Snackbar.LENGTH_SHORT).show();
                     return;
                 }
                 Intent intent = QuizResultReviewPagerActivity.newIntent(getActivity(), (String) reviewCategorySelction.getSelectedItem(),

@@ -12,4 +12,5 @@
         android:textColor="#FFF"
         android:textSize="20sp"
         android:id="@+id/level_edit_text"/>
+
 </RelativeLayout>

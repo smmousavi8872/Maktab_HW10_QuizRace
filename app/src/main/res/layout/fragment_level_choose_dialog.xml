@@ -15,7 +15,6 @@
     tools:context=".mvc.controller.fragments.LevelChooseDialogFragment">
 
     <TextView
-
       android:id="@+id/txt_difficulty_title"
       android:layout_width="match_parent"
       android:layout_height="wrap_content"

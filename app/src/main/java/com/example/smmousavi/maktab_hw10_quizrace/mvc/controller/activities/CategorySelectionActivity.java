@@ -27,6 +27,8 @@ public class CategorySelectionActivity extends AppCompatActivity {
   private ViewPager viewPager;
   private List<Fragment> fragments;
   private List<String> tabLayoutTitles;
+  CategorySelectionFragment DefaultCategoriesFragment;
+  UserCategoryFragment userCategoriesFragment;
 
 
   public static Intent newIntent(Context orgin, UUID userId) {
@@ -57,8 +59,11 @@ public class CategorySelectionActivity extends AppCompatActivity {
     tabLayout = findViewById(R.id.category_selection_tab_layout);
     fragments = new ArrayList<>();
     tabLayoutTitles = new ArrayList<>();
-    addFragment(CategorySelectionFragment.newInstance(Repository.getInstance(this).getCurrentUser().getId()), "Default Categories");
-    addFragment(UserCategoryFragment.newInstance(), "Your Categories");
+    DefaultCategoriesFragment = CategorySelectionFragment.newInstance(Repository.getInstance(this).getCurrentUser().getId());
+    userCategoriesFragment = UserCategoryFragment.newInstance();
+
+    addFragment(DefaultCategoriesFragment, "Default Categories");
+    addFragment(userCategoriesFragment, "Your Categories");
 
     viewPager.setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
       @Override
@@ -87,13 +92,4 @@ public class CategorySelectionActivity extends AppCompatActivity {
     tabLayoutTitles.add(title);
 
   }
-
-
-
-  /*@Override
-  public Fragment createFragment() {
-    UUID userID = (UUID) getIntent().getExtras().getSerializable(EXTRA_USER_ID);
-    return CategorySelectionFragment.newInstance(userID);
-  }*/
-
 }

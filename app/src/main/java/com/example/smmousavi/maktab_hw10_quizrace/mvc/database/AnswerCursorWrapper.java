@@ -9,7 +9,6 @@ import java.util.UUID;
 
 public class AnswerCursorWrapper extends CursorWrapper {
 
-
   public AnswerCursorWrapper(Cursor cursor) {
     super(cursor);
   }
