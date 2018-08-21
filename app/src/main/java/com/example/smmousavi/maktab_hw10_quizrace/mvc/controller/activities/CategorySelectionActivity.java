@@ -40,7 +40,6 @@ public class CategorySelectionActivity extends AppCompatActivity {
   @Override
   public void onBackPressed() {
     super.onBackPressed();
-
   }
 
   @Override
